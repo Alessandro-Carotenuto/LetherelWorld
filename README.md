@@ -7,6 +7,7 @@ Sito statico per l’archivio della campagna D&D ambientata nel Regno di Lethere
 - La Confraternita
 - Bacheca delle missioni
 - Distretti e Distretto Rovere
+- Cassa Distretto
 - Regno di Letherel
 - Giochi da taverna
 - Registro avventure

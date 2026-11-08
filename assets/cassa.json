@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "cassa-spada-lunga-reginald",
+      "presetId": "4dd89d71-8bac-441a-a416-819fe323d660",
+      "owner": "Reginald",
+      "color": "#a3d0ff",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "8",
+        "name": "Spada lunga",
+        "damage": "1d8",
+        "damageType": "taglienti",
+        "range": "1,5 m",
+        "mastery": "",
+        "category": "Arma marziale",
+        "rarity": "",
+        "weight": "1,5 kg",
+        "description": "Arma marziale da mischia.",
+        "properties": "**Versatile (1d10).** Può essere impugnata a una o due mani."
+      }
+    }
+  ]
+}
