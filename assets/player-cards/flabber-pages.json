@@ -1,0 +1,16 @@
+{
+  "nome": "Flabber Pages",
+  "ALive": true,
+  "classe": "Monaco (1) Ranger (2)",
+  "razza": "Gnomo",
+  "background": "Sapiente",
+  "descrizione": [
+    "Incarnazione stessa della calma, è diventato oggetto di un drinking game nella gilda: chi riesce a fargli dire una parolaccia riceve una birra in omaggio. Finora, solo Janos e Vin sono riusciti nell'impresa."
+  ],
+  "immagine": "./assets/personaggi/Flabber-Pages.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Made in Abyss (OST) - Main Theme",
+    "file": "./assets/audio/flabber-mood-song.mp3"
+  }
+}

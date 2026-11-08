@@ -1,0 +1,16 @@
+{
+  "nome": "Lord Lucathiel Tusk",
+  "ALive": true,
+  "classe": "Guerriero",
+  "razza": "Umano",
+  "background": "Nobile",
+  "descrizione": [
+    "Veterano della Battaglia di Castelvolta , Lord Lucathiel Tusk non ha mai accettato la perdita del trono della sua casata. Guerriero nobile dal portamento regale, combatte al fianco della Confraternita mantenendo viva la speranza di un ritorno dei Tusk al potere."
+  ],
+  "immagine": "./assets/personaggi/Lucathiel-Tusk.png",
+  "imprese": [
+    "Combattuto in prima linea nella \"Battaglia di Castelvolta\" , vinta",
+    "Guidato l' \"Assedio al covo di drago\" contro casata Barlon."
+  ],
+  "song": null
+}

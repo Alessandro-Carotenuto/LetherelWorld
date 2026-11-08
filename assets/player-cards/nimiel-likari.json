@@ -1,0 +1,16 @@
+{
+  "nome": "Nimiel Likari",
+  "ALive": true,
+  "classe": "Bardo",
+  "razza": "Elfo (Drow)",
+  "background": "Agen. Fazione",
+  "descrizione": [
+    "Figura intimidatoria dal contrasto sorprendente: possiede una voce angelica e un talento naturale con l'arpa. Sorella di Pitch , non si perde in chiacchiere casuali ma preferisce raccontarsi attraverso il canto."
+  ],
+  "immagine": "./assets/personaggi/Nimiel-Likari.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Skyrim (OST) - Age of Oppression (Malukah cover)",
+    "file": "./assets/audio/nimiel-mood-song.mp3"
+  }
+}

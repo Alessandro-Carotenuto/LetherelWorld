@@ -1,0 +1,16 @@
+{
+  "nome": "Rekhna Whiteflower",
+  "ALive": true,
+  "classe": "Magus",
+  "razza": "Umano ?",
+  "background": "Lineagg. Gotico",
+  "descrizione": [
+    "Nessuno, eccetto Vin , ha il coraggio di provocare Rekhna , sia per la sua forza che per il prestigio del suo casato. Quando si unisce a Tess in missione, formano una coppia formidabile, che incute rispetto persino ai ranghi superiori."
+  ],
+  "immagine": "./assets/personaggi/Rekhna-Whiteflower.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Gurren Lagann (OST) - Nikopol",
+    "file": "./assets/audio/rekhna-mood-song.mp3"
+  }
+}

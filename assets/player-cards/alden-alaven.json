@@ -1,0 +1,16 @@
+{
+  "nome": "Alden Alaven",
+  "ALive": true,
+  "classe": "Guerriero",
+  "razza": "Umano",
+  "background": "Nobile",
+  "descrizione": [
+    "Membro della casata regnante e fratello di Mally e Kaidan Alaven, noto per avere grande successo con le ragazze. Malgrado ciò, si sente profondamente a disagio in presenza di Vin Harkness , che cerca attivamente di evitare."
+  ],
+  "immagine": "./assets/personaggi/Alden-Alaven.png",
+  "imprese": [],
+  "song": {
+    "titolo": "RJ Pasin - Heroes",
+    "file": "./assets/audio/alden-mood-song.mp3"
+  }
+}

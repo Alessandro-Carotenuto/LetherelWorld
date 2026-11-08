@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MINI BASELINE — Letherel</title>
+  <link rel="stylesheet" href="./site.css">
+  <style>
+    body { min-height: 100vh; }
+    .mini-preview { width: min(820px, 100%); margin: auto; padding: 42px 24px 60px; }
+    .mini-preview h1 { margin: 0 0 8px; color: var(--gold-light); font: 34px/1.15 var(--serif); font-weight: 400; }
+    .mini-preview .intro { margin: 0 0 30px; color: #b1b4a6; font: 14px/1.65 var(--serif); }
+    .demo-section { margin-top: 22px; padding: 20px; border: 1px solid var(--line); background: rgba(255,255,255,.018); }
+    .demo-section h2 { margin: 0 0 12px; color: #d5c49b; font: 18px/1.3 var(--serif); font-weight: 400; }
+    .demo-note { margin: 12px 0 0; color: #9a9a8a; font: 12px/1.6 var(--serif); }
+    .demo-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .demo-section .mission-companions { margin-top: 0; }
+    @media(max-width:560px) { .mini-preview { padding: 30px 15px; } .demo-section { padding: 16px 13px; } }
+  </style>
+</head>
+<body>
+  <main class="mini-preview">
+    <div class="eyebrow">Letherel · controlli e tag</div>
+    <h1>MINI BASELINE</h1>
+    <p class="intro">Una finitura cartacea leggera per scelte, collegamenti e piccoli contrassegni: leggibile sul fondo scuro, senza rubare spazio alle card.</p>
+
+    <section class="demo-section">
+      <h2>Scelta del gioco</h2>
+      <div class="game-tabs" role="tablist" aria-label="Giochi da taverna">
+        <button class="game-tab" role="tab" aria-selected="false">SCUDI</button>
+        <button class="game-tab" role="tab" aria-selected="true">OCCHIELLO</button>
+        <button class="game-tab" role="tab" aria-selected="false">POLLOSAURO</button>
+        <button class="game-tab" role="tab" aria-selected="false">25</button>
+      </div>
+      <p class="demo-note">Lo stato attivo si distingue con carta più chiara e una riga d’inchiostro sotto.</p>
+    </section>
+
+    <section class="demo-section">
+      <h2>Compagni di missione</h2>
+      <div class="mission-companions">
+        <strong>Compagni</strong>
+        <ul class="mission-companion-list">
+          <li><a class="mission-tag" href="#">Mally Alaven</a><span class="mission-choice">oppure</span><a class="mission-tag" href="#">BuckerTee</a></li>
+          <li><a class="mission-tag" href="#">Caust</a><span class="mission-choice">oppure</span><a class="mission-tag" href="#">Melanie Falkner</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Tag informativi</h2>
+      <div class="demo-tags">
+        <span class="tag">≈ 3 sessioni</span>
+        <span class="tag">Foresta · bosco</span>
+        <span class="tag">Preferita dal master</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

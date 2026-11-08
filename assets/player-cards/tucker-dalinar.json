@@ -1,0 +1,16 @@
+{
+  "nome": "Tucker Dalinar",
+  "ALive": true,
+  "classe": "Guerriero",
+  "razza": "Umano",
+  "background": "Soldato",
+  "descrizione": [
+    "Rivale (solamente secondo lui) di Reginald Walfrey , si dedica principalmente a missioni militari collaborando con i soldati, spesso quelli della casata Barlon. È risaputo il suo interesse romantico per Mally ."
+  ],
+  "immagine": "./assets/personaggi/Tucker-Dalinar.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Oblivion (OST) - Reign of the Septims",
+    "file": "./assets/audio/tucker-mood-song.mp3"
+  }
+}

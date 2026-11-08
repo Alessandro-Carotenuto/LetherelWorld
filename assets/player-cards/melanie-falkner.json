@@ -1,0 +1,16 @@
+{
+  "nome": "Melanie Falkner",
+  "ALive": true,
+  "classe": "Chierico",
+  "razza": "Tiefling",
+  "background": "Accolito",
+  "descrizione": [
+    "\" Mel \", figura materna della Gilda, si prende cura di tutti con estremo altruismo, sia prevenendo le loro eccessive bevute che curandoli durante le missioni. Eppure una sera Vin è riuscita a farla ubriacare fino a farla stare vomitare."
+  ],
+  "immagine": "./assets/personaggi/Melanie-Falkner.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Kingdom Hearts (CoM) - Dearly Beloved",
+    "file": "./assets/audio/melanie-mood-song.mp3"
+  }
+}

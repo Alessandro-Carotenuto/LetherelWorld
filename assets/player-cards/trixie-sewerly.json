@@ -1,0 +1,16 @@
+{
+  "nome": "Trixie Sewerly",
+  "ALive": true,
+  "classe": "Stregone",
+  "razza": "Mezz'elfo",
+  "background": "Cortigiano",
+  "descrizione": [
+    "Conosciuta come \" Trix \", unisce un'educazione nobile a un temperamento vivace e intraprendente. Impossibile sottometterla, sa guadagnarsi il rispetto in qualsiasi circostanza. Ha stretto un forte legame con Vin , Mally e Jaeger ."
+  ],
+  "immagine": "./assets/personaggi/Trixie-Sewerly.png",
+  "imprese": [],
+  "song": {
+    "titolo": "FOLKSTONE - Anna",
+    "file": "./assets/audio/trixie-mood-song.mp3"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "nome": "Kmak Barlon",
+  "ALive": true,
+  "classe": "Stregone",
+  "razza": "Dragonborn",
+  "background": "Eremita",
+  "descrizione": [
+    "Dotato di uno straordinario potere magico, Kmak Barlon mantiene un atteggiamento distaccato e diffidente verso il mondo. Nonostante il suo carattere burbero, diventa sorprendentemente paziente quando si tratta di insegnare agli apprendisti della sua casata."
+  ],
+  "immagine": "./assets/personaggi/Kmak-Barlon.png",
+  "imprese": [
+    "Ha addestrato dozzine di Barlon nell' uso della magia per scopi militari"
+  ],
+  "song": null
+}

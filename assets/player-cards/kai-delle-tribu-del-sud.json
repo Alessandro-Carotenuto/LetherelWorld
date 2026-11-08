@@ -1,0 +1,16 @@
+{
+  "nome": "Kai delle tribù del sud",
+  "ALive": true,
+  "classe": "Stregone",
+  "razza": "Orco",
+  "background": "Straniero",
+  "descrizione": [
+    "\"Un orco stregone?\" - è la domanda che tutti continuano a porsi. Di indole estremamente bonaria, è l'unico che riesca davvero a mettere in difficoltà Reginald Walfrey , il campione di POLLOSAURO ."
+  ],
+  "immagine": "./assets/personaggi/Kai-delle-tribu-del-sud.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Undertale (OST) - sans..",
+    "file": "./assets/audio/kai-mood-song.mp3"
+  }
+}

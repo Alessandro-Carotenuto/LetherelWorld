@@ -1,0 +1,39 @@
+{
+  "Calendario": "dr",
+  "Anno di riferimento": 271,
+  "Kings": [
+    {
+      "Nome": "Naher",
+      "Titolo": "Il Ribelle",
+      "Cognome/Casata": "Vendril",
+      "Inizio Regno": 234,
+      "Fine Regno": 240,
+      "Causa Morte/fine": "Ucciso dalla ribellione Alaven durante la Presa Blu, a Capodanno",
+      "Età a inizio Regno": 34,
+      "Età a fine regno (calcolata)": 40,
+      "Durata regno": 6
+    },
+    {
+      "Nome": "Morren I",
+      "Titolo": "L'Onorevole",
+      "Cognome/Casata": "Alaven",
+      "Inizio Regno": 241,
+      "Fine Regno": 253,
+      "Causa Morte/fine": "Morte per cause naturali",
+      "Età a inizio Regno": 53,
+      "Età a fine regno (calcolata)": 65,
+      "Durata regno": 12
+    },
+    {
+      "Nome": "Morren II",
+      "Titolo": "Il Giusto",
+      "Cognome/Casata": "Alaven",
+      "Inizio Regno": 253,
+      "Fine Regno": 271,
+      "Causa Morte/fine": "Regno in corso al 271 dr",
+      "Età a inizio Regno": 32,
+      "Età a fine regno (calcolata)": 50,
+      "Durata regno": 18
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BASELINE FRAME — Letherel</title>
+  <style>
+    :root { color-scheme: dark; --gold: #d9bf78; --cream: #e9dfc7; }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh; margin: 0; padding: 48px 24px;
+      display: grid; place-items: center;
+      background: #201d1b; color: var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    main { width: min(920px, 100%); }
+    h1 { margin: 0 0 8px; color: var(--gold); font-size: clamp(24px, 4vw, 34px); font-weight: 400; }
+    p { margin: 0 0 28px; color: #b8ad95; font: 14px/1.6 system-ui, sans-serif; }
+    .sample {
+      border: 10px solid transparent;
+      border-image-source: url("card-frame.svg");
+      border-image-slice: 32 fill;
+      border-image-width: 10px;
+      border-image-repeat: stretch;
+      padding: clamp(20px, 5vw, 48px);
+      background: #26221f;
+      min-height: 250px;
+    }
+    .sample h2 { margin: 0 0 12px; color: var(--gold); font-size: 25px; font-weight: 400; }
+    .sample p { max-width: 62ch; margin: 0; color: #c4bcae; font-size: 15px; }
+    .portrait { width: min(360px, 100%); min-height: 410px; margin: 28px auto 0; }
+    .portrait h2 { font-size: 22px; }
+    @media (max-width: 560px) { body { padding: 28px 14px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>BASELINE FRAME</h1>
+    <p>Vista alla stessa scala del sito: angoli tagliati in modo regolare, doppio bordo e riccioli esterni simmetrici.</p>
+    <section class="sample">
+      <h2>Card orizzontale</h2>
+      <p>Il bordo resta dritto sui lati; il taglio è uguale ai quattro angoli e il ricciolo rimane all’esterno della cornice.</p>
+    </section>
+    <section class="sample portrait">
+      <h2>Card verticale</h2>
+      <p>La stessa cornice si adatta anche a un ritratto senza inclinare o deformare le linee.</p>
+    </section>
+  </main>
+</body>
+</html>

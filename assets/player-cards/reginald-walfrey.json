@@ -1,0 +1,16 @@
+{
+  "nome": "Reginald Walfrey",
+  "ALive": true,
+  "classe": "Guerriero",
+  "razza": "Umano",
+  "background": "Eroe Popolare",
+  "descrizione": [
+    "\"EEEEECCOLO!\" - è l'esclamazione che accoglie sempre l'arrivo di Reginald . Noto come \"Reggie\", è l'imbattibile campione in carica di POLLOSAURO , pronto a sacrificare tutto per proteggere le persone che gli sono care."
+  ],
+  "immagine": "./assets/personaggi/Reginald-Walfrey.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Maran - The Matador",
+    "file": "./assets/audio/reginald-mood-song.mp3"
+  }
+}

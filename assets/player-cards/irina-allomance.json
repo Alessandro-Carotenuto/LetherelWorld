@@ -1,0 +1,13 @@
+{
+  "nome": "Irina Allomance",
+  "ALive": true,
+  "classe": "Monaco",
+  "razza": "Tiefling",
+  "background": "Accolito",
+  "descrizione": [
+    "Quando si trova nella sala comune, Irina è impegnata negli allenamenti con Jack Harrow . Affronta ogni incarico con estrema serietà ed è fortemente competitiva. Sebbene preferisca allenarsi in solitudine, col tempo ha imparato ad aprirsi un po' di più."
+  ],
+  "immagine": "./assets/personaggi/Irina-Allomance.png",
+  "imprese": [],
+  "song": null
+}

@@ -1,0 +1,16 @@
+{
+  "nome": "Liv di Solbruciato",
+  "ALive": true,
+  "classe": "Ladro",
+  "razza": "Mezz'elfo",
+  "background": "???",
+  "descrizione": [
+    "Una recluta particolarmente sfuggente e solitaria, che riesce a starti accanto senza che tu te ne accorga. Vin le ha dato il soprannome \"Pulce\" per la sua natura elusiva."
+  ],
+  "immagine": "./assets/personaggi/Liv-di-Solbruciato.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Twenty One Pilots - Backslide",
+    "file": "./assets/audio/liv-mood-song.mp3"
+  }
+}

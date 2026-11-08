@@ -1,0 +1,16 @@
+{
+  "nome": "Sir Larry Brightforge",
+  "ALive": true,
+  "classe": "Paladino",
+  "razza": "Umano",
+  "background": "Eroe Popolare",
+  "descrizione": [
+    "Larry, universalmente conosciuto come \"Zio\" da quando Vin ha iniziato a chiamarlo così, è una di quelle rare persone dalla bontà autentica. Oltre a essere un valoroso paladino, spesso ricopre il ruolo di sostituto del coordinatore di distretto durante le sue assenze."
+  ],
+  "immagine": "./assets/personaggi/Larry-Brightforge.png",
+  "imprese": [
+    "Salvato il villaggio di Jarmin da un necromante impazzito, da solo.",
+    "Liberato tutti i prigionieri nella \" Battaglia di Castelvolta \""
+  ],
+  "song": null
+}

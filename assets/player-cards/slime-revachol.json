@@ -1,0 +1,13 @@
+{
+  "nome": "Slime Revachòl",
+  "ALive": true,
+  "classe": "Warlock",
+  "razza": "Elfo",
+  "background": "Ciarlatano",
+  "descrizione": [
+    "\"Il più grande bugiardo che abbia mai messo piede ad Alabaster\" - così definiscono Slime Revachòl. Con la parlantina veloce e il sorriso sempre pronto, questo warlock elfo vende sogni e promesse con la stessa facilità con cui respira. Il suo patto oscuro non sembra turbarlo minimamente."
+  ],
+  "immagine": "./assets/personaggi/Slime-Revachol.png",
+  "imprese": [],
+  "song": null
+}

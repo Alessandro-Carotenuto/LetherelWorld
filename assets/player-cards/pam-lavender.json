@@ -1,0 +1,15 @@
+{
+  "nome": "Pam Lavender",
+  "ALive": true,
+  "classe": "Ranger",
+  "razza": "Umano",
+  "background": "Straniero",
+  "descrizione": [
+    "Taciturna e letale, Pam si muove ai margini della società come ai margini delle foreste. Sorella di Tess , condivide parte della sua serietà ma molto della sua efficienza. La sua mira è infallibile quanto il suo istinto di sopravvivenza."
+  ],
+  "immagine": "./assets/personaggi/Pam-Lavender.png",
+  "imprese": [
+    "Ha salvato un'intera palude sotto area di influenza della casata Sewerly da una cosiddetta \"Regina dei ragni\" cacciandola per giorni fino a ucciderla."
+  ],
+  "song": null
+}

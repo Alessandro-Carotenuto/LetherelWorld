@@ -1,0 +1,16 @@
+{
+  "nome": "Lena Revachòl",
+  "ALive": true,
+  "classe": "Artificiere (1) Ladro (2)",
+  "razza": "Umano",
+  "background": "Artigiano",
+  "descrizione": [
+    "Dotata di straordinaria inventiva, passa il suo tempo a costruire e sperimentare. Tutti ricorrono a lei per piccole riparazioni, e ha stretto un forte legame con Caust e Aisha Gray ."
+  ],
+  "immagine": "./assets/personaggi/Lena-Revachol.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Twenty One Pilots - At The Risk Of Feeling Dumb",
+    "file": "./assets/audio/lena-mood-song.mp3"
+  }
+}

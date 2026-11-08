@@ -1,0 +1,16 @@
+{
+  "nome": "Mally Alaven",
+  "ALive": true,
+  "classe": "Guerriero",
+  "razza": "Umano",
+  "background": "Nobile",
+  "descrizione": [
+    "Sorella di Alden e Kaidan Alaven e membro della casata regnante, è un leader naturale e coraggioso che si dedica spesso all'addestramento delle nuove reclute, guidandole nelle loro prime missioni."
+  ],
+  "immagine": "./assets/personaggi/Mally-Alaven.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Chrono Trigger (OST) - Frogs Theme (Orchestral)",
+    "file": "./assets/audio/mally-mood-song.mp3"
+  }
+}

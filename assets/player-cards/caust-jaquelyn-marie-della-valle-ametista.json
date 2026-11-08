@@ -1,0 +1,16 @@
+{
+  "nome": "Caust Jaquelyn Marie della Valle Ametista",
+  "ALive": true,
+  "classe": "Artificiere [ Alchimista ]",
+  "razza": "Umano",
+  "background": "???",
+  "descrizione": [
+    "Dotata di un carattere iperattivo, socievole e nevrotico, incute in tutti il timore che inizi a parlare - cosa che puntualmente accade. È relativamente nuova nel gruppo e ha stretto una forte amicizia con Lena Revachòl ."
+  ],
+  "immagine": "./assets/personaggi/Caust.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Persona 5 (OST) - Life Will Change (Instrumental Version)",
+    "file": "./assets/audio/caust-mood-song.mp3"
+  }
+}

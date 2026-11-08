@@ -1,0 +1,13 @@
+{
+  "nome": "Gale Tikle",
+  "ALive": true,
+  "classe": "Cardmaster",
+  "razza": "Elfo",
+  "background": "Intrattenitore",
+  "descrizione": [
+    "Abile incantatore, Gale sa intrattenere con maestria senza mai risultare invadente. Il suo alone di mistero lo caratterizza, e mette in scena i suoi spettacoli solo su richiesta."
+  ],
+  "immagine": "./assets/personaggi/Gale-Tikle.png",
+  "imprese": [],
+  "song": null
+}

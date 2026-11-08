@@ -1,0 +1,16 @@
+{
+  "nome": "Tess Lavender",
+  "ALive": true,
+  "classe": "Warlock",
+  "razza": "Umano",
+  "background": "Perseguitato",
+  "descrizione": [
+    "Fratello di Pam , Tess è ritenuto il più serio e uno dei più capaci confratelli del suo rango, con una probabile promozione all'orizzonte. La sua serietà lo rende spesso bersaglio degli scherzi di Vin ."
+  ],
+  "immagine": "./assets/personaggi/Tess-Lavender.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Death Note - Yotsuba Group EXTENDED",
+    "file": "./assets/audio/tess-mood-song.mp3"
+  }
+}

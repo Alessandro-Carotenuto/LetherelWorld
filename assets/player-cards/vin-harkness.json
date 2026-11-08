@@ -1,0 +1,16 @@
+{
+  "nome": "Vin Harkness",
+  "ALive": true,
+  "classe": "Ladro",
+  "razza": "Umano",
+  "background": "Monello",
+  "descrizione": [
+    "Ingestibile, fastidiosa e imprevedibile, Vin nasconde un potenziale straordinario. Tutti sono convinti che, se solo si impegnasse seriamente, la sua ascesa nei ranghi sarebbe più rapida di qualsiasi altro."
+  ],
+  "immagine": "./assets/personaggi/Vin-Harkness.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Arcane S2 (OST) - Paint the town blue",
+    "file": "./assets/audio/vin-mood-song.mp3"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "nome": "Molten Maximus",
+  "ALive": true,
+  "classe": "Ladro",
+  "razza": "Minotauro",
+  "background": "Criminale",
+  "descrizione": [
+    "Alto quasi tre metri e con una stazza imponente, Molten Maximus è probabilmente il ladro più vistoso della storia. Eppure, nessuno sa come faccia, riesce sempre a farla franca. Sorprendentemente agile per un minotauro, ha un debole per i dolci e per le scommesse impossibili"
+  ],
+  "immagine": "./assets/personaggi/Molten-Maximus.png",
+  "imprese": [],
+  "song": null
+}

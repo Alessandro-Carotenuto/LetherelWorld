@@ -1,0 +1,16 @@
+{
+  "nome": "Pitch Likari",
+  "ALive": true,
+  "classe": "Paladino",
+  "razza": "Elfo (Drow)",
+  "background": "Soldato",
+  "descrizione": [
+    "Dotato della disciplina più ferrea e tra i guerrieri più competenti della Confraternita, è fratello di Nimiel . Il suo caratteristico sorrisetto mette a disagio Patches , mentre nutre un profondo disprezzo per Sir Larry."
+  ],
+  "immagine": "./assets/personaggi/Pitch-Likari.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Game of Thrones S1 (OST) - Black of Hair",
+    "file": "./assets/audio/pitch-mood-song.mp3"
+  }
+}

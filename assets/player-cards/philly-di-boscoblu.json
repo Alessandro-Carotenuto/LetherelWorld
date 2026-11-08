@@ -1,0 +1,16 @@
+{
+  "nome": "Philly di Boscoblu",
+  "ALive": true,
+  "classe": "Druido",
+  "razza": "Coboldo",
+  "background": "???",
+  "descrizione": [
+    "Particolarmente sensibile e amorevole con gli animali, è stato soprannominato \"il toporagno\" da Vin Harkness senza alcuna ragione apparente. È l'unico in grado di calmare Patches ."
+  ],
+  "immagine": "./assets/personaggi/Philly-di-Boscoblu.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Made in Abyss (OST) - The First Layer",
+    "file": "./assets/audio/philly-mood-song.mp3"
+  }
+}

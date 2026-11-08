@@ -1,0 +1,13 @@
+{
+  "nome": "Samael Falkner",
+  "ALive": true,
+  "classe": "Druido",
+  "razza": "Tiefling",
+  "background": "Straniero",
+  "descrizione": [
+    "Samael Falkner sfoggia con orgoglio le sue corna e la sua coda da tiefling. La sua voce profonda e il suo carisma naturale affascinano chi lo ascolta parlare della natura e dei suoi rituali druidici. Straniero in queste terre, si è fatto rispettare più per il suo carattere magnetico che per il suo lignaggio."
+  ],
+  "immagine": "./assets/personaggi/Samael-Falkner.png",
+  "imprese": [],
+  "song": null
+}

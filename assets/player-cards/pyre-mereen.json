@@ -1,0 +1,15 @@
+{
+  "nome": "Pyre Mereen",
+  "ALive": true,
+  "classe": "Blood Hunter (1) Guerriero (2) [ Pistolero ]",
+  "razza": "Aasimar",
+  "background": "Criminale",
+  "descrizione": [
+    "Pyre è senza dubbio una delle persone più sconsiderate mai lasciate a piede libero. La prudenza e la cautela sono concetti a lei totalmente estranei, e il fatto che sia ancora viva è quasi un miracolo. Ha un debole per BuckZ."
+  ],
+  "immagine": "./assets/personaggi/Pyre-Mereen.png",
+  "imprese": [
+    "\"Ambasciator non porta pena\" disse Pyre sparando in testa ad un Lord di casata Whiteflower senza esitare. Pyre venne imprigionata ma rilasciata molto rapidamente quando si scoprì che tale lord era corrotto e tramava alle spalle della casata."
+  ],
+  "song": null
+}

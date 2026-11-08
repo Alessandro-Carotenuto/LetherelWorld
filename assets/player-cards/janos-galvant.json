@@ -1,0 +1,15 @@
+{
+  "nome": "Janos Galvànt",
+  "ALive": true,
+  "classe": "Ladro",
+  "razza": "Dragonborn",
+  "background": "Criminale",
+  "descrizione": [
+    "Janos trascorre la maggior parte del suo tempo nella sala comune in compagnia di Pyre e Vin , con le quali conduce le missioni più impegnative. Nonostante sia un ladro, scommettitore e mercenario privo di scrupoli, si è guadagnato la reputazione di essere straordinariamente letale."
+  ],
+  "immagine": "./assets/personaggi/Janos-Galvant.png",
+  "imprese": [
+    "Eliminato tutte le sentinelle nelle fasi finali dell' \" Assedio al covo di drago \" contro la casata Barlon. Si dice sia riuscito a rubare un pendente magico appartenuto ad un membro della casata Whiteflower , un tempo."
+  ],
+  "song": null
+}

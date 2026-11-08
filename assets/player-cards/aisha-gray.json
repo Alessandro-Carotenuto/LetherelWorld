@@ -1,0 +1,13 @@
+{
+  "nome": "Aisha Gray",
+  "ALive": true,
+  "classe": "Artificiere [ Battle Smith ]",
+  "razza": "Umano",
+  "background": "Artigiano",
+  "descrizione": [
+    "Sebbene non la si veda spesso in prima linea, Aisha è la persona a cui rivolgersi per qualsiasi necessità di equipaggiamento, dalle armi alle armature. Ha stretto un forte legame con Lena e Caust , per via del loro carattere sperimentatore."
+  ],
+  "immagine": "./assets/personaggi/Aisha-Gray.png",
+  "imprese": [],
+  "song": null
+}

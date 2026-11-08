@@ -1,0 +1,13 @@
+{
+  "nome": "Sir Jaeger Brightforge",
+  "ALive": true,
+  "classe": "Mago",
+  "razza": "Umano",
+  "background": "Investigatore",
+  "descrizione": [
+    "Sebbene dotato di grande intelletto, Jaeger pecca spesso di coraggio. Insignito del titolo di cavaliere, è noto per il suo atteggiamento serio e ponderato. Soprannominato \"Brightfr**io\" da Vin Harkness ."
+  ],
+  "immagine": "./assets/personaggi/Jaeger-Brightforge.png",
+  "imprese": [],
+  "song": null
+}

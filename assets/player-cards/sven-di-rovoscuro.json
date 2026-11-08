@@ -1,0 +1,16 @@
+{
+  "nome": "Sven di Rovoscuro",
+  "ALive": true,
+  "classe": "Ranger",
+  "razza": "Umano",
+  "background": "Straniero",
+  "descrizione": [
+    "All'apparenza solo un ragazzo tranquillo, è un solitario che paradossalmente non è mai solo. Si batte per i bisognosi e gli emarginati, ed è riuscito a conquistare il titolo di campione sia di SCUDI che di OCCHIELLO ."
+  ],
+  "immagine": "./assets/personaggi/Sven-di-Rovoscuro.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Megalo Box (OST) - The Theme of Sachio",
+    "file": "./assets/audio/sven-mood-song.mp3"
+  }
+}

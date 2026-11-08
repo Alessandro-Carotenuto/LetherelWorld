@@ -1,0 +1,16 @@
+{
+  "nome": "Jack Harrow",
+  "ALive": true,
+  "classe": "Pugile",
+  "razza": "Umano",
+  "background": "Gladiatore",
+  "descrizione": [
+    "Fondamentalmente restio a intraprendere missioni, probabilmente ti guarda con disprezzo. Si mormora che perda deliberatamente i suoi incontri nell'arena per denaro. Di tanto in tanto si allena con Irina Allomance ."
+  ],
+  "immagine": "./assets/personaggi/Jack-Harrow.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Megalo Box (OST) - Beginning of the Fight",
+    "file": "./assets/audio/jack-mood-song.mp3"
+  }
+}

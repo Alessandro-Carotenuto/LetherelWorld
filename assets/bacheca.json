@@ -1,0 +1,121 @@
+{
+  "page": {
+    "district": "Distretto Rovere",
+    "title": "Bacheca",
+    "introduction": [
+      "Il coordinatore pubblica le missioni approvate. La Bacheca serve a visualizzare e scegliere gli incarichi. Salvo diversa indicazione, le missioni non scelte restano disponibili e si possono giocare in seguito.",
+      "Contraente indica chi paga. La ricompensa è a testa e non include necessariamente ciò che si trova durante la missione. Durata, ambientazione e profilo sono indicativi."
+    ]
+  },
+  "labels": {
+    "contractor": "Contraente",
+    "recommendedCompanions": "Compagni consigliati"
+  },
+  "missions": [
+    {
+      "id": "caccia-al-cacciatore",
+      "title": "Caccia al Cacciatore",
+      "artwork": {
+        "src": "./assets/missioni/caccia-al-cacciatore.png",
+        "alt": "Un arciere attraversa la foresta sopra tre inseguitori"
+      },
+      "location": "Foresta / bosco",
+      "contract": {
+        "client": "Lord Castor Sewerly",
+        "description": "Lord Castor Sewerly paga per recuperare un prigioniero fuggito durante il trasporto alla prigione della fortezza di ***. È sicuro che si trovi nella foresta e abbia ucciso diverse creature della zona, contro le regole della casata sulla caccia nei propri territori. Trovatelo, catturatelo e riportatelo indietro. È un cacciatore abile; anche gruppi di banditi potrebbero essere sulle sue tracce."
+      },
+      "companions": {
+        "fixed": ["Mally Alaven"],
+        "alternatives": {
+          "names": ["BuckerTee", "Reginald Walfrey"],
+          "joiner": "o"
+        }
+      },
+      "profile": [
+        { "label": "Roleplay", "value": 2, "maximum": 3 },
+        { "label": "Combattimento", "value": 2, "maximum": 3 },
+        { "label": "Indagine", "value": 3, "maximum": 3 }
+      ],
+      "reward": {
+        "amount": "675 mo",
+        "distribution": "A testa",
+        "note": "bottino a parte"
+      },
+      "duration": {
+        "approximate": true,
+        "count": 3,
+        "unit": "sessioni"
+      }
+    },
+    {
+      "id": "assalto-senza-onore",
+      "title": "Assalto senza onore",
+      "artwork": {
+        "src": "./assets/missioni/assalto-senza-onore.png",
+        "alt": "Un accampamento militare in una valle montana"
+      },
+      "location": "Montagne / colline",
+      "contract": {
+        "client": "Sir Harrier Barlon",
+        "description": "Sir Harrier Barlon cerca rinforzi d’emergenza per l’avamposto di ***. L’avamposto presidia una strada di trasporto merci che porta cibo alle città vicine. È atteso un attacco nei primi giorni del prossimo ciclo lunare. Preparate la difesa, esplorate le truppe nemiche e proteggete l’avamposto: senza rifornimenti, i civili rischiano di morire di fame."
+      },
+      "companions": {
+        "fixed": ["Mally Alaven"],
+        "alternatives": {
+          "names": ["Sven", "Qually Mankos"],
+          "joiner": "o"
+        }
+      },
+      "profile": [
+        { "label": "Roleplay", "value": 2, "maximum": 3 },
+        { "label": "Combattimento", "value": 3, "maximum": 3 },
+        { "label": "Indagine", "value": 1, "maximum": 3 }
+      ],
+      "reward": {
+        "amount": "675 mo",
+        "distribution": "A testa",
+        "note": "bottino a parte"
+      },
+      "duration": {
+        "approximate": true,
+        "count": 3,
+        "unit": "sessioni"
+      }
+    },
+    {
+      "id": "ghostbusters",
+      "title": "Ghostbusters",
+      "artwork": {
+        "src": "./assets/missioni/ghostbusters.png",
+        "alt": "Una bambina alla finestra accanto a una figura spettrale incappucciata"
+      },
+      "location": "Tenuta / città",
+      "contract": {
+        "client": "Anonimo",
+        "description": "Un contraente anonimo segnala un fantasma nella propria dimora. La figlia ha stretto amicizia con il fantasma; passano tutto il giorno insieme chiusi in una stanza e lei non è più la stessa. Quando le propongono di scacciarlo, reagisce con rabbia e si oppone."
+      },
+      "companions": {
+        "fixed": ["Mally Alaven"],
+        "alternatives": {
+          "names": ["Caust", "Melanie Falkner"],
+          "joiner": "o"
+        }
+      },
+      "profile": [
+        { "label": "Roleplay", "value": 3, "maximum": 3 },
+        { "label": "Combattimento", "value": 1, "maximum": 3 },
+        { "label": "Indagine", "value": 2, "maximum": 3 }
+      ],
+      "reward": {
+        "amount": "675 mo",
+        "distribution": "A testa",
+        "note": "bottino a parte"
+      },
+      "duration": {
+        "approximate": true,
+        "count": 3,
+        "unit": "sessioni"
+      }
+    }
+  ]
+}

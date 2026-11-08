@@ -1,0 +1,16 @@
+{
+  "nome": "BuckerTee",
+  "ALive": true,
+  "classe": "Guerriero [Pistolero]",
+  "razza": "Mezz'orco",
+  "background": "Cacc. Taglie",
+  "descrizione": [
+    "Conosciuto come \" BuckZ \", non ha remore a sporcarsi le mani. Nonostante la sua stazza, stupisce per rapidità e precisione. Si dedica spesso a sessioni di tiro al bersaglio con Sven di Rovoscuro e Pyre Mereen ."
+  ],
+  "immagine": "./assets/personaggi/BuckerTee.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Borderlands 2 (OST) - Boom Bewm & Captain Flynt Boss",
+    "file": "./assets/audio/bucks-mood-song.mp3"
+  }
+}

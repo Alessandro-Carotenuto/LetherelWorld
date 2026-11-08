@@ -1,0 +1,17 @@
+{
+  "nome": "Sir Kaidan Alaven",
+  "ALive": true,
+  "classe": "Guerriero",
+  "razza": "Umano",
+  "background": "Nobile",
+  "descrizione": [
+    "Membro della Casata Regnante e fratello di Mally e Alden Alaven , è un condottiero di grande talento. La sua posizione è spesso tra le più marcate, e si è guadagnato la fama di eccellente generale e spadaccino. Si impone di frequentare la sala comune di tanto in tanto, conscio dell'importanza per il morale."
+  ],
+  "immagine": "./assets/personaggi/Kaidan-Alaven.png",
+  "imprese": [
+    "Guidato la gilda nella \" Battaglia di Castelvolta \" , vincendola.",
+    "Guidato la gilda nella \" Battaglia delle due praterie \" , vincendola",
+    "Ex-Guardia Reale del Re"
+  ],
+  "song": null
+}

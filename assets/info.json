@@ -1,0 +1,66 @@
+{
+  "title": "Regole aggiuntive",
+  "sections": [
+    {
+      "subtitle": "Classi aggiuntive accettate",
+      "paragraph": "È possibile scegliere una razza da qualsiasi manuale. Se la razza è particolarmente insolita o bizzarra, parliamone prima.",
+      "list": [
+        {
+          "text": "Pugile",
+          "href": "https://anyflip.com/ruyjf/lbgg/basic"
+        },
+        {
+          "text": "Blood Hunter",
+          "href": "http://dnd5e.wikidot.com/blood-hunter"
+        },
+        {
+          "text": "Pistolero (Archetipo del Guerriero)",
+          "href": "https://archive.org/details/BloodHunterGunslinger/%5BClass%5D%20Gunslinger%20-%20Fighter%20Archetype%20v1.2/page/n1/mode/2up"
+        }
+      ]
+    },
+    {
+      "subtitle": "Regole per Pozioni di Cura",
+      "paragraph": "",
+      "list": [
+        {
+          "text": "Puoi bere una pozione di cura come azione bonus: tira i dadi e recuperi metà degli HP ottenuti."
+        },
+        {
+          "text": "Puoi anche dedicarle un round completo, consumando azione e movimento: in quel caso recuperi il massimo degli HP che la pozione può curare, senza tirare."
+        }
+      ]
+    },
+    {
+      "subtitle": "Level-up",
+      "paragraph": "",
+      "list": [
+        {
+          "text": "Dado vita pieno al primo livello, ogni level up si prende sempre il valore medio del dado vita, arrotondato per eccesso."
+        },
+        {
+          "text": "I Level Up avvengono per milestones al completamento di tot missioni / imprese"
+        }
+      ]
+    },
+    {
+      "subtitle": "Movimento Nemici",
+      "paragraph": "Alcuni avversari possono dividere il proprio turno in più momenti dell’iniziativa. La regola verrà spiegata meglio dal vivo.",
+      "list": []
+    },
+    {
+      "subtitle": "Allenamento",
+      "paragraph": "Tra una missione e l'altra ci saranno dei momenti di allenamento, se si ha più personaggi i personaggi non usati avranno tempo di allenarsi tra le missioni.\nL'allenamento tra le missioni non darà grandi bonus per non rompere l'equilibrio di gioco, ma può dare qualche miglioria al vostro personaggio.",
+      "list": []
+    },
+    {
+      "subtitle": "Dadi di Ispirazione",
+      "paragraph": "I dadi di ispirazione, generalmente d6 ma dipende, sono dadi che si possono aggiungere a tutti i tiri (tranne ai danni). Generalmente dati dal bardo ma ogni sessione possono essercene altri dati dal master.",
+      "list": [
+        {
+          "text": "Possono essere usati dopo aver tirato, ma prima di sapere se il risultato basta"
+        }
+      ]
+    }
+  ]
+}

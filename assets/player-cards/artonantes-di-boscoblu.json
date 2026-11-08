@@ -1,0 +1,16 @@
+{
+  "nome": "Artonantes di Boscoblu",
+  "ALive": true,
+  "classe": "Artificiere (1) Druido (2)",
+  "razza": "Nano",
+  "background": "Eremita",
+  "descrizione": [
+    "Soprannominato \"Barbonantes\" da Vin Harkness , Artonantes dedica il suo tempo a progettare meccanismi automatici per la cura di flora e fauna, mantenendosi lontano dai conflitti quanto possibile."
+  ],
+  "immagine": "./assets/personaggi/Artonantes-di-Boscoblu.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Chrono Trigger (OST) - Secret of the Forest (Orchestral)",
+    "file": "./assets/audio/artonantes-mood-song.mp3"
+  }
+}

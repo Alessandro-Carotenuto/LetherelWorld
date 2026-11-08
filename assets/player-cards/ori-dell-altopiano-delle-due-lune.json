@@ -1,0 +1,13 @@
+{
+  "nome": "Ori dell'altopiano delle Due Lune",
+  "ALive": true,
+  "classe": "Magus",
+  "razza": "Umano",
+  "background": "Monello",
+  "descrizione": [
+    "Giovane prodigio della magia con zero senso del pericolo, la sua curiosità è pari solo alla sua capacità di cacciarsi nei guai. Cresciuta sull'Altopiano delle due lune, dice di aver imparato i suoi trucchi \"dalle stelle stesse\"."
+  ],
+  "immagine": "./assets/personaggi/Ori-delle-Due-Lune.png",
+  "imprese": [],
+  "song": null
+}

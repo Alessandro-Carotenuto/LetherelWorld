@@ -1,0 +1,16 @@
+{
+  "nome": "Qually Mankos",
+  "ALive": true,
+  "classe": "Bardo (1) Chierico (2)",
+  "razza": "Umano",
+  "background": "Intrattenitore",
+  "descrizione": [
+    "Assolutamente incontrollabile per natura, la sua presenza rende la sala comune più vivace. Di tanto in tanto si esibisce in duetti con Nimiel e Mastro Manny nonostante i loro generi non si fondano per nulla."
+  ],
+  "immagine": "./assets/personaggi/Qually-Mankos.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Depeche Mode - Personal Jesus",
+    "file": "./assets/audio/qually-mood-song.mp3"
+  }
+}

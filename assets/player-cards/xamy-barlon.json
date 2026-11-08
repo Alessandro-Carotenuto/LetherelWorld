@@ -1,0 +1,15 @@
+{
+  "nome": "Xamy Barlon",
+  "ALive": true,
+  "classe": "Paladino",
+  "razza": "Dragonborn",
+  "background": "Soldato",
+  "descrizione": [
+    "Xamy Barlon incarna gli ideali più puri del paladino dragonide. La sua presenza ispira coraggio negli alleati e timore nei nemici. Sempre in prima linea a difendere i più deboli, unisce la fierezza della sua stirpe a un profondo senso di giustizia. Una vera leggenda vivente per i giovani della sua casata."
+  ],
+  "immagine": "./assets/personaggi/Xamy-Barlon.png",
+  "imprese": [
+    "Si dice che abbia da solo salvato una importantissima diligenza Barlon che trasportava ingenti quantità di Syrum e che da allora venga considerato un esempio di coraggio e diligenza da seguire."
+  ],
+  "song": null
+}

@@ -1,0 +1,15 @@
+{
+  "nome": "Mastro Manny Igglopolt",
+  "ALive": true,
+  "classe": "Bardo",
+  "razza": "Nano",
+  "background": "Intrattenitore",
+  "descrizione": [
+    "Non prende parte ad una missione da anni, ma è il nonno canterino di tutto il distretto. Ogni tanto racconta storie di un mondo che sembra ormai lontano."
+  ],
+  "immagine": "./assets/personaggi/Manny-Igglopolt.png",
+  "imprese": [
+    "Ha scritto alcuni dei motivetti più cantati a Nest"
+  ],
+  "song": null
+}

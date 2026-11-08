@@ -1,0 +1,14 @@
+{
+  "nome": "Garret Harrow",
+  "ALive": true,
+  "classe": "Pugile",
+  "razza": "Umano",
+  "background": "Eroe Popolare",
+  "descrizione": [
+    "Garret, unanimemente rispettato nel distretto e considerato l'unico degno di guidare il Distretto Rovere, è una persona disciplinata e organizzata che rifugge i meriti delle proprie gesta. Pur non combattendo più da tempo e concedendosi raramente sessioni di sparring, mantiene il suo ruolo di Coordinatore di Distretto - una posizione che, nonostante le mansioni prevalentemente burocratiche, fa di lui uno dei guardiani del territorio.",
+    "Persino una figura autorevole come lui ha incontrato solo in rarissime occasioni il leader della Confraternita, noto per preferire il titolo di Presidente piuttosto che quello di Comandante."
+  ],
+  "immagine": "./assets/personaggi/Garret-Harrow.png",
+  "imprese": [],
+  "song": null
+}

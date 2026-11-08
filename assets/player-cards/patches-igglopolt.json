@@ -1,0 +1,16 @@
+{
+  "nome": "Patches Igglopolt",
+  "ALive": true,
+  "classe": "Barbaro",
+  "razza": "Nano",
+  "background": "Pirata",
+  "descrizione": [
+    "Burbero e irascibile, si dedica raramente alle missioni, preferendo quelle di caccia ed esplorazione, poiché l'ignoto non lo intimorisce affatto. Sebbene ti giudichi e insulti apertamente, sarà il primo a difenderti se qualcun altro dovesse provare a fare lo stesso."
+  ],
+  "immagine": "./assets/personaggi/Patches-Igglopolt.png",
+  "imprese": [],
+  "song": {
+    "titolo": "Assassin's Creed IV: Black Flag (OST) - Pyrates Beware (Track 02)",
+    "file": "./assets/audio/patches-mood-song.mp3"
+  }
+}
