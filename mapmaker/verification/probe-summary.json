@@ -1,0 +1,119 @@
+{
+  "width": 2340,
+  "height": 1312,
+  "bounds": {
+    "igglopolt": {
+      "minX": 69,
+      "minY": 373,
+      "maxX": 1008,
+      "maxY": 597,
+      "count": 41650
+    },
+    "likari": {
+      "minX": 27,
+      "minY": 331,
+      "maxX": 2197,
+      "maxY": 1188,
+      "count": 56393
+    },
+    "whiteflower": {
+      "minX": 27,
+      "minY": 42,
+      "maxX": 2302,
+      "maxY": 1305,
+      "count": 155084
+    }
+  },
+  "sharedBoundary": [
+    407,
+    514
+  ],
+  "riverLandPixels": 3806,
+  "sourceEdgePixels": 36254,
+  "largestRiverCandidates": [
+    {
+      "size": 19,
+      "minX": 1073,
+      "minY": 259,
+      "maxX": 1079,
+      "maxY": 264,
+      "center": [
+        1076,
+        262
+      ]
+    },
+    {
+      "size": 18,
+      "minX": 258,
+      "minY": 832,
+      "maxX": 266,
+      "maxY": 837,
+      "center": [
+        262,
+        834
+      ]
+    },
+    {
+      "size": 16,
+      "minX": 597,
+      "minY": 70,
+      "maxX": 599,
+      "maxY": 76,
+      "center": [
+        598,
+        73
+      ]
+    },
+    {
+      "size": 14,
+      "minX": 2070,
+      "minY": 308,
+      "maxX": 2074,
+      "maxY": 320,
+      "center": [
+        2073,
+        314
+      ]
+    },
+    {
+      "size": 14,
+      "minX": 202,
+      "minY": 410,
+      "maxX": 215,
+      "maxY": 414,
+      "center": [
+        209,
+        412
+      ]
+    },
+    {
+      "size": 12,
+      "minX": 2036,
+      "minY": 303,
+      "maxX": 2039,
+      "maxY": 313,
+      "center": [
+        2038,
+        308
+      ]
+    },
+    {
+      "size": 12,
+      "minX": 1938,
+      "minY": 943,
+      "maxX": 1940,
+      "maxY": 947,
+      "center": [
+        1939,
+        945
+      ]
+    }
+  ],
+  "mergedGeometry": {
+    "activePixels": 54775,
+    "changedPixels": 13370,
+    "detectedInternalEdges": 742,
+    "internalEdgesNotCleared": 0,
+    "generatedOutlinePixels": 4156
+  }
+}

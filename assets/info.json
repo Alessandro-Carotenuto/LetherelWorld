@@ -30,7 +30,7 @@
           "text": "Con l’azione bonus tiri la cura: la pozione base ripristina 2d4 + 2 PF."
         },
         {
-          "text": "Regola casalinga: se invece spendi azione e movimento per berla o somministrarla, recuperi il massimo. La pozione base ripristina 10 PF."
+          "text": "Regola aggiuntiva: se invece spendi azione e movimento insieme per berla o somministrarla (come le azioni di round completo in Pathfinder 1e), recuperi il massimo. La pozione base ripristina 10 PF."
         }
       ]
     },
@@ -52,18 +52,9 @@
       "list": []
     },
     {
-      "subtitle": "Allenamento",
-      "paragraph": "Tra una missione e l'altra ci saranno dei momenti di allenamento, se si ha più personaggi i personaggi non usati avranno tempo di allenarsi tra le missioni.\nL'allenamento tra le missioni non darà grandi bonus per non rompere l'equilibrio di gioco, ma può dare qualche miglioria al vostro personaggio.",
-      "list": []
-    },
-    {
       "subtitle": "Dadi di Ispirazione",
       "paragraph": "I dadi di ispirazione, generalmente d6 ma dipende, sono dadi che si possono aggiungere a tutti i tiri (tranne ai danni). Generalmente dati dal bardo ma ogni sessione possono essercene altri dati dal master.",
-      "list": [
-        {
-          "text": "Possono essere usati dopo aver tirato, ma prima di sapere se il risultato basta"
-        }
-      ]
+      "list": []
     }
   ]
 }

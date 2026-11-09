@@ -9,5 +9,8 @@
   ],
   "immagine": "./assets/personaggi/Jaeger-Brightforge.png",
   "imprese": [],
-  "song": null
+  "song": {
+    "titolo": "Disco Elysium OST - Miss Oranje Disco Dancer",
+    "file": "./assets/audio/jaeger-mood-song.mp3"
+  }
 }

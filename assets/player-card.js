@@ -17,7 +17,9 @@
   }
 
   function formatClass(value) {
-    return escapeHtml(value || "—").replace(/\)\s+(?=[A-ZÀ-ÖØ-Þ])/g, ")<br>");
+    return escapeHtml(value || "—")
+      .replace(/\s*\[\s*([^\]]+?)\s*\]/g, ' <span class="class-archetype">[$1]</span>')
+      .replace(/\)\s+(?=[A-ZÀ-ÖØ-Þ])/g, ")<br>");
   }
 
   function renderSong(song, playerName) {

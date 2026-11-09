@@ -29,7 +29,7 @@
     };
   }
   let project = createPreset();
-  let selectedId = project.states[0]?.id || null, tool = 'brush', drawing = false, activeStroke = null, landMask = null, landPixels = null, baseOwnerPixels = null, baseEdgePixels = null, cleanMapPixels = null, cleanMapLayer = null, zoneMaskLayer = null, zoneBorderLayer = null;
+  let selectedId = project.states[0]?.id || null, tool = 'brush', drawing = false, activeStroke = null, landMask = null, landPixels = null, baseOwnerPixels = null, baseEdgePixels = null, baseEdgeLayer = null, preservedEdgeLayer = null, cleanMapPixels = null, cleanMapLayer = null, zoneMaskLayer = null, zoneBorderLayer = null;
 
   function id() { return `state-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`; }
   function selectedState() { return project.states.find(state => state.id === selectedId); }
@@ -93,8 +93,22 @@
     const source = document.createElement('canvas'); source.width = project.width; source.height = project.height;
     const sourceContext = source.getContext('2d', { willReadFrequently: true }); sourceContext.drawImage(image, 0, 0, project.width, project.height);
     const pixels = sourceContext.getImageData(0, 0, project.width, project.height).data;
-    const total = project.width * project.height, sea = new Uint8Array(total);
-    for (let index = 0; index < total; index++) sea[index] = isSeaPixel(pixels, index * 4) ? 1 : 0;
+    const total = project.width * project.height, waterCandidates = new Uint8Array(total), erodedWater = new Uint8Array(total), sea = new Uint8Array(total);
+    for (let index = 0; index < total; index++) waterCandidates[index] = isSeaPixel(pixels, index * 4) ? 1 : 0;
+    // Narrow blue waterways share the sea color; remove channels thinner than 3 px before clipping paint.
+    for (let y = 1; y < project.height - 1; y++) for (let x = 1; x < project.width - 1; x++) {
+      const index = y * project.width + x;
+      if (!waterCandidates[index]) continue;
+      let wideWater = true;
+      for (let dy = -1; dy <= 1 && wideWater; dy++) for (let dx = -1; dx <= 1; dx++) {
+        if (!waterCandidates[(y + dy) * project.width + x + dx]) { wideWater = false; break; }
+      }
+      if (wideWater) erodedWater[index] = 1;
+    }
+    for (let y = 1; y < project.height - 1; y++) for (let x = 1; x < project.width - 1; x++) {
+      if (!erodedWater[y * project.width + x]) continue;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) sea[(y + dy) * project.width + x + dx] = 1;
+    }
     const ownerLookup = buildBaseOwnerLookup();
     const cleanPixels = new Uint8ClampedArray(pixels), darkLines = new Uint8Array(total);
     for (let index = 0; index < total; index++) {
@@ -144,6 +158,13 @@
     cleanMapPixels = cleanPixels;
     cleanMapLayer = document.createElement('canvas'); cleanMapLayer.width = project.width; cleanMapLayer.height = project.height;
     cleanMapLayer.getContext('2d').putImageData(new ImageData(cleanPixels, project.width, project.height), 0, 0);
+    baseEdgeLayer = document.createElement('canvas'); baseEdgeLayer.width = project.width; baseEdgeLayer.height = project.height;
+    const edgeContext = baseEdgeLayer.getContext('2d'), edgeImage = edgeContext.createImageData(project.width, project.height);
+    for (let index = 0; index < total; index++) if (darkLines[index]) {
+      const offset = index * 4; edgeImage.data[offset] = pixels[offset]; edgeImage.data[offset + 1] = pixels[offset + 1]; edgeImage.data[offset + 2] = pixels[offset + 2]; edgeImage.data[offset + 3] = 255;
+    }
+    edgeContext.putImageData(edgeImage, 0, 0);
+    preservedEdgeLayer = document.createElement('canvas'); preservedEdgeLayer.width = project.width; preservedEdgeLayer.height = project.height;
     landMask = document.createElement('canvas'); landMask.width = project.width; landMask.height = project.height;
     const maskContext = landMask.getContext('2d'), maskImage = maskContext.createImageData(project.width, project.height);
     landPixels = new Uint8Array(total);
@@ -169,46 +190,107 @@
   function buildZoneBorder() {
     if (!paintCanvas.width || !paintCanvas.height || !cleanMapPixels || !landPixels || !baseOwnerPixels || !baseEdgePixels) { zoneMaskLayer = null; zoneBorderLayer = null; return; }
     const width = paintCanvas.width, height = paintCanvas.height, pixels = paintCtx.getImageData(0, 0, width, height).data;
-    const total = width * height, region = new Uint8Array(total), colorCodes = new Map();
+    const total = width * height, finalOwner = new Uint8Array(baseOwnerPixels), changed = new Uint8Array(total), colorCodes = new Map();
     for (const state of project.states) { const [red, green, blue] = colorParts(state.color); colorCodes.set((red << 16) | (green << 8) | blue, state.code); }
     for (let index = 0; index < total; index++) {
       const offset = index * 4; if (pixels[offset + 3] === 0) continue;
       const paintCode = colorCodes.get((pixels[offset] << 16) | (pixels[offset + 1] << 8) | pixels[offset + 2]) || 255;
-      const sameBaseState = paintCode === baseOwnerPixels[index];
-      if (sameBaseState && !baseEdgePixels[index]) continue;
+      const baseCode = baseOwnerPixels[index]; let touchesPaintState = paintCode === baseCode, paintsAcrossEdge = false;
       if (baseEdgePixels[index]) {
-        let touchesOwnState = sameBaseState, paintsAcrossEdge = false;
-        for (let dy = -2; dy <= 2 && !(touchesOwnState && paintsAcrossEdge); dy++) for (let dx = -2; dx <= 2; dx++) {
+        for (let dy = -2; dy <= 2 && !(touchesPaintState && paintsAcrossEdge); dy++) for (let dx = -2; dx <= 2; dx++) {
           const x = index % width + dx, y = ((index / width) | 0) + dy;
           if (x < 0 || y < 0 || x >= width || y >= height) continue;
           const neighbor = y * width + x, neighborOffset = neighbor * 4;
-          if (baseOwnerPixels[neighbor] === paintCode) touchesOwnState = true;
+          if (baseOwnerPixels[neighbor] === paintCode) touchesPaintState = true;
           else if (pixels[neighborOffset + 3] > 0 && colorCodes.get((pixels[neighborOffset] << 16) | (pixels[neighborOffset + 1] << 8) | pixels[neighborOffset + 2]) === paintCode) paintsAcrossEdge = true;
-          if (touchesOwnState && paintsAcrossEdge) break;
+          if (touchesPaintState && paintsAcrossEdge) break;
         }
-        if ((sameBaseState || touchesOwnState) && !paintsAcrossEdge) continue;
+        if (baseCode !== paintCode && touchesPaintState && !paintsAcrossEdge) continue;
       }
-      region[index] = paintCode;
+      finalOwner[index] = paintCode;
+      if (baseCode !== paintCode || (baseEdgePixels[index] && paintsAcrossEdge)) changed[index] = 1;
     }
+
+    // Activate only same-state components touched by changed paint. Separate islands stay separate.
+    const activeZone = new Uint8Array(total), queue = new Int32Array(total); let queueLength = 0;
+    for (let start = 0; start < total; start++) {
+      const code = finalOwner[start];
+      if (!changed[start] || !code || activeZone[start]) continue;
+      let head = 0; queue[queueLength++] = start; activeZone[start] = code;
+      while (head < queueLength) {
+        const index = queue[head++], x = index % width, y = (index / width) | 0;
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          if (!dx && !dy) continue;
+          const nx = x + dx, ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+          const neighbor = ny * width + nx;
+          if (finalOwner[neighbor] === code && !activeZone[neighbor]) { activeZone[neighbor] = code; queue[queueLength++] = neighbor; }
+        }
+      }
+      queueLength = 0;
+    }
+
+    // Remove original dark borders only where the merged territory now covers both sides.
+    const internalEdges = new Uint8Array(total), edgeAxes = [[1, 0], [0, 1], [1, 1], [1, -1]];
+    for (let index = 0; index < total; index++) {
+      if (!baseEdgePixels[index]) continue;
+      const x = index % width, y = (index / width) | 0; let normal = edgeAxes[0], lowestRun = Infinity;
+      for (const axis of edgeAxes) {
+        let run = 0;
+        for (let distance = -3; distance <= 3; distance++) {
+          const nx = x + axis[0] * distance, ny = y + axis[1] * distance;
+          if (nx >= 0 && ny >= 0 && nx < width && ny < height && baseEdgePixels[ny * width + nx]) run++;
+        }
+        if (run < lowestRun) { lowestRun = run; normal = axis; }
+      }
+      const sides = [0, 0];
+      for (let side = 0; side < 2; side++) {
+        const direction = side === 0 ? -1 : 1;
+        for (let distance = 2; distance <= 5; distance++) {
+          const nx = x + normal[0] * direction * distance, ny = y + normal[1] * direction * distance;
+          if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+          const code = activeZone[ny * width + nx];
+          if (code) { sides[side] = code; break; }
+        }
+      }
+      if (sides[0] && sides[0] === sides[1]) internalEdges[index] = 1;
+    }
+
     zoneBorderLayer = document.createElement('canvas'); zoneBorderLayer.width = width; zoneBorderLayer.height = height;
     const borderContext = zoneBorderLayer.getContext('2d'), output = borderContext.createImageData(width, height), border = new Uint8Array(total);
     for (let y = 1; y < height - 1; y++) for (let x = 1; x < width - 1; x++) {
       const index = y * width + x;
-      if (region[index] || !landPixels?.[index]) continue;
-      const left = region[index - 1], right = region[index + 1], top = region[index - width], bottom = region[index + width];
-      if (left && baseOwnerPixels[index] !== left) border[index] = left;
-      else if (right && baseOwnerPixels[index] !== right) border[index] = right;
-      else if (top && baseOwnerPixels[index] !== top) border[index] = top;
-      else if (bottom && baseOwnerPixels[index] !== bottom) border[index] = bottom;
+      if (!landPixels[index]) continue;
+      const zoneCode = activeZone[index];
+      for (let dy = -1; dy <= 1 && !border[index]; dy++) for (let dx = -1; dx <= 1; dx++) {
+        if (!dx && !dy) continue;
+        const neighbor = (y + dy) * width + x + dx, neighborCode = activeZone[neighbor];
+        if (!neighborCode || neighborCode === zoneCode) continue;
+        if (!zoneCode && finalOwner[index] !== neighborCode) border[index] = neighborCode;
+        else if (zoneCode && zoneCode < neighborCode) border[index] = zoneCode;
+      }
+      if (border[index]) {
+        let followsWater = false;
+        for (let dy = -2; dy <= 2 && !followsWater; dy++) for (let dx = -2; dx <= 2; dx++) {
+          const nx = x + dx, ny = y + dy;
+          if (nx >= 0 && ny >= 0 && nx < width && ny < height && !landPixels[ny * width + nx]) { followsWater = true; break; }
+        }
+        if (followsWater) border[index] = 0;
+      }
     }
-    // Keep a single extra pixel outside the fill for the same thin outline as the source map.
     const expanded = new Uint8Array(total);
     for (let y = 1; y < height - 1; y++) for (let x = 1; x < width - 1; x++) {
-      const index = y * width + x;
-      const outlineCode = border[index]; if (!outlineCode) continue;
+      const index = y * width + x, outlineCode = border[index];
+      if (!outlineCode || activeZone[index]) continue;
       for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
-        const neighbor = (y + dy) * width + x + dx;
-        if (landPixels?.[neighbor] && !region[neighbor] && baseOwnerPixels[neighbor] !== outlineCode) expanded[neighbor] = outlineCode;
+        const nx = x + dx, ny = y + dy, neighbor = ny * width + nx;
+        if (!landPixels[neighbor] || activeZone[neighbor] || finalOwner[neighbor] === outlineCode) continue;
+        let followsWater = false;
+        for (let wy = -2; wy <= 2 && !followsWater; wy++) for (let wx = -2; wx <= 2; wx++) {
+          const waterX = nx + wx, waterY = ny + wy;
+          if (waterX >= 0 && waterY >= 0 && waterX < width && waterY < height && !landPixels[waterY * width + waterX]) { followsWater = true; break; }
+        }
+        if (!followsWater) expanded[neighbor] = outlineCode;
       }
     }
     for (let index = 0; index < total; index++) if (border[index] || expanded[index]) {
@@ -219,10 +301,25 @@
     zoneMaskLayer = document.createElement('canvas'); zoneMaskLayer.width = width; zoneMaskLayer.height = height;
     const zoneMaskContext = zoneMaskLayer.getContext('2d'), maskPixels = zoneMaskContext.createImageData(width, height);
     for (let index = 0; index < total; index++) {
-      if (region[index]) maskPixels.data[index * 4 + 3] = pixels[index * 4 + 3];
-      else if (border[index] || expanded[index]) maskPixels.data[index * 4 + 3] = 255;
+      let clearOldLine = Boolean(changed[index] || border[index] || expanded[index] || internalEdges[index]);
+      if (!clearOldLine && baseEdgePixels[index]) {
+        const x = index % width, y = (index / width) | 0;
+        for (let dy = -3; dy <= 3 && !clearOldLine; dy++) for (let dx = -3; dx <= 3; dx++) {
+          const nx = x + dx, ny = y + dy;
+          if (nx >= 0 && ny >= 0 && nx < width && ny < height) {
+            const neighbor = ny * width + nx;
+            if (border[neighbor] || expanded[neighbor]) { clearOldLine = true; break; }
+          }
+        }
+      }
+      if (clearOldLine) maskPixels.data[index * 4 + 3] = 255;
     }
     zoneMaskContext.putImageData(maskPixels, 0, 0);
+    if (baseEdgeLayer && preservedEdgeLayer) {
+      const preservedContext = preservedEdgeLayer.getContext('2d');
+      preservedContext.clearRect(0, 0, width, height); preservedContext.globalCompositeOperation = 'source-over'; preservedContext.drawImage(baseEdgeLayer, 0, 0);
+      preservedContext.globalCompositeOperation = 'destination-out'; preservedContext.drawImage(zoneMaskLayer, 0, 0); preservedContext.globalCompositeOperation = 'source-over';
+    }
   }
   function drawRoughStroke(stroke, target = paintCtx) {
     strokeSegments(stroke).forEach((points, segmentIndex) => {
@@ -275,6 +372,7 @@
       ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.drawImage(underpaintCanvas, 0, 0);
     }
     ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = project.opacity ?? 1; ctx.drawImage(paintCanvas, 0, 0); ctx.globalAlpha = 1;
+    if (preservedEdgeLayer && preservedEdgeLayer.width === canvas.width && preservedEdgeLayer.height === canvas.height) ctx.drawImage(preservedEdgeLayer, 0, 0);
     if (zoneBorderLayer && zoneBorderLayer.width === canvas.width && zoneBorderLayer.height === canvas.height) ctx.drawImage(zoneBorderLayer, 0, 0);
     $('#stroke-total').textContent = project.strokes.length;
   }
@@ -318,8 +416,8 @@
     const hasMap = Boolean(project.map);
     stage.classList.toggle('has-map', hasMap); image.hidden = !hasMap;
     if (hasMap) {
-      if (image.dataset.source !== project.map) { image.dataset.source = project.map; image.src = project.map; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; cleanMapPixels = null; cleanMapLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); }
-    } else { image.removeAttribute('src'); image.dataset.source = ''; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; cleanMapPixels = null; cleanMapLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; }
+      if (image.dataset.source !== project.map) { image.dataset.source = project.map; image.src = project.map; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; cleanMapPixels = null; cleanMapLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); }
+    } else { image.removeAttribute('src'); image.dataset.source = ''; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; cleanMapPixels = null; cleanMapLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; }
     $('#canvas-label').textContent = project.mapName || 'Nessuna mappa caricata';
     $('#map-dimensions').textContent = hasMap ? `${project.width} × ${project.height} px` : 'In attesa di una mappa';
     if (hasMap) { fitCanvas(); if (image.complete && (!landMask || landMask.width !== project.width || landMask.height !== project.height)) { landMask = null; landPixels = null; say('Calcolo confini…'); buildLandMask(); } }
@@ -390,7 +488,7 @@
   $('#open-project').addEventListener('click', () => $('#project-upload').click());
   $('#project-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const next = JSON.parse(reader.result); if (!next || !Array.isArray(next.states) || !Array.isArray(next.strokes) || !Array.isArray(next.labels)) throw new Error(); project = next; normalizeStateColors(); selectedId = project.states[0]?.id || null; renderAll(); save(); } catch { alert('Il file non è un progetto Mapmaker valido.'); } }; reader.readAsText(file); event.target.value = ''; });
   window.addEventListener('resize', fitCanvas);
-  image.addEventListener('load', () => { landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; cleanMapPixels = null; cleanMapLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); buildLandMask(); fitCanvas(); });
+  image.addEventListener('load', () => { landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; cleanMapPixels = null; cleanMapLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); buildLandMask(); fitCanvas(); });
   window.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); $('#undo').click(); } });
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
