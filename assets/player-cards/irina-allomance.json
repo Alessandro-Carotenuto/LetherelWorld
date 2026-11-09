@@ -9,5 +9,8 @@
   ],
   "immagine": "./assets/personaggi/Irina-Allomance.png",
   "imprese": [],
-  "song": null
+  "song": {
+    "titolo": "Wow (Mist of Pandaria) OST - Way of the monk",
+    "file": "./assets/audio/irina-mood-song.mp3"
+  }
 }

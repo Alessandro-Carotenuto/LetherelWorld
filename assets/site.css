@@ -264,3 +264,10 @@ html,body{background-color:var(--bg)}body{background-image:repeating-linear-grad
 .confraternity-foundation-art{display:block;width:100%;height:auto;margin:20px 0 28px;border:1px solid rgba(201,173,120,.35);box-shadow:0 8px 24px rgba(0,0,0,.24)}
 .confraternity-current-crest{float:right;width:min(34%,330px);height:auto;margin:0 0 14px 24px;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(0,0,0,.24))}
 @media(max-width:760px){.confraternity-current-crest{width:min(44%,200px);margin-left:14px}}
+
+.main-nav>.nav-label:first-child{margin-top:0}
+.main-nav .nav-label-spaced{margin-top:16px}
+
+.sidebar-rule{margin-bottom:10px}
+
+.mood-player-heading .mood-song-popup{overflow:visible;overflow-wrap:anywhere;text-overflow:clip;white-space:normal}

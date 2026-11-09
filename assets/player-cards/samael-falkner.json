@@ -9,5 +9,8 @@
   ],
   "immagine": "./assets/personaggi/Samael-Falkner.png",
   "imprese": [],
-  "song": null
+  "song": {
+    "titolo": "Celtic Music - Echoing Woods",
+    "file": "./assets/audio/samael-mood-song.mp3"
+  }
 }

@@ -11,5 +11,8 @@
   "imprese": [
     "Ha salvato un'intera palude sotto area di influenza della casata Sewerly da una cosiddetta \"Regina dei ragni\" cacciandola per giorni fino a ucciderla."
   ],
-  "song": null
+  "song": {
+    "titolo": "Stromae, Pomme - Ma Meilleure Ennemie",
+    "file": "./assets/audio/pam-mood-song.mp3"
+  }
 }

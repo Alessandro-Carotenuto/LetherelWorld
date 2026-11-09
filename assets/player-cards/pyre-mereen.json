@@ -11,5 +11,8 @@
   "imprese": [
     "\"Ambasciator non porta pena\" disse Pyre sparando in testa ad un Lord di casata Whiteflower senza esitare. Pyre venne imprigionata ma rilasciata molto rapidamente quando si scoprì che tale lord era corrotto e tramava alle spalle della casata."
   ],
-  "song": null
+  "song": {
+    "titolo": "ROMANTICA - CRIMEWAVE",
+    "file": "./assets/audio/pyre-mood-song.mp3"
+  }
 }

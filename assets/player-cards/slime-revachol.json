@@ -9,5 +9,8 @@
   ],
   "immagine": "./assets/personaggi/Slime-Revachol.png",
   "imprese": [],
-  "song": null
+  "song": {
+    "titolo": "Death Note OST - Kodoku",
+    "file": "./assets/audio/slime-mood-song.mp3"
+  }
 }

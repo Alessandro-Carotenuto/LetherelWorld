@@ -11,5 +11,8 @@
   "imprese": [
     "Eliminato tutte le sentinelle nelle fasi finali dell' \" Assedio al covo di drago \" contro la casata Barlon. Si dice sia riuscito a rubare un pendente magico appartenuto ad un membro della casata Whiteflower , un tempo."
   ],
-  "song": null
+  "song": {
+    "titolo": "DXNERTRA - MEMPHIS CULT",
+    "file": "./assets/audio/janos-mood-song.mp3"
+  }
 }

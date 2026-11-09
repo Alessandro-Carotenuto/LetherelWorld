@@ -11,5 +11,8 @@
   "imprese": [
     "Ha ucciso un drago a pugni. pugni nudi. pugni grossi. senza tecnica, solo pugni. Soffio di fuoco? pugno in bocca. Soffio di ghiaccio? doppio pugno in bocca."
   ],
-  "song": null
+  "song": {
+    "titolo": "Mario + Rabbids Kingdom Battle OST - Mid Boss Mayhem",
+    "file": "./assets/audio/corallo-mood-song.mp3"
+  }
 }

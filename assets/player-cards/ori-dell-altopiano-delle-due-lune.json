@@ -9,5 +9,8 @@
   ],
   "immagine": "./assets/personaggi/Ori-delle-Due-Lune.png",
   "imprese": [],
-  "song": null
+  "song": {
+    "titolo": "Gyakuten Meets Orchestra - Trials and Tribulations Court Suite",
+    "file": "./assets/audio/ori-mood-song.mp3"
+  }
 }

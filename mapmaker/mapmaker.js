@@ -8,21 +8,22 @@
   const palette = ['#e89092','#ab84db','#85d887','#d3b975','#83b7e8','#d68aca','#7acfc6','#dfa866','#98c8ec','#c39bd3'];
   const BASE_MAP = window.LETHEREL_BASE_MAP_DATA || './assets/territori-base.png';
   const presetStates = [
-    ['igglopolt','Casata Igglopolt','#ef9da5',.121,.352,48,0], ['likari','Casata Likari','#a780d4',.248,.289,34,0],
-    ['gray','Casata Gray','#d1d9da',.307,.362,31,12], ['dalinar','Casata Dalinar','#999d9d',.379,.318,39,-8],
-    ['tusk','Casata Tusk','#e7878b',.339,.49,56,-43], ['sewerly','Casata Sewerly','#ba7bda',.122,.576,58,48],
-    ['tikle','Casata Tikle','#86d985',.196,.548,45,0], ['barlon','Casata Barlon','#b7b589',.255,.657,43,-10],
-    ['galvant','Casata Galvànt','#f2d17c',.197,.761,36,22], ['alaven','Casata Alaven','#99b1ed',.58,.573,43,0],
-    ['revachol','Casata Revachòl','#cda2d7',.688,.423,61,0], ['whiteflower','Casata Whiteflower','#75cae0',.712,.193,46,-17],
-    ['allomance','Casata Allomance','#aa8694',.852,.341,44,0], ['lavender','Casata Lavender','#80788b',.769,.529,31,0],
-    ['brightforge','Casata Brightforge','#e9c184',.853,.512,31,0], ['pages','Casata Pages','#78d7c6',.663,.67,25,0],
-    ['mankos','Casata Mankos','#c9b19a',.755,.734,36,0], ['obsidian','Casata Obsidian','#d1e99c',.594,.747,42,-9],
-    ['falkner','Casata Falkner','#d87dc6',.658,.833,39,8], ['confraternita','La Confraternita','#dfbd78',.127,.484,19,0]
+    ['igglopolt','Casata Igglopolt','#f6abaf',.121,.352,48,0], ['likari','Casata Likari','#af89e4',.248,.289,34,0],
+    ['gray','Casata Gray','#dadee1',.307,.362,31,12], ['dalinar','Casata Dalinar','#9fa3a5',.379,.318,39,-8],
+    ['tusk','Casata Tusk','#e99397',.339,.49,56,-43], ['sewerly','Casata Sewerly','#c68feb',.122,.576,58,48],
+    ['tikle','Casata Tikle','#97e08b',.196,.548,45,0], ['barlon','Casata Barlon','#bfbb88',.255,.657,43,-10],
+    ['galvant','Casata Galvànt','#f1d58b',.197,.761,36,22], ['alaven','Casata Alaven','#9eb7f8',.58,.573,43,0],
+    ['revachol','Casata Revachòl','#d6afdf',.688,.423,61,0], ['whiteflower','Casata Whiteflower','#89d6f0',.712,.193,46,-17],
+    ['allomance','Casata Allomance','#af8d9b',.852,.341,44,0], ['lavender','Casata Lavender','#888099',.769,.529,31,0],
+    ['brightforge','Casata Brightforge','#f0cb97',.853,.512,31,0], ['pages','Casata Pages','#86e8d3',.663,.67,25,0],
+    ['mankos','Casata Mankos','#ceb79e',.755,.734,36,0], ['obsidian','Casata Obsidian','#d5eba1',.594,.747,42,-9],
+    ['falkner','Casata Falkner','#eb8fd2',.658,.833,39,8], ['confraternita','La Confraternita','#e1c28c',.127,.484,19,0]
   ];
+  const legacyPresetColors = ['#ef9da5','#a780d4','#d1d9da','#999d9d','#e7878b','#ba7bda','#86d985','#b7b589','#f2d17c','#99b1ed','#cda2d7','#75cae0','#aa8694','#80788b','#e9c184','#78d7c6','#c9b19a','#d1e99c','#d87dc6','#dfbd78'];
   function createPreset() {
     const width = 2340, height = 1312;
     return {
-      map: BASE_MAP, mapName: 'Letherel · Stati e confini', width, height,
+      map: BASE_MAP, mapName: 'Letherel · Stati e confini', width, height, opacity: 1,
       states: presetStates.map(([key, name, color], index) => ({ id: `base-${key}`, name, color, baseColor: color, code: index + 1, showLabel: true })),
       strokes: [], labels: presetStates.map(([key, , , x, y, size, rotation]) => ({ stateId: `base-${key}`, x: x * width, y: y * height, size, rotation }))
     };
@@ -32,6 +33,24 @@
 
   function id() { return `state-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`; }
   function selectedState() { return project.states.find(state => state.id === selectedId); }
+  function normalizeStateColors() {
+    let nextCode = Math.max(presetStates.length, ...project.states.map(state => state.code || 0)) + 1;
+    project.opacity ??= 1;
+    project.states.forEach(state => {
+      const baseIndex = presetStates.findIndex(([key]) => state.id === `base-${key}`);
+      if (baseIndex >= 0) {
+        if (state.color?.toLowerCase() === legacyPresetColors[baseIndex]) {
+          state.color = presetStates[baseIndex][2];
+          project.strokes?.filter(stroke => stroke.stateId === state.id && stroke.color?.toLowerCase() === legacyPresetColors[baseIndex]).forEach(stroke => { stroke.color = state.color; });
+        }
+        state.baseColor = presetStates[baseIndex][2];
+        state.code ??= baseIndex + 1;
+      } else {
+        state.baseColor ??= null;
+        state.code ??= nextCode++;
+      }
+    });
+  }
   function say(text) { $('#save-status').textContent = text; }
   function save() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(project)); say('Salvato automaticamente'); }
@@ -65,7 +84,7 @@
         const current = Math.abs(rgb[0] - state.rgb[0]) + Math.abs(rgb[1] - state.rgb[1]) + Math.abs(rgb[2] - state.rgb[2]);
         if (current < distance) { distance = current; nearest = state.code; }
       }
-      if (distance <= 78) lookup[(red << 10) | (green << 5) | blue] = nearest;
+      if (distance <= 38) lookup[(red << 10) | (green << 5) | blue] = nearest;
     }
     return lookup;
   }
@@ -101,12 +120,26 @@
         cleanPixels[offset + channel] = samples[channel][Math.floor(samples[channel].length / 2)];
       }
     }
-    // Classify the original territories after inpainting their dark outlines.
+    // Seed ownership from the exact state fills, then extend it across rivers and outlines.
     baseOwnerPixels = new Uint8Array(total); baseEdgePixels = darkLines;
+    const fillable = new Uint8Array(total), ownerQueue = new Int32Array(total); let queueLength = 0;
     for (let index = 0; index < total; index++) {
       if (sea[index]) continue;
       const offset = index * 4;
-      baseOwnerPixels[index] = ownerLookup[(cleanPixels[offset] >> 3 << 10) | (cleanPixels[offset + 1] >> 3 << 5) | (cleanPixels[offset + 2] >> 3)];
+      if (Math.abs(cleanPixels[offset] - 238) + Math.abs(cleanPixels[offset + 1] - 246) + Math.abs(cleanPixels[offset + 2] - 251) < 32) continue;
+      fillable[index] = 1;
+      const owner = ownerLookup[(cleanPixels[offset] >> 3 << 10) | (cleanPixels[offset + 1] >> 3 << 5) | (cleanPixels[offset + 2] >> 3)];
+      if (owner) { baseOwnerPixels[index] = owner; ownerQueue[queueLength++] = index; }
+    }
+    for (let head = 0; head < queueLength; head++) {
+      const index = ownerQueue[head], owner = baseOwnerPixels[index], x = index % project.width, y = (index / project.width) | 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        if (!dx && !dy) continue;
+        const nx = x + dx, ny = y + dy;
+        if (nx < 0 || ny < 0 || nx >= project.width || ny >= project.height) continue;
+        const neighbor = ny * project.width + nx;
+        if (fillable[neighbor] && !baseOwnerPixels[neighbor]) { baseOwnerPixels[neighbor] = owner; ownerQueue[queueLength++] = neighbor; }
+      }
     }
     cleanMapPixels = cleanPixels;
     cleanMapLayer = document.createElement('canvas'); cleanMapLayer.width = project.width; cleanMapLayer.height = project.height;
@@ -139,7 +172,7 @@
     const total = width * height, region = new Uint8Array(total), colorCodes = new Map();
     for (const state of project.states) { const [red, green, blue] = colorParts(state.color); colorCodes.set((red << 16) | (green << 8) | blue, state.code); }
     for (let index = 0; index < total; index++) {
-      const offset = index * 4; if (pixels[offset + 3] <= 127) continue;
+      const offset = index * 4; if (pixels[offset + 3] === 0) continue;
       const paintCode = colorCodes.get((pixels[offset] << 16) | (pixels[offset + 1] << 8) | pixels[offset + 2]) || 255;
       const sameBaseState = paintCode === baseOwnerPixels[index];
       if (sameBaseState && !baseEdgePixels[index]) continue;
@@ -150,37 +183,46 @@
           if (x < 0 || y < 0 || x >= width || y >= height) continue;
           const neighbor = y * width + x, neighborOffset = neighbor * 4;
           if (baseOwnerPixels[neighbor] === paintCode) touchesOwnState = true;
-          else if (pixels[neighborOffset + 3] > 127 && colorCodes.get((pixels[neighborOffset] << 16) | (pixels[neighborOffset + 1] << 8) | pixels[neighborOffset + 2]) === paintCode) paintsAcrossEdge = true;
+          else if (pixels[neighborOffset + 3] > 0 && colorCodes.get((pixels[neighborOffset] << 16) | (pixels[neighborOffset + 1] << 8) | pixels[neighborOffset + 2]) === paintCode) paintsAcrossEdge = true;
           if (touchesOwnState && paintsAcrossEdge) break;
         }
         if ((sameBaseState || touchesOwnState) && !paintsAcrossEdge) continue;
       }
       region[index] = paintCode;
     }
-    zoneMaskLayer = document.createElement('canvas'); zoneMaskLayer.width = width; zoneMaskLayer.height = height;
-    const zoneMaskContext = zoneMaskLayer.getContext('2d'), maskPixels = zoneMaskContext.createImageData(width, height);
-    for (let index = 0; index < total; index++) if (region[index]) maskPixels.data[index * 4 + 3] = pixels[index * 4 + 3];
-    zoneMaskContext.putImageData(maskPixels, 0, 0);
     zoneBorderLayer = document.createElement('canvas'); zoneBorderLayer.width = width; zoneBorderLayer.height = height;
     const borderContext = zoneBorderLayer.getContext('2d'), output = borderContext.createImageData(width, height), border = new Uint8Array(total);
     for (let y = 1; y < height - 1; y++) for (let x = 1; x < width - 1; x++) {
       const index = y * width + x;
-      if (!region[index] && landPixels?.[index] && !baseEdgePixels?.[index] && (region[index - 1] || region[index + 1] || region[index - width] || region[index + width])) border[index] = 1;
+      if (region[index] || !landPixels?.[index]) continue;
+      const left = region[index - 1], right = region[index + 1], top = region[index - width], bottom = region[index + width];
+      if (left && baseOwnerPixels[index] !== left) border[index] = left;
+      else if (right && baseOwnerPixels[index] !== right) border[index] = right;
+      else if (top && baseOwnerPixels[index] !== top) border[index] = top;
+      else if (bottom && baseOwnerPixels[index] !== bottom) border[index] = bottom;
     }
     // Keep a single extra pixel outside the fill for the same thin outline as the source map.
     const expanded = new Uint8Array(total);
     for (let y = 1; y < height - 1; y++) for (let x = 1; x < width - 1; x++) {
       const index = y * width + x;
-      if (!border[index]) continue;
+      const outlineCode = border[index]; if (!outlineCode) continue;
       for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
         const neighbor = (y + dy) * width + x + dx;
-        if (landPixels?.[neighbor] && !region[neighbor]) expanded[neighbor] = 1;
+        if (landPixels?.[neighbor] && !region[neighbor] && baseOwnerPixels[neighbor] !== outlineCode) expanded[neighbor] = outlineCode;
       }
     }
     for (let index = 0; index < total; index++) if (border[index] || expanded[index]) {
       const offset = index * 4; output.data[offset] = 20; output.data[offset + 1] = 29; output.data[offset + 2] = 31; output.data[offset + 3] = 235;
     }
     borderContext.putImageData(output, 0, 0);
+    // Clear the old map border under both the recolored area and its replacement outline.
+    zoneMaskLayer = document.createElement('canvas'); zoneMaskLayer.width = width; zoneMaskLayer.height = height;
+    const zoneMaskContext = zoneMaskLayer.getContext('2d'), maskPixels = zoneMaskContext.createImageData(width, height);
+    for (let index = 0; index < total; index++) {
+      if (region[index]) maskPixels.data[index * 4 + 3] = pixels[index * 4 + 3];
+      else if (border[index] || expanded[index]) maskPixels.data[index * 4 + 3] = 255;
+    }
+    zoneMaskContext.putImageData(maskPixels, 0, 0);
   }
   function drawRoughStroke(stroke, target = paintCtx) {
     strokeSegments(stroke).forEach((points, segmentIndex) => {
@@ -232,7 +274,7 @@
       underpaintCtx.globalCompositeOperation = 'source-over';
       ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.drawImage(underpaintCanvas, 0, 0);
     }
-    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = .62; ctx.drawImage(paintCanvas, 0, 0); ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = project.opacity ?? 1; ctx.drawImage(paintCanvas, 0, 0); ctx.globalAlpha = 1;
     if (zoneBorderLayer && zoneBorderLayer.width === canvas.width && zoneBorderLayer.height === canvas.height) ctx.drawImage(zoneBorderLayer, 0, 0);
     $('#stroke-total').textContent = project.strokes.length;
   }
@@ -271,6 +313,8 @@
   function select(stateId) { selectedId = stateId; renderStates(); }
   function renderAll() {
     renderStates(); renderStrokes(); renderLabels();
+    const opacity = Math.max(.1, Math.min(1, Number(project.opacity ?? 1)));
+    project.opacity = opacity; $('#brush-opacity').value = Math.round(opacity * 100); $('#opacity-value').textContent = `${Math.round(opacity * 100)}%`;
     const hasMap = Boolean(project.map);
     stage.classList.toggle('has-map', hasMap); image.hidden = !hasMap;
     if (hasMap) {
@@ -312,6 +356,7 @@
   $('#state-form').addEventListener('submit', event => { if (event.submitter?.value === 'cancel') return; event.preventDefault(); const name = $('#state-name').value.trim(); if (!name) return; addState(name, $('#state-color').value); $('#state-dialog').close(); });
   document.querySelectorAll('[data-tool]').forEach(button => button.addEventListener('click', () => setTool(button.dataset.tool)));
   $('#brush-size').addEventListener('input', event => { $('#brush-value').textContent = `${event.target.value} px`; });
+  $('#brush-opacity').addEventListener('input', event => { project.opacity = Number(event.target.value) / 100; $('#opacity-value').textContent = `${event.target.value}%`; renderStrokes(); save(); });
   $('#roughness').addEventListener('input', event => { $('#roughness-value').textContent = `${event.target.value}%`; });
   canvas.addEventListener('pointerdown', event => {
     if (!project.map) return;
@@ -343,7 +388,7 @@
   $('#reset-project').addEventListener('click', () => { if (!confirm('Ripristinare il preset originale di Letherel? Le modifiche correnti verranno cancellate.')) return; project = createPreset(); selectedId = project.states[0]?.id || null; renderAll(); save(); });
   $('#save-project').addEventListener('click', exportProject); $('#export-image').addEventListener('click', exportImage);
   $('#open-project').addEventListener('click', () => $('#project-upload').click());
-  $('#project-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const next = JSON.parse(reader.result); if (!next || !Array.isArray(next.states) || !Array.isArray(next.strokes) || !Array.isArray(next.labels)) throw new Error(); project = next; selectedId = project.states[0]?.id || null; renderAll(); save(); } catch { alert('Il file non è un progetto Mapmaker valido.'); } }; reader.readAsText(file); event.target.value = ''; });
+  $('#project-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const next = JSON.parse(reader.result); if (!next || !Array.isArray(next.states) || !Array.isArray(next.strokes) || !Array.isArray(next.labels)) throw new Error(); project = next; normalizeStateColors(); selectedId = project.states[0]?.id || null; renderAll(); save(); } catch { alert('Il file non è un progetto Mapmaker valido.'); } }; reader.readAsText(file); event.target.value = ''; });
   window.addEventListener('resize', fitCanvas);
   image.addEventListener('load', () => { landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; cleanMapPixels = null; cleanMapLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); buildLandMask(); fitCanvas(); });
   window.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); $('#undo').click(); } });
@@ -351,12 +396,7 @@
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (saved?.states && saved?.strokes && saved?.labels && (saved.states.length > 0 || saved.map)) {
       project = saved; if (project.map === './assets/territori-base.png') project.map = BASE_MAP;
-      let nextCode = presetStates.length + 1;
-      project.states.forEach(state => {
-        const baseIndex = presetStates.findIndex(([key]) => state.id === `base-${key}`);
-        state.baseColor ??= baseIndex >= 0 ? presetStates[baseIndex][2] : null;
-        state.code ??= baseIndex >= 0 ? baseIndex + 1 : nextCode++;
-      });
+      normalizeStateColors();
       selectedId = project.states[0]?.id || null;
     }
   } catch { /* archivio locale non leggibile: usa il preset base */ }

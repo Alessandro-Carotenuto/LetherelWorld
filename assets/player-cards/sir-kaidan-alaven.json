@@ -13,5 +13,8 @@
     "Guidato la gilda nella \" Battaglia delle due praterie \" , vincendola",
     "Ex-Guardia Reale del Re"
   ],
-  "song": null
+  "song": {
+    "titolo": "Epic Score - Warriors to the End",
+    "file": "./assets/audio/kaidan-mood-song.mp3"
+  }
 }

@@ -10,5 +10,8 @@
   ],
   "immagine": "./assets/personaggi/Garret-Harrow.png",
   "imprese": [],
-  "song": null
+  "song": {
+    "titolo": "Megalobox OST - Theme of Liu (Slow)",
+    "file": "./assets/audio/garret-mood-song.mp3"
+  }
 }

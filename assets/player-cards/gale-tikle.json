@@ -9,5 +9,8 @@
   ],
   "immagine": "./assets/personaggi/Gale-Tikle.png",
   "imprese": [],
-  "song": null
+  "song": {
+    "titolo": "George Arkomanis - A Magical Box",
+    "file": "./assets/audio/gale-mood-song.mp3"
+  }
 }

@@ -11,5 +11,8 @@
   "imprese": [
     "Ha scritto alcuni dei motivetti più cantati a Nest"
   ],
-  "song": null
+  "song": {
+    "titolo": "William Elliot Whitmore - Diggin My Grave",
+    "file": "./assets/audio/manny-mood-song.mp3"
+  }
 }

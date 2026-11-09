@@ -12,5 +12,8 @@
     "Salvato il villaggio di Jarmin da un necromante impazzito, da solo.",
     "Liberato tutti i prigionieri nella \" Battaglia di Castelvolta \""
   ],
-  "song": null
+  "song": {
+    "titolo": "Gyakuten Meets Orchestra - Objection!",
+    "file": "./assets/audio/larry-mood-song.mp3"
+  }
 }

@@ -11,5 +11,8 @@
   "imprese": [
     "Si dice che abbia da solo salvato una importantissima diligenza Barlon che trasportava ingenti quantità di Syrum e che da allora venga considerato un esempio di coraggio e diligenza da seguire."
   ],
-  "song": null
+  "song": {
+    "titolo": "Ace Attorney Investigations Reasoning and Pursuit Suite – Gyakuten Saiban Orchestra Concert 2019",
+    "file": "./assets/audio/xamy-mood-song.mp3"
+  }
 }

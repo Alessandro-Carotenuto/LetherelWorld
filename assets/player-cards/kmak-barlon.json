@@ -11,5 +11,8 @@
   "imprese": [
     "Ha addestrato dozzine di Barlon nell' uso della magia per scopi militari"
   ],
-  "song": null
+  "song": {
+    "titolo": "Impostor Factory OST - Title Theme",
+    "file": "./assets/audio/kmak-mood-song.mp3"
+  }
 }

@@ -12,5 +12,8 @@
     "Combattuto in prima linea nella \"Battaglia di Castelvolta\" , vinta",
     "Guidato l' \"Assedio al covo di drago\" contro casata Barlon."
   ],
-  "song": null
+  "song": {
+    "titolo": "Woodkin - To Ashes and Blood",
+    "file": "./assets/audio/lucathiel-mood-song.mp3"
+  }
 }

@@ -9,5 +9,8 @@
   ],
   "immagine": "./assets/personaggi/Molten-Maximus.png",
   "imprese": [],
-  "song": null
+  "song": {
+    "titolo": "bits & hits - Rogue (lofi version (slowed + reverb))",
+    "file": "./assets/audio/molten-mood-song.mp3"
+  }
 }

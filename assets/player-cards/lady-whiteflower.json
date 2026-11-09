@@ -11,5 +11,8 @@
   "imprese": [
     "Si mormora, sebbene manchino prove concrete, che Lady Whiteflower sia stata coinvolta sia nell'ascesa degli Alaven nella Presa Blu di Alabaster , sia della misteriosa scomparsa delle casate vassalle Arboria e Beryl nel corso del tempo."
   ],
-  "song": null
+  "song": {
+    "titolo": "Daniel Pemberton - Spot Holes 2",
+    "file": "./assets/audio/lady-whiteflower-mood-song.mp3"
+  }
 }

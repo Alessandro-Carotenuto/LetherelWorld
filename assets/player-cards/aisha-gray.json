@@ -11,5 +11,8 @@
   "imprese": [
     "Guidato la fabbricazione delle armi e armature per 20 distretti della gilda in 9 differenti battaglie."
   ],
-  "song": null
+  "song": {
+    "titolo": "Arcane S1 OST - Revenge",
+    "file": "./assets/audio/aisha-mood-song.mp3"
+  }
 }
