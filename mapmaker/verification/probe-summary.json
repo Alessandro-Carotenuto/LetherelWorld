@@ -3,33 +3,62 @@
   "height": 1312,
   "bounds": {
     "igglopolt": {
-      "minX": 69,
-      "minY": 373,
-      "maxX": 1008,
-      "maxY": 597,
-      "count": 41650
+      "minX": 68,
+      "minY": 372,
+      "maxX": 479,
+      "maxY": 590,
+      "count": 44350
     },
     "likari": {
-      "minX": 27,
-      "minY": 331,
-      "maxX": 2197,
-      "maxY": 1188,
-      "count": 56393
+      "minX": 360,
+      "minY": 329,
+      "maxX": 715,
+      "maxY": 650,
+      "count": 52219
     },
     "whiteflower": {
-      "minX": 27,
-      "minY": 42,
-      "maxX": 2302,
-      "maxY": 1305,
-      "count": 155084
+      "minX": 910,
+      "minY": 156,
+      "maxX": 2029,
+      "maxY": 524,
+      "count": 116776
     }
   },
   "sharedBoundary": [
-    407,
-    514
+    425,
+    513
   ],
   "riverLandPixels": 3806,
   "sourceEdgePixels": 36254,
+  "brushRoughness": {
+    "changedPixels35vs0": 1308,
+    "changedPixels100vs35": 4010
+  },
+  "eraserRoughness": {
+    "changedPixels35vs0": 1308,
+    "changedPixels100vs35": 4010
+  },
+  "stateEditability": {
+    "initialColor": "#f6abaf",
+    "initialFill": [
+      246,
+      171,
+      175
+    ],
+    "editedColor": "#ff00ff",
+    "editedFill": [
+      255,
+      0,
+      255
+    ],
+    "deletedFillAlpha": 0,
+    "deletedRegionColor": [
+      238,
+      246,
+      251
+    ],
+    "ownershipRetainedAfterDelete": true
+  },
   "largestRiverCandidates": [
     {
       "size": 19,
@@ -109,11 +138,463 @@
       ]
     }
   ],
+  "untouchedPresetOutlineComponents": {
+    "count": 0,
+    "largest": []
+  },
+  "separatedOutlineComponents": {
+    "count": 2,
+    "largest": [
+      {
+        "size": 836,
+        "bounds": [
+          466,
+          458,
+          533,
+          566
+        ]
+      },
+      {
+        "size": 836,
+        "bounds": [
+          536,
+          468,
+          603,
+          576
+        ]
+      }
+    ]
+  },
+  "mergedOutlineComponents": {
+    "count": 10,
+    "largest": [
+      {
+        "size": 1671,
+        "bounds": [
+          360,
+          454,
+          603,
+          575
+        ]
+      },
+      {
+        "size": 15,
+        "bounds": [
+          544,
+          540,
+          549,
+          544
+        ]
+      },
+      {
+        "size": 3,
+        "bounds": [
+          452,
+          498,
+          454,
+          498
+        ]
+      },
+      {
+        "size": 2,
+        "bounds": [
+          472,
+          476,
+          473,
+          477
+        ]
+      },
+      {
+        "size": 2,
+        "bounds": [
+          474,
+          479,
+          474,
+          480
+        ]
+      },
+      {
+        "size": 2,
+        "bounds": [
+          371,
+          522,
+          371,
+          523
+        ]
+      },
+      {
+        "size": 1,
+        "bounds": [
+          465,
+          491,
+          465,
+          491
+        ]
+      },
+      {
+        "size": 1,
+        "bounds": [
+          393,
+          518,
+          393,
+          518
+        ]
+      },
+      {
+        "size": 1,
+        "bounds": [
+          380,
+          519,
+          380,
+          519
+        ]
+      },
+      {
+        "size": 1,
+        "bounds": [
+          382,
+          519,
+          382,
+          519
+        ]
+      }
+    ]
+  },
   "mergedGeometry": {
-    "activePixels": 54775,
-    "changedPixels": 13370,
-    "detectedInternalEdges": 742,
+    "activePixels": 19060,
+    "changedPixels": 14437,
+    "detectedInternalEdges": 651,
     "internalEdgesNotCleared": 0,
-    "generatedOutlinePixels": 4156
+    "sourceEdgesInsideActiveZone": 657,
+    "sourceEdgesStillVisibleInside": 0,
+    "generatedOutlinePixels": 1699,
+    "untouchedNorthBoundaryRedrawn": 0
+  },
+  "igglopoltEdgeExtensionOutlineComponents": {
+    "count": 9,
+    "largest": [
+      {
+        "size": 181,
+        "bounds": [
+          144,
+          390,
+          195,
+          419
+        ]
+      },
+      {
+        "size": 97,
+        "bounds": [
+          277,
+          419,
+          308,
+          427
+        ]
+      },
+      {
+        "size": 78,
+        "bounds": [
+          211,
+          425,
+          239,
+          431
+        ]
+      },
+      {
+        "size": 73,
+        "bounds": [
+          312,
+          416,
+          339,
+          422
+        ]
+      },
+      {
+        "size": 71,
+        "bounds": [
+          344,
+          415,
+          370,
+          421
+        ]
+      },
+      {
+        "size": 56,
+        "bounds": [
+          242,
+          426,
+          259,
+          433
+        ]
+      },
+      {
+        "size": 50,
+        "bounds": [
+          431,
+          411,
+          446,
+          418
+        ]
+      },
+      {
+        "size": 25,
+        "bounds": [
+          456,
+          420,
+          462,
+          427
+        ]
+      },
+      {
+        "size": 24,
+        "bounds": [
+          384,
+          414,
+          392,
+          419
+        ]
+      }
+    ]
+  },
+  "igglopoltEdgeExtension": {
+    "activePaintPixels": 13762,
+    "changedPixels": 325,
+    "generatedOutlinePixels": 655,
+    "paintedNorthEdgesCleared": 713,
+    "untouchedSouthBoundaryRedrawn": 0
+  },
+  "igglopoltWideExtensionOutlineComponents": {
+    "count": 2,
+    "largest": [
+      {
+        "size": 1184,
+        "bounds": [
+          144,
+          378,
+          483,
+          437
+        ]
+      },
+      {
+        "size": 4,
+        "bounds": [
+          141,
+          380,
+          143,
+          381
+        ]
+      }
+    ]
+  },
+  "igglopoltWideExtension": {
+    "oldBorderInsidePaint": 754,
+    "oldBorderNotCleared": 0,
+    "newBorderInsidePaint": 0
+  },
+  "riverOutlineComponents": {
+    "count": 7,
+    "largest": [
+      {
+        "size": 647,
+        "bounds": [
+          454,
+          447,
+          550,
+          511
+        ]
+      },
+      {
+        "size": 142,
+        "bounds": [
+          316,
+          414,
+          370,
+          419
+        ]
+      },
+      {
+        "size": 15,
+        "bounds": [
+          386,
+          417,
+          391,
+          420
+        ]
+      },
+      {
+        "size": 4,
+        "bounds": [
+          476,
+          452,
+          479,
+          453
+        ]
+      },
+      {
+        "size": 2,
+        "bounds": [
+          472,
+          476,
+          473,
+          477
+        ]
+      },
+      {
+        "size": 2,
+        "bounds": [
+          474,
+          479,
+          474,
+          480
+        ]
+      },
+      {
+        "size": 1,
+        "bounds": [
+          465,
+          491,
+          465,
+          491
+        ]
+      }
+    ]
+  },
+  "riverGeometry": {
+    "riverPixelsInsidePaintedZone": 8,
+    "generatedOutlinePixelsOnRivers": 0
+  },
+  "igglopoltEdgeStroke": {
+    "sameColorPaintedPixels": 7657,
+    "adjacentOriginalEdgeSamples": 566,
+    "changedPixels": 0,
+    "generatedOutlinePixels": 0,
+    "clearedOriginalEdgePixels": 0
+  },
+  "sameColorIgglopoltEdgeOutlineComponents": {
+    "count": 0,
+    "largest": []
+  },
+  "sameColorRiverOutlineComponents": {
+    "count": 0,
+    "largest": []
+  },
+  "sameColorCase": {
+    "paintedPixels": 4819,
+    "paintedDifferentOwner": 0,
+    "otherOwners": {},
+    "changedPixels": 0,
+    "changedByEdgeHeuristic": 0,
+    "changedSamples": [],
+    "generatedOutlinePixels": 0,
+    "clearedOriginalEdges": 0
+  },
+  "erasePreset": {
+    "clearedPresetPixels": 3791,
+    "repaintedPresetPixels": 0,
+    "generatedOutlinePixels": 507,
+    "generatedOutlineOnNearlyOpaqueState": 0,
+    "originalEdgesStillVisible": 0
+  },
+  "erasePresetOutlineComponents": {
+    "count": 1,
+    "largest": [
+      {
+        "size": 512,
+        "bounds": [
+          215,
+          430,
+          284,
+          499
+        ]
+      }
+    ]
+  },
+  "eraseAntialias": {
+    "clearedPresetPixels": 3791,
+    "repaintedPresetPixels": 0,
+    "generatedOutlinePixels": 508,
+    "generatedOutlineOnNearlyOpaqueState": 0,
+    "originalEdgesStillVisible": 0
+  },
+  "eraseAntialiasOutlineComponents": {
+    "count": 1,
+    "largest": [
+      {
+        "size": 512,
+        "bounds": [
+          215,
+          430,
+          284,
+          499
+        ]
+      }
+    ]
+  },
+  "eraseBlankNearState": {
+    "clearedPresetPixels": 0,
+    "repaintedPresetPixels": 0,
+    "generatedOutlinePixels": 0,
+    "generatedOutlineOnNearlyOpaqueState": 0,
+    "originalEdgesStillVisible": 0
+  },
+  "eraseBlankNearStateOutlineComponents": {
+    "count": 0,
+    "largest": []
+  },
+  "eraseAcrossBoundary": {
+    "clearedPresetPixels": 452,
+    "repaintedPresetPixels": 0,
+    "generatedOutlinePixels": 165,
+    "generatedOutlineOnNearlyOpaqueState": 0,
+    "originalEdgesStillVisible": 0
+  },
+  "eraseAcrossBoundaryOutlineComponents": {
+    "count": 1,
+    "largest": [
+      {
+        "size": 167,
+        "bounds": [
+          225,
+          422,
+          277,
+          442
+        ]
+      }
+    ]
+  },
+  "eraseSharedBoundary": {
+    "clearedPresetPixels": 1236,
+    "repaintedPresetPixels": 0,
+    "generatedOutlinePixels": 464,
+    "generatedOutlineOnNearlyOpaqueState": 0,
+    "originalEdgesStillVisible": 0
+  },
+  "eraseSharedBoundaryOutlineComponents": {
+    "count": 1,
+    "largest": [
+      {
+        "size": 468,
+        "bounds": [
+          394,
+          483,
+          454,
+          542
+        ]
+      }
+    ]
+  },
+  "repaintErased": {
+    "clearedPresetPixels": 0,
+    "repaintedPresetPixels": 1804,
+    "generatedOutlinePixels": 0,
+    "generatedOutlineOnNearlyOpaqueState": 0,
+    "originalEdgesStillVisible": 0
+  },
+  "repaintErasedOutlineComponents": {
+    "count": 0,
+    "largest": []
+  },
+  "deletedStateBorders": {
+    "deletedNorthEdgesStillVisible": 0
   }
 }

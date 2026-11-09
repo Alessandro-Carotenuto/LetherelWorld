@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#151b1d">
   <title>Mapmaker · Letherel</title>
-  <link rel="stylesheet" href="./mapmaker.css">
+  <link rel="stylesheet" href="./mapmaker.css?v=20261110-gothic-labels">
   <script src="./assets/territori-base-data.js" defer></script>
-  <script src="./mapmaker.js" defer></script>
+  <script src="./assets/territori-neutral-data.js" defer></script>
+  <script src="./mapmaker.js?v=20261110-gothic-labels" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -24,16 +25,14 @@
         <div class="tool-switch" role="group" aria-label="Strumento di disegno"><button class="tool-button active" data-tool="brush" type="button"><span>✎</span>Dipingi</button><button class="tool-button" data-tool="label" type="button"><span>⌖</span>Etichetta</button><button class="tool-button" data-tool="erase" type="button"><span>◌</span>Gomma</button></div>
         <label class="slider-label" for="brush-size"><span>Dimensione pennello</span><strong id="brush-value">36 px</strong></label>
         <input id="brush-size" type="range" min="8" max="130" value="36">
-        <label class="slider-label roughness-label" for="brush-opacity"><span>Opacità pennello</span><strong id="opacity-value">100%</strong></label>
-        <input id="brush-opacity" type="range" min="10" max="100" value="100">
         <label class="slider-label roughness-label" for="roughness"><span>Frastagliazione</span><strong id="roughness-value">35%</strong></label>
         <input id="roughness" type="range" min="0" max="100" value="35">
-        <p class="tool-hint" id="tool-hint">Trascina sulla mappa per dipingere lo Stato selezionato.</p>
+        <p class="tool-hint" id="tool-hint">Pennello e gomma usano la frastagliazione impostata nelle nuove pennellate.</p>
         <div class="tool-footer"><button id="undo" class="button subtle full" type="button">↶ Annulla ultima pennellata</button><button id="clear-state" class="text-button" type="button">Cancella pennellate dello Stato</button></div>
       </section>
       <section class="map-section">
         <div class="section-heading compact"><div><span class="eyebrow">03 / Supporto</span><h2>Mappa di base</h2></div></div>
-        <p class="small-copy">Carica l’immagine vuota della mappa. Rimane sotto i colori e le etichette.</p>
+        <p class="small-copy">Il preset separa la mappa dai riempimenti: puoi cambiare o eliminare gli Stati senza lasciare colori incorporati nell’immagine.</p>
         <label class="button subtle full upload-button" for="map-upload">＋ Carica immagine</label><input id="map-upload" type="file" accept="image/*" hidden>
         <div class="map-actions"><button id="reset-project" class="text-button danger" type="button">Ripristina preset Letherel</button><button id="remove-map" class="text-button" type="button">Rimuovi immagine</button></div>
       </section>
@@ -41,8 +40,8 @@
     </aside>
     <section class="canvas-panel" aria-label="Area di lavoro della mappa">
       <div class="canvas-toolbar"><div class="canvas-title"><span class="live-dot"></span><span id="canvas-label">Nessuna mappa caricata</span></div><div class="canvas-instructions">Trascina per dipingere <i>·</i> <kbd>Ctrl</kbd> + <kbd>Z</kbd> per annullare</div></div>
-      <div id="map-stage" class="map-stage"><div id="map-placeholder" class="map-placeholder"><div class="placeholder-mark">⌖</div><h2>La tua mappa, pronta da colorare</h2><p>Carica l’immagine vuota di Letherel per iniziare.<br>Puoi esportare la mappa finita come PNG.</p><label for="map-upload" class="button primary">Carica la mappa</label></div><img id="map-image" alt="Mappa di base" hidden><canvas id="paint-layer" aria-label="Mappa interattiva"></canvas><div id="labels-layer" class="labels-layer"></div></div>
-      <footer class="canvas-footer"><span id="map-dimensions">In attesa di una mappa</span><span><b id="state-total">0</b> Stati <i>·</i> <b id="stroke-total">0</b> pennellate</span></footer>
+      <div id="map-stage" class="map-stage"><div id="map-placeholder" class="map-placeholder"><div class="placeholder-mark">⌖</div><h2>La tua mappa, pronta da colorare</h2><p>Carica l’immagine vuota di Letherel per iniziare.<br>Puoi esportare la mappa finita come PNG.</p><label for="map-upload" class="button primary">Carica la mappa</label></div><img id="map-image" alt="Mappa di base" hidden><canvas id="paint-layer" aria-label="Mappa interattiva"></canvas><svg id="labels-layer" class="labels-layer" aria-hidden="true"></svg></div>
+      <footer class="canvas-footer"><span><span id="map-dimensions">In attesa di una mappa</span><i>·</i>Build 2026.11.09.8</span><span><b id="state-total">0</b> Stati <i>·</i> <b id="stroke-total">0</b> pennellate</span></footer>
     </section>
   </main>
   <dialog id="state-dialog"><form method="dialog" id="state-form"><div class="dialog-eyebrow">Nuova entità politica</div><h2>Crea uno Stato</h2><label class="field-label" for="state-name">Nome dello Stato</label><input id="state-name" class="text-input" maxlength="50" placeholder="Es. Regno di Alaven" required><label class="field-label color-field" for="state-color">Colore del pennello<input id="state-color" type="color" value="#a0c9ee"></label><div class="dialog-actions"><button class="button subtle" value="cancel">Annulla</button><button id="create-state" class="button primary" value="create">Crea Stato</button></div></form></dialog>
