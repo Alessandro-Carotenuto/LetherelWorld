@@ -9,14 +9,13 @@
     },
     {
       "marker": "link",
-      "text": "Settimana dei festeggiamenti per l'anno nuovo",
-      "current": false
+      "text": "Settimana dei festeggiamenti per l'anno nuovo"
     },
     {
       "marker": "diamond",
       "text": "Lunedì 08 della Prima Luna, 271 dr",
       "current": true,
-      "description": "Partenza per la missione *** del distretto Rovere"
+      "description": ""
     }
   ]
 }

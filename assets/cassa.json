@@ -14,6 +14,7 @@
         "damageType": "taglienti",
         "range": "1,5 m",
         "mastery": "",
+        "cost": "15",
         "category": "Arma marziale",
         "rarity": "",
         "weight": "1,5 kg",
@@ -33,7 +34,8 @@
         "damage": "1d6",
         "damageType": "perforanti",
         "range": "24/96 m",
-        "mastery": "Vex",
+        "mastery": "",
+        "cost": "25",
         "category": "Arma semplice a distanza",
         "rarity": "",
         "weight": "0,9 kg",
@@ -54,6 +56,7 @@
         "damageType": "",
         "range": "",
         "mastery": "",
+        "cost": "50",
         "category": "Pozione",
         "rarity": "Comune",
         "weight": "0,23 kg",
@@ -62,6 +65,81 @@
         "cardFacts": [
           { "label": "CURA", "value": "2d4 + 2 PF" },
           { "label": "USO", "value": "Azione bonus" }
+        ]
+      }
+    },
+    {
+      "id": "cassa-palline-acciaio-buckz",
+      "presetId": "67ab4f8c-0e2d-4fad-9288-6e029e3fbf41",
+      "owner": "BuckZ",
+      "color": "#a0d2ff",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "8",
+        "name": "Palline d'acciaio",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "1",
+        "category": "Equipaggiamento",
+        "rarity": "",
+        "weight": "0,9 kg",
+        "description": "Sacco da 1.000 palline. Con un'azione le spargi su una superficie piana di 3 m per lato. Chi vi si muove sopra deve superare un TS Des CD 10 o cade prono; chi procede a velocità dimezzata evita il tiro.",
+        "properties": "",
+        "cardFacts": [
+          { "label": "AREA", "value": "3 m per lato" },
+          { "label": "PROVA", "value": "TS Des CD 10" }
+        ]
+      }
+    },
+    {
+      "id": "cassa-attrezzi-inventore-lena",
+      "presetId": "28d64cc2-75bc-497a-b53c-334c3c994b35",
+      "owner": "Lena",
+      "color": "#a0d2ff",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "8",
+        "name": "Attrezzi da inventore",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "50",
+        "category": "Strumenti da artigiano",
+        "rarity": "",
+        "weight": "4,5 kg",
+        "description": "Set di strumenti per riparazioni e piccoli lavori d'invenzione.",
+        "properties": "Con competenza, si aggiunge il bonus alle prove pertinenti di costruzione e riparazione.",
+        "cardFacts": [
+          { "label": "COSTO", "value": "50 mo" },
+          { "label": "USO", "value": "Riparazioni" }
+        ]
+      }
+    },
+    {
+      "id": "cassa-attrezzi-scasso-janos",
+      "presetId": "d158493e-2a26-4338-9148-9f7e02a688a5",
+      "owner": "Janos",
+      "color": "#a0d2ff",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "8",
+        "name": "Attrezzi da scasso",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "25",
+        "category": "Strumenti da ladro",
+        "rarity": "",
+        "weight": "0,45 kg",
+        "description": "Grimaldelli e piccoli attrezzi per serrature e trappole.",
+        "properties": "Con competenza, si aggiunge il bonus alle prove per aprire serrature o disinnescare trappole.",
+        "cardFacts": [
+          { "label": "COSTO", "value": "25 mo" },
+          { "label": "USO", "value": "Serrature e trappole" }
         ]
       }
     }
