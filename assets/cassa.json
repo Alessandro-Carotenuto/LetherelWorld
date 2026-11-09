@@ -5,7 +5,7 @@
       "id": "cassa-spada-lunga-reginald",
       "presetId": "4dd89d71-8bac-441a-a416-819fe323d660",
       "owner": "Reginald",
-      "color": "#a3d0ff",
+      "color": "#a0d2ff",
       "data": {
         "type": "equipaggiamento",
         "textSize": "8",
@@ -19,6 +19,50 @@
         "weight": "1,5 kg",
         "description": "Arma marziale da mischia.",
         "properties": "**Versatile (1d10).** Può essere impugnata a una o due mani."
+      }
+    },
+    {
+      "id": "cassa-arco-corto-sven",
+      "presetId": "d678f71c-3422-4cb7-a831-016991011126",
+      "owner": "Sven",
+      "color": "#a0d2ff",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "8",
+        "name": "Arco corto",
+        "damage": "1d6",
+        "damageType": "perforanti",
+        "range": "24/96 m",
+        "mastery": "Vex",
+        "category": "Arma semplice a distanza",
+        "rarity": "",
+        "weight": "0,9 kg",
+        "description": "Arma a distanza semplice.",
+        "properties": "**Munizioni (frecce), due mani.**"
+      }
+    },
+    {
+      "id": "cassa-pozione-cura-caust",
+      "presetId": "a024c909-4c37-4305-8ee3-b0d51b0ce67d",
+      "owner": "Caust",
+      "color": "#a92e35",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "8",
+        "name": "Pozione di cura",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "category": "Pozione",
+        "rarity": "Comune",
+        "weight": "0,23 kg",
+        "description": "Come azione bonus, puoi berla o somministrarla a una creatura entro 1,5 m. La creatura recupera 2d4 + 2 PF.",
+        "properties": "",
+        "cardFacts": [
+          { "label": "CURA", "value": "2d4 + 2 PF" },
+          { "label": "USO", "value": "Azione bonus" }
+        ]
       }
     }
   ]

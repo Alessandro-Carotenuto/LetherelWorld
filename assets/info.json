@@ -20,14 +20,17 @@
       ]
     },
     {
-      "subtitle": "Regole per Pozioni di Cura",
-      "paragraph": "",
+      "subtitle": "Pozioni di Cura · Regola 2024",
+      "paragraph": "Per le pozioni di cura adottiamo la regola di D&D 5e 2024; per il resto restano valide le regole 2014.",
       "list": [
         {
-          "text": "Puoi bere una pozione di cura come azione bonus: tira i dadi e recuperi metà degli HP ottenuti."
+          "text": "Come azione bonus puoi berla o somministrarla a una creatura entro 1,5 m, anche se è morente (a 0 PF e priva di sensi)."
         },
         {
-          "text": "Puoi anche dedicarle un round completo, consumando azione e movimento: in quel caso recuperi il massimo degli HP che la pozione può curare, senza tirare."
+          "text": "Con l’azione bonus tiri la cura: la pozione base ripristina 2d4 + 2 PF."
+        },
+        {
+          "text": "Regola casalinga: se invece spendi azione e movimento per berla o somministrarla, recuperi il massimo. La pozione base ripristina 10 PF."
         }
       ]
     },
