@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "district": "Distretto Rovere",
+  "title": "Avventure",
+  "adventures": [
+    {
+      "id": "nyx",
+      "title": "Nyx",
+      "subtitle": "Proto-Avventura",
+      "artwork": {
+        "src": "./assets/avventure/nyx.png",
+        "alt": "La città di Nyx dominata da una cattedrale, tra le mani di una figura misteriosa."
+      },
+      "participants": [
+        { "group": "PC", "name": "Isaac" },
+        { "group": "PC", "name": "Matano Sulteo" },
+        { "group": "PC", "name": "Mr. Thumnus", "inactive": true },
+        { "group": "PC", "name": "Ondras Sayani" },
+        { "group": "NPC", "name": "Jack Harrow" },
+        { "group": "NPC", "name": "*****", "inactive": true },
+        { "group": "NPC", "name": "*****" }
+      ],
+      "contractor": "???",
+      "reward": "???",
+      "sessions": "5",
+      "notes": "???",
+      "players": [
+        "Simone Boccia",
+        "Vincenzo De Luca",
+        "Matteo D'Errigo",
+        "Flavio Pitti"
+      ]
+    }
+  ]
+}

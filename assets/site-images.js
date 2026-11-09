@@ -15,7 +15,22 @@
     alleanzeNord: {src:"./assets/regno/alleanze-nord.png",alt:"Una fortezza tra le montagne innevate rappresenta le alleanze del nord.",align:"right"},
     disfattaSolbruciato: {src:"./assets/regno/disfatta-solbruciato.png",alt:"Un esercito affronta i draghi tra ghiaccio e fuoco durante la disfatta di Solbruciato.",align:"left"},
     solbruciatoSuccessiva: {src:"./assets/regno/solbruciato-ricostruzione.png",alt:"Artigiani lavorano alla forgia dopo la disfatta di Solbruciato.",align:"right"},
-    consiglioGuerra: {src:"./assets/regno/consiglio-guerra.png?v=20261031-stemmi-casate",alt:"Le casate si riuniscono in un grande consiglio prima della guerra di liberazione.",align:"left"}
+    consiglioGuerra: {src:"./assets/regno/consiglio-guerra.png?v=20261031-stemmi-casate",alt:"Le casate si riuniscono in un grande consiglio prima della guerra di liberazione.",align:"left"},
+    logoRilva: {src:"./assets/salvati/Rilva.png",alt:"Stemma della Casata Rilva.",align:"right"},
+    regnoNuoveStelle: {src:"./assets/regno/regno-01-nuove-stelle.png",alt:"Il cielo stellato sopra il tempio delle Nuove Stelle.",align:"left"},
+    regnoInfluenzaTusk: {src:"./assets/regno/regno-02-influenza-tusk.png",alt:"Le forze Tusk avanzano nella notte verso la fortezza in fiamme.",align:"right"},
+    regnoDeposizione: {src:"./assets/regno/regno-03-deposizione-pacifica.png",alt:"La deposizione pacifica dei Rilva nel tempio.",align:"left"},
+    logoTusk: {src:"./assets/salvati/Tusk.png",alt:"Stemma della Casata Tusk.",align:"right"},
+    regnoScismaLune: {src:"./assets/regno/regno-04-scisma-lune.png",alt:"Due lune si incontrano sopra le montagne e il lago.",align:"left"},
+    regnoNozze: {src:"./assets/regno/regno-05-nozze-regno.png",alt:"Le nozze dinastiche di Karina Tusk e Merien Jart.",align:"left"},
+    logoJart: {src:"./assets/salvati/Jart.png",alt:"Stemma della Casata Jart.",align:"left"},
+    regnoRibellioneTusk: {src:"./assets/regno/regno-06-ribellione-tusk.png",alt:"Le truppe Tusk avanzano verso una fortezza in fiamme.",align:"right"},
+    regnoValleAmetista: {src:"./assets/regno/regno-07-valle-ametista.png",alt:"La battaglia nella Valle Ametista.",align:"left"},
+    regnoBassopiano: {src:"./assets/regno/regno-08-bassopiano.png",alt:"La distruzione del Ponte Eterno durante la Ribellione del Bassopiano.",align:"left"},
+    regnoResaGalvant: {src:"./assets/regno/regno-09-resa-galvant.png",alt:"La resa dei Galvànt davanti al sovrano.",align:"right"},
+    regnoPresaVerde: {src:"./assets/regno/regno-10-presa-verde.png",alt:"L’esercito Vendril si avvicina al castello di Alabaster sotto la luna.",align:"left"},
+    logoVendril: {src:"./assets/salvati/Vendril.png",alt:"Stemma della Casata Vendril.",align:"right"},
+    logoAlaven: {src:"./assets/salvati/Alaven.png",alt:"Stemma della Casata Alaven.",align:"left"},    regnoFondazione: {src:"./assets/regno/regno-fondazione-confraternita.png",alt:"Un gruppo eterogeneo di mercenari si raduna tra rovine attorno a un portale, sotto il grande stendardo della Confraternita.",align:"full"},
   };
   const savedCrests={Whiteflower:"Whiteflower.png",Alaven:"Alaven.png",Sewerly:"Sewerly.png",Barlon:"Barlon.png",Allomance:"Allomance.png",Tusk:"Tusk.png",Tikle:"Tikle.png","Revachòl":"Revachol.png",Likari:"Likari.png",Igglopolt:"Igglopolt.png",Gray:"Gray.png",Mankos:"Mankos.png",Falkner:"Falkner.png",Brightforge:"Brightforge.png","Galvànt":"Galvànt.png",Dalinar:"Dalinar.png",Obsidian:"Obsidian.png",Lavender:"Lavender.png",Pages:"Pages.png",Jart:"Jart.png",Rilva:"Rilva.png",Vendril:"Vendril.png"};
   window.siteImages.casate=window.casateContent.map(house=>savedCrests[house.name]?`./assets/salvati/${savedCrests[house.name]}`:placeholder);

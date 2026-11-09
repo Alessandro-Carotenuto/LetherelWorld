@@ -32,6 +32,10 @@ Il renderer legge direttamente questi gruppi: `companions.fixed` e `companions.a
 
 La card viene generata da `createMissionCard` e inserita da `insertMissionCard` in `assets/bacheca.js`. Il conteggio nella navigazione si aggiorna dal JSON. Il sito resta statico: GitHub Pages serve direttamente questi file senza un server applicativo.
 
+## Mapmaker
+
+Apri `mapmaker/index.html` per usare il preset cartografico di Letherel, con i confini colorati e le etichette delle 20 casate e della Confraternita. Il tool è autonomo rispetto alla dashboard in `local-admin`; dettagli in `mapmaker/README.md`.
+
 ## Modificare i personaggi
 
 Ogni scheda è un JSON in `assets/player-cards/`. Per mostrarla nel Rovere, aggiungi il file anche a `assets/player-cards/index.json` e il nome esatto al rango corrispondente in `assets/player-cards/roster.json`.

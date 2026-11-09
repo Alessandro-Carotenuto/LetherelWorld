@@ -94,7 +94,8 @@ html,body{background-color:var(--bg)}body{background-image:repeating-linear-grad
 .district-chip img{display:block;width:68.75%;height:auto;aspect-ratio:1;margin-inline:auto;object-fit:cover;border:0;border-bottom:1px solid rgba(201,173,120,.35)}
 .district-chip span{display:block;padding:12px 8px 14px;line-height:1.3;text-align:center}
 .houses-intro .page-lede{max-width:none}
-.adventure-entry{display:grid;grid-template-columns:minmax(280px,.92fr) minmax(0,1fr);gap:30px;align-items:start;padding:0 0 30px}
+.adventure-entry{display:grid;grid-template-columns:minmax(280px,.92fr) minmax(0,1fr);gap:30px;align-items:start;padding:0 0 6px}
+.adventure-entry>.adventure-art{margin:0}
 .adventure-art.image-placeholder{width:100%;height:auto;min-height:340px;aspect-ratio:1.08;margin:0;border:1px solid rgba(201,173,120,.35)}
 .adventure-details{padding:10px 0 0;color:#d6d0c4;font:14px/1.65 var(--sans)}
 .adventure-details h2{display:flex;align-items:baseline;gap:10px;margin:0 0 28px;padding-bottom:6px;border-bottom:1px solid rgba(201,173,120,.6);color:#c5ae82;font:32px/1.2 var(--serif);font-weight:600}
@@ -254,3 +255,12 @@ html,body{background-color:var(--bg)}body{background-image:repeating-linear-grad
 .main-nav .nav-label-spaced{margin-top:10px}
 @media(max-width:760px){.cassa-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.cassa-card-grid{grid-template-columns:minmax(0,1fr)}}
+
+.world-copy .world-image-placeholder.lore-inline-image-right{width:min(38%,380px);min-height:180px;aspect-ratio:2.35;margin:0 0 18px 24px;float:right}
+@media(max-width:760px){.world-copy .world-image-placeholder.lore-inline-image-right{width:min(40%,220px);margin:0 0 12px 14px}}
+
+.world-copy h3{clear:both;margin:42px 0 14px;padding-bottom:12px;border-bottom:1px solid rgba(201,173,120,.4);color:#e5d3aa;text-align:center;font:clamp(25px,3.1vw,36px)/1.15 var(--serif);font-weight:400}
+
+.confraternity-foundation-art{display:block;width:100%;height:auto;margin:20px 0 28px;border:1px solid rgba(201,173,120,.35);box-shadow:0 8px 24px rgba(0,0,0,.24)}
+.confraternity-current-crest{float:right;width:min(34%,330px);height:auto;margin:0 0 14px 24px;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(0,0,0,.24))}
+@media(max-width:760px){.confraternity-current-crest{width:min(44%,200px);margin-left:14px}}
