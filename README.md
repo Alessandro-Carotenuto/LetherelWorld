@@ -1,6 +1,6 @@
 # LetherelWorld
 
-Sito statico per l’archivio della campagna D&D ambientata nel Regno di Letherel.
+Sito statico per l’archivio della campagna D&D ambientata nel Regno di Letherel. 
 
 ## Pagine
 
