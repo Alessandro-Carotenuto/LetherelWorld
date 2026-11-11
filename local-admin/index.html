@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#141313">
+  <title>Gestione locale · Letherel</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./admin.css">
+  <script src="./repository.js" defer></script>
+  <script src="./players.js" defer></script>
+  <script src="./board.js" defer></script>
+  <script src="./adventures.js" defer></script>
+  <script src="./calendar.js" defer></script>
+  <script src="./info.js" defer></script>
+  <script src="./cards.js" defer></script>
+  <script src="./cassa.js" defer></script>
+  <script src="./admin.js" defer></script>
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <a class="admin-brand" href="#dashboard"><span class="admin-seal">L</span><span><strong>Letherel</strong><small>Gestione locale</small></span></a>
+      <div class="admin-sidebar-rule"><span>Solo su questo computer</span><i></i></div>
+      <nav class="admin-nav" aria-label="Gestione archivio">
+        <button type="button" data-view="dashboard" class="active"><span>⌂</span>Dashboard</button>
+        <button type="button" data-view="players"><span>♧</span>Personaggi</button>
+        <button type="button" data-view="board"><span>▤</span>Bacheca</button>
+        <button type="button" data-view="adventures"><span>◈</span>Avventure</button>
+        <button type="button" data-view="calendar"><span>◇</span>Calendario</button>
+        <button type="button" data-view="cards"><span>▧</span>Carte</button>
+        <button type="button" data-view="cassa"><span>▣</span>Cassa</button>
+        <button type="button" data-view="info"><span>✦</span>Info</button>
+      </nav>
+      <p class="admin-private-note">La pagina non invia dati online. Le modifiche vengono scritte nella cartella del progetto che selezioni.</p>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div><span class="admin-eyebrow">Archivio della Confraternita</span><h1 id="view-title">Dashboard</h1></div>
+        <div class="admin-connection">
+          <span id="connection-label" class="connection-label">Cartella non collegata</span>
+          <button id="connect-button" class="admin-button" type="button">Collega cartella</button>
+        </div>
+      </header>
+
+      <div id="global-message" class="admin-global-message" role="status" aria-live="polite"></div>
+
+      <section class="admin-view" id="dashboard-view" data-panel="dashboard">
+        <div class="admin-hero">
+          <div><div class="eyebrow">Strumenti del coordinatore</div><h2>Gestisci l’archivio</h2><p>Collega la cartella del progetto per aggiornare personaggi, missioni, avventure, calendario e pagine informative. Le modifiche restano locali finché non decidi di pubblicarle.</p></div>
+          <div class="admin-hero-mark" aria-hidden="true">✦</div>
+        </div>
+        <div class="admin-dashboard-grid">
+          <button type="button" class="admin-dashboard-card" data-view="players"><span class="dashboard-icon">♧</span><strong>Personaggi</strong><small>Aggiungi, modifica o rimuovi schede. Il tool aggiorna i JSON, il manifest e il roster del Rovere.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
+          <button type="button" class="admin-dashboard-card" data-view="board"><span class="dashboard-icon">▤</span><strong>Bacheca</strong><small>Aggiungi, modifica o rimuovi missioni. Le card vengono costruite dai dati gerarchici del JSON.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
+          <button type="button" class="admin-dashboard-card" data-view="adventures"><span class="dashboard-icon">◈</span><strong>Avventure</strong><small>Aggiungi e modifica avventure, partecipanti, ricompense e immagini. I contenuti vengono salvati nel JSON del sito.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
+          <button type="button" class="admin-dashboard-card" data-view="calendar"><span class="dashboard-icon">◇</span><strong>Calendario</strong><small>Modifica date, periodi, descrizioni e il momento attuale della cronologia.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
+          <button type="button" class="admin-dashboard-card" data-view="cards"><span class="dashboard-icon">▧</span><strong>Carte stampabili</strong><small>Crea carte per equipaggiamento, creature e incantesimi; salva i modelli in preset JSON e stampali.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
+          <button type="button" class="admin-dashboard-card" data-view="cassa"><span class="dashboard-icon">▣</span><strong>Cassa Distretto</strong><small>Importa equipaggiamento dai preset, assegna un proprietario e aggiorna gli oggetti pubblicati.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
+          <button type="button" class="admin-dashboard-card" data-view="info"><span class="dashboard-icon">✦</span><strong>Info</strong><small>Modifica il titolo, i sottotitoli, i paragrafi e gli elenchi della pagina Info.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
+        </div>
+        <div class="admin-tip"><strong>Prima volta?</strong><span>Premi <em>Collega cartella</em> e seleziona la cartella principale <code>LetherelWorld</code>, quella che contiene <code>index.html</code>.</span></div>
+      </section>
+
+      <section class="admin-view" id="players-view" data-panel="players" hidden>
+        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Personaggi</h2><p>Aggiungi una scheda con il form o rimuovila dall’archivio. Il rango stabilisce la sezione in cui appare.</p></div>
+        <div class="admin-columns">
+          <form id="player-form" class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span id="player-form-kicker" class="admin-kicker">Nuova scheda</span><h3 id="player-form-title">Aggiungi personaggio</h3></div><span class="panel-mark">01</span></div>
+            <div class="admin-form-grid">
+              <label>Nome<input name="nome" required maxlength="100" autocomplete="off" placeholder="Nome Cognome"></label>
+              <label>Rango nel Rovere<select name="rango"><option value="1">Rango 1</option><option value="2">Rango 2</option><option value="3">Coordinatore · Rango 3</option></select></label>
+              <label>Classe<input name="classe" required placeholder="Es. Guerriero"></label>
+              <label>Razza<input name="razza" required placeholder="Es. Umano"></label>
+              <label class="form-span">Background<input name="background" placeholder="Background del personaggio"></label>
+              <label class="form-span">Descrizione <small>Una riga per paragrafo</small><textarea name="descrizione" rows="4" placeholder="Descrizione del personaggio"></textarea></label>
+              <label class="form-span">Immagine <small>Percorso relativo, per esempio ./assets/personaggi/nome.png</small><input name="immagine" placeholder="./assets/personaggi/"></label>
+              <label class="form-span">Imprese <small>Una per riga</small><textarea name="imprese" rows="3" placeholder="Prima impresa&#10;Seconda impresa"></textarea></label>
+              <fieldset class="form-span admin-fieldset"><legend>Mood Song <small>Lascia vuoto se non presente</small></legend><div class="admin-form-grid compact-grid"><label>Titolo<input name="song-titolo" placeholder="Titolo del brano"></label><label>File<input name="song-file" placeholder="./assets/audio/brano.mp3"></label></div></fieldset>
+              <label class="alive-toggle form-span"><input type="checkbox" name="ALive" checked><span><strong>Personaggio vivo</strong><small>Se disattivato, la scheda appare in bianco e nero con alone rosso.</small></span></label>
+            </div>
+            <div class="admin-form-footer"><p id="player-message" class="admin-message" role="status" aria-live="polite"></p><div class="form-actions"><button id="player-cancel" class="admin-button secondary" type="button" hidden>Annulla</button><button id="player-submit" class="admin-button" type="submit">Crea scheda</button></div></div>
+          </form>
+
+          <section class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span class="admin-kicker">Roster attuale</span><h3>Personaggi registrati</h3></div><span id="player-count" class="admin-count">—</span></div>
+            <p class="admin-help">Usa le frecce per riordinare i personaggi dentro il rispettivo rango. Rimuoverne uno elimina il suo JSON e lo toglie dal manifest e dal roster; immagini e audio restano nella cartella.</p>
+            <div id="player-list" class="admin-record-list" aria-live="polite"><p class="empty-state">Collega prima la cartella del progetto.</p></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="admin-view" id="board-view" data-panel="board" hidden>
+        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Bacheca</h2><p>Le missioni seguono la struttura di <code>assets/bacheca.json</code>. L’ordine dell’elenco determina l’ordine delle card sul sito.</p></div>
+        <div class="admin-columns board-columns">
+          <form id="mission-form" class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span id="mission-form-kicker" class="admin-kicker">Nuovo incarico</span><h3 id="mission-form-title">Aggiungi missione</h3></div><span class="panel-mark">02</span></div>
+            <div class="admin-form-grid">
+              <label>Titolo<input name="title" required maxlength="120"></label>
+              <label>Luogo<input name="location" placeholder="Foresta / bosco"></label>
+              <label class="form-span">Contraente<input name="client"></label>
+              <label class="form-span">Descrizione<textarea name="description" rows="5" required></textarea></label>
+              <label class="form-span">Immagine <small>Percorso relativo, opzionale</small><input name="image" placeholder="./assets/missioni/missione.png"></label>
+              <label class="form-span">Testo alternativo immagine<input name="image-alt"></label>
+              <label>Compagni fissi <small>Uno per riga</small><textarea name="companions-fixed" rows="3"></textarea></label>
+              <label>Alternative <small>Una per riga</small><textarea name="companions-alternatives" rows="3"></textarea></label>
+              <fieldset class="form-span admin-fieldset"><legend>Profilo <small>Valori da 0 a 3</small></legend><div class="admin-form-grid profile-grid"><label>Roleplay<input name="profile-roleplay" type="number" min="0" max="3" value="1"></label><label>Combattimento<input name="profile-combat" type="number" min="0" max="3" value="1"></label><label>Indagine<input name="profile-investigation" type="number" min="0" max="3" value="1"></label></div></fieldset>
+              <label>Ricompensa<input name="reward-amount" required placeholder="675 mo"></label>
+              <label>Distribuzione<input name="reward-distribution" value="A testa"></label>
+              <label class="form-span">Nota ricompensa<input name="reward-note" value="bottino a parte"></label>
+              <label>Numero sessioni<input name="duration-count" type="number" min="1" step="1" placeholder="3"></label>
+              <label>Unità durata<input name="duration-unit" value="sessioni"></label>
+              <label class="alive-toggle form-span"><input type="checkbox" name="duration-approximate" checked><span><strong>Durata approssimativa</strong><small>Mostra il simbolo ≈ prima del numero.</small></span></label>
+            </div>
+            <div class="admin-form-footer"><p id="mission-message" class="admin-message" role="status" aria-live="polite"></p><div class="form-actions"><button id="mission-cancel" class="admin-button secondary" type="button" hidden>Annulla</button><button id="mission-submit" class="admin-button" type="submit">Aggiungi missione</button></div></div>
+          </form>
+
+          <section class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span class="admin-kicker">Elenco JSON</span><h3>Missioni pubblicate</h3></div><span id="mission-count" class="admin-count">—</span></div>
+            <p class="admin-help">La rimozione aggiorna subito <code>bacheca.json</code>. Per cambiare ordine, usa i pulsanti freccia.</p>
+            <div id="mission-list" class="admin-record-list" aria-live="polite"><p class="empty-state">Collega prima la cartella del progetto.</p></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="admin-view" id="adventures-view" data-panel="adventures" hidden>
+        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Avventure</h2><p>Gestisci le avventure mostrate sul sito. I contenuti vengono salvati in <code>assets/avventure.json</code>; l’ordine qui sotto determina l’ordine delle schede.</p></div>
+        <div class="admin-columns adventures-columns">
+          <form id="adventure-form" class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span id="adventure-form-kicker" class="admin-kicker">Nuova avventura</span><h3 id="adventure-form-title">Aggiungi avventura</h3></div><span class="panel-mark">07</span></div>
+            <div class="admin-form-grid">
+              <label>Titolo<input name="title" required maxlength="120" placeholder="Es. Nyx"></label>
+              <label>Sottotitolo<input name="subtitle" maxlength="100" placeholder="Es. Proto-Avventura"></label>
+              <label class="form-span">Immagine <small>Percorso relativo, facoltativo</small><input name="image" placeholder="./assets/avventure/nyx.png"></label>
+              <label class="form-span">Testo alternativo immagine<input name="image-alt" maxlength="240"></label>
+              <fieldset class="form-span admin-fieldset adventure-participants-fieldset"><legend>Partecipanti</legend><div id="adventure-participants-list" class="adventure-participants-list"></div><button id="adventure-add-participant" class="admin-button secondary" type="button">Aggiungi partecipante</button></fieldset>
+              <label>Contraente<input name="contractor" placeholder="Es. Lord Castor Sewerly"></label>
+              <label>Ricompensa<input name="reward" placeholder="Es. 100 mo"></label>
+              <label>Sessioni<input name="sessions" inputmode="numeric" maxlength="60" placeholder="Es. 5"></label>
+              <label class="form-span">Note<textarea name="notes" rows="3"></textarea></label>
+              <label class="form-span">Giocatori <small>Uno per riga</small><textarea name="players" rows="3"></textarea></label>
+            </div>
+            <div class="admin-form-footer"><p id="adventure-message" class="admin-message" role="status" aria-live="polite"></p><div class="form-actions"><button id="adventure-cancel" class="admin-button secondary" type="button" hidden>Annulla</button><button id="adventure-submit" class="admin-button" type="submit">Aggiungi avventura</button></div></div>
+          </form>
+          <section class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span class="admin-kicker">Elenco JSON</span><h3>Avventure pubblicate</h3></div><span id="adventure-count" class="admin-count">—</span></div>
+            <p class="admin-help">Modifica i contenuti, riordina le schede o rimuovi un’avventura dal sito.</p>
+            <div id="adventure-list" class="admin-record-list" aria-live="polite"><p class="empty-state">Collega prima la cartella del progetto.</p></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="admin-view" id="calendar-view" data-panel="calendar" hidden>
+        <div class="admin-page-intro"><div class="eyebrow">Compendio</div><h2>Calendario</h2><p>Modifica la cronologia e il tempo attuale. L’ordine degli elementi determina quello mostrato sul sito.</p></div>
+        <form id="calendar-form" class="admin-panel" data-requires-repository>
+          <div class="admin-panel-heading"><div><span class="admin-kicker">Contenuti del sito</span><h3>Linea temporale</h3></div><span class="panel-mark">06</span></div>
+          <div class="admin-form-grid">
+            <label class="form-span">Etichetta del tempo attuale<input id="calendar-current-label" required maxlength="100" placeholder="Tempo attuale"></label>
+          </div>
+          <div id="calendar-timeline-list" class="calendar-admin-list" aria-live="polite"></div>
+          <div class="calendar-editor-add"><button id="calendar-add-event" class="admin-button secondary" type="button">Aggiungi evento</button><button id="calendar-add-link" class="admin-button secondary" type="button">Aggiungi periodo o nota</button></div>
+          <div class="admin-form-footer"><p id="calendar-message" class="admin-message" role="status" aria-live="polite"></p><button class="admin-button" type="submit">Salva calendario</button></div>
+        </form>
+      </section>
+
+      <section class="admin-view" id="cards-view" data-panel="cards" hidden>
+        <div class="admin-page-intro"><div class="eyebrow">Strumenti del coordinatore</div><h2>Carte stampabili</h2><p>Crea carte in italiano per equipaggiamento, creature e incantesimi. Aggiungi preset al foglio A4 e stampa fino a nove carte insieme.</p></div>
+        <div class="admin-columns cards-columns">
+          <form id="printable-card-form" class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span class="admin-kicker">Nuova scheda</span><h3 id="printable-card-form-title">Crea una carta</h3></div><span class="panel-mark">04</span></div>
+            <div class="admin-form-grid">
+              <label class="form-span">Tipo di carta<select id="printable-card-type" name="type"><option value="equipaggiamento">Equipaggiamento</option><option value="creatura">Creatura</option><option value="incantesimo">Incantesimo</option></select></label>
+              <label class="form-span">Dimensione testo interno<select id="printable-card-text-size" name="textSize"><option value="7">7 px</option><option value="8" selected>8 px</option><option value="9">9 px</option><option value="10">10 px</option><option value="11">11 px</option><option value="12">12 px</option></select><small>Testo sotto i punteggi. Seleziona testo e premi Ctrl+B per il grassetto.</small></label>
+            </div>
+            <div id="printable-card-fields" class="admin-form-grid cards-form-fields"></div>
+            <div class="admin-form-footer"><p id="printable-card-message" class="admin-message" role="status" aria-live="polite"></p><div class="form-actions"><button id="printable-card-new" class="admin-button secondary" type="button">Nuova</button><button id="printable-card-save" class="admin-button" type="submit">Salva preset</button></div></div>
+          </form>
+
+          <section class="admin-panel cards-preview-panel">
+            <div class="admin-panel-heading"><div><span class="admin-kicker">Anteprima</span><h3>Formato carta</h3></div><span class="panel-mark">↗</span></div>
+            <div id="printable-card-preview" class="cards-preview" aria-live="polite"></div>
+            <p class="admin-help cards-preview-help">Aggiungi un preset salvato al foglio per stamparlo insieme alle altre carte.</p>
+          </section>
+        </div>
+
+        <section class="admin-panel cards-sheet-panel" data-requires-repository>
+          <div class="admin-panel-heading"><div><span class="admin-kicker">Composizione</span><h3>Foglio di stampa</h3></div><div class="cards-preset-tools"><span id="printable-card-sheet-count" class="admin-count">0/9</span><button id="printable-card-sheet-clear" class="admin-button secondary" type="button" disabled>Svuota foglio</button><button id="printable-card-sheet-print" class="admin-button" type="button" disabled>Stampa foglio</button></div></div>
+          <p class="admin-help">Aggiungi carte dall’archivio qui sotto. Puoi inserire più copie dello stesso preset.</p>
+          <div id="printable-card-sheet-list" class="admin-record-list" aria-live="polite"><p class="empty-state">Il foglio è vuoto.</p></div>
+        </section>
+
+        <section class="admin-panel cards-presets-panel" data-requires-repository>
+          <div class="admin-panel-heading"><div><span class="admin-kicker">Archivio locale</span><h3>Preset salvati</h3></div><span id="printable-card-count" class="admin-count">0</span></div>
+          <p class="admin-help">I preset sono salvati in <code>local-admin/schede-stampabili.json</code>, una cartella esclusa dalla pubblicazione del sito.</p>
+          <div id="printable-card-list" class="admin-record-list" aria-live="polite"><p class="empty-state">Collega prima la cartella del progetto.</p></div>
+        </section>
+      </section>
+
+      <section class="admin-view" id="cassa-view" data-panel="cassa" hidden>
+        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Cassa Distretto</h2><p>Importa un preset di equipaggiamento, assegna il proprietario, correggi il costo in mo e scegli il colore della carta. Gli oggetti vengono salvati in <code>assets/cassa.json</code> e mostrati sul sito.</p></div>
+        <div class="admin-columns cassa-admin-columns">
+          <form id="cassa-form" class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span id="cassa-form-kicker" class="admin-kicker">Nuovo oggetto</span><h3>Importa un preset</h3></div><span class="panel-mark">05</span></div>
+            <div class="admin-form-grid">
+              <label class="form-span">Preset Equipaggiamento<select id="cassa-preset" required><option value="">Collega la cartella per caricare i preset</option></select></label>
+              <label>Proprietario<input id="cassa-owner" required maxlength="100" placeholder="Es. Reginald"></label>
+              <label>Costo (mo)<input id="cassa-cost" type="number" min="0" step="0.01" placeholder="Es. 25"></label>
+              <label>Colore carta<input id="cassa-color" type="color" value="#a0d2ff" aria-label="Colore del gradiente della carta"></label>
+              <div class="form-span cassa-color-presets" role="group" aria-label="Colori rapidi">
+                <strong>Colori rapidi</strong>
+                <div class="cassa-color-palette">
+                  <button type="button" class="cassa-color-option" data-cassa-color="#a0d2ff" style="--preset-color:#a0d2ff"><span aria-hidden="true"></span>Blu · equipaggiamento</button>
+                  <button type="button" class="cassa-color-option" data-cassa-color="#a92e35" style="--preset-color:#a92e35"><span aria-hidden="true"></span>Rosso · consumabili</button>
+                  <button type="button" class="cassa-color-option" data-cassa-color="#78916e" style="--preset-color:#78916e"><span aria-hidden="true"></span>Verde</button>
+                  <button type="button" class="cassa-color-option" data-cassa-color="#d0ad67" style="--preset-color:#d0ad67"><span aria-hidden="true"></span>Oro</button>
+                  <button type="button" class="cassa-color-option" data-cassa-color="#9276b5" style="--preset-color:#9276b5"><span aria-hidden="true"></span>Viola</button>
+                </div>
+              </div>
+            </div>
+            <div class="admin-form-footer"><p id="cassa-message" class="admin-message" role="status" aria-live="polite"></p><div class="form-actions"><button id="cassa-cancel" class="admin-button secondary" type="button" hidden>Annulla</button><button id="cassa-submit" class="admin-button" type="submit">Aggiungi alla cassa</button></div></div>
+          </form>
+          <section class="admin-panel" data-requires-repository>
+            <div class="admin-panel-heading"><div><span class="admin-kicker">JSON pubblicato</span><h3>Oggetti in cassa</h3></div><span id="cassa-count" class="admin-count">—</span></div>
+            <p class="admin-help">Modifica proprietario, costo in mo o colore con il pulsante ✎. Il costo importato dal preset si può correggere qui.</p>
+            <div id="cassa-list" class="admin-record-list" aria-live="polite"><p class="empty-state">Collega prima la cartella del progetto.</p></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="admin-view" id="info-view" data-panel="info" hidden>
+        <div class="admin-page-intro"><div class="eyebrow">Compendio</div><h2>Info</h2><p>Modifica il contenuto della pagina in <code>assets/info.json</code>. La scheda ha un titolo e una o più sottosezioni con paragrafo ed elenco puntato facoltativo.</p></div>
+        <form id="info-form" class="admin-panel" data-requires-repository>
+          <div class="admin-panel-heading"><div><span class="admin-kicker">Contenuti del sito</span><h3>Pagina Info</h3></div><span class="panel-mark">03</span></div>
+          <div class="admin-form-grid">
+            <label class="form-span">Titolo<input id="info-title" required maxlength="140" placeholder="Regole aggiuntive"></label>
+          </div>
+          <div id="info-sections" class="info-editor-sections"></div>
+          <div class="info-editor-add"><button id="info-add-section" class="admin-button secondary" type="button">Aggiungi sottosezione</button></div>
+          <div class="admin-form-footer"><p id="info-message" class="admin-message" role="status" aria-live="polite"></p><button class="admin-button" type="submit">Salva Info</button></div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <div id="printable-card-print-output" aria-hidden="true"></div>
+</body>
+</html>
