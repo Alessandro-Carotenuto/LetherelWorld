@@ -1,6 +1,9 @@
 (() => {
   const $ = selector => document.querySelector(selector);
   const stage = $('#map-stage'), image = $('#map-image'), canvas = $('#paint-layer'), ctx = canvas.getContext('2d');
+  const { isSeaPixel, colorParts, randomAt, strokeSegments } = window.LetherelMapmakerGeometry;
+  const { presetStates, legacyPresetColors } = window.LETHEREL_MAPMAKER_PRESET;
+  const { download, exportProject, parseProject } = window.LetherelMapmakerFiles;
   const paintCanvas = document.createElement('canvas'), paintCtx = paintCanvas.getContext('2d');
   const paintHistoryCanvas = document.createElement('canvas'), paintHistoryCtx = paintHistoryCanvas.getContext('2d');
   const eraseCanvas = document.createElement('canvas'), eraseCtx = eraseCanvas.getContext('2d');
@@ -12,19 +15,6 @@
   const BASE_MAP = window.LETHEREL_BASE_MAP_DATA || './assets/territori-base.png';
   const neutralImage = new Image();
   neutralImage.src = window.LETHEREL_NEUTRAL_MAP_DATA || './assets/territori-neutral.png';
-  const presetStates = [
-    ['igglopolt','Casata Igglopolt','#f6abaf',.121,.352,31,0,300,10], ['likari','Casata Likari','#af89e4',.248,.289,29,0,200,7],
-    ['gray','Casata Gray','#dadee1',.307,.362,28,0,185,7], ['dalinar','Casata Dalinar','#9fa3a5',.379,.318,29,0,235,8],
-    ['tusk','Casata Tusk','#e99397',.339,.49,31,0,245,10], ['sewerly','Casata Sewerly','#c68feb',.122,.576,30,0,230,9],
-    ['tikle','Casata Tikle','#97e08b',.196,.548,29,0,195,8], ['barlon','Casata Barlon','#bfbb88',.255,.657,30,0,235,8],
-    ['galvant','Casata Galvànt','#f1d58b',.197,.761,28,0,220,7], ['alaven','Casata Alaven','#9eb7f8',.58,.573,30,0,250,10],
-    ['revachol','Casata Revachòl','#d6afdf',.688,.423,30,0,250,9], ['whiteflower','Casata Whiteflower','#89d6f0',.712,.193,28,0,245,8],
-    ['allomance','Casata Allomance','#af8d9b',.852,.341,30,0,270,9], ['lavender','Casata Lavender','#888099',.769,.529,25,0,180,6],
-    ['brightforge','Casata Brightforge','#f0cb97',.853,.512,27,0,235,8], ['pages','Casata Pages','#86e8d3',.67,.67,25,0,175,6],
-    ['mankos','Casata Mankos','#ceb79e',.755,.734,27,0,210,7], ['obsidian','Casata Obsidian','#d5eba1',.594,.747,27,0,220,7],
-    ['falkner','Casata Falkner','#eb8fd2',.658,.833,27,0,220,7], ['confraternita','La Confraternita','#e1c28c',.127,.484,23,0,190,5]
-  ];
-  const legacyPresetColors = ['#ef9da5','#a780d4','#d1d9da','#999d9d','#e7878b','#ba7bda','#86d985','#b7b589','#f2d17c','#99b1ed','#cda2d7','#75cae0','#aa8694','#80788b','#e9c184','#78d7c6','#c9b19a','#d1e99c','#d87dc6','#dfbd78'];
   function createPreset() {
     const width = 2340, height = 1312;
     return {
@@ -78,10 +68,6 @@
     labelsLayer.style.left = `calc(50% - ${width / 2}px)`; labelsLayer.style.top = `calc(50% - ${height / 2}px)`;
     renderStrokes(); renderLabels();
   }
-  function isSeaPixel(data, index) {
-    return Math.abs(data[index] - 180) + Math.abs(data[index + 1] - 210) + Math.abs(data[index + 2] - 243) < 39;
-  }
-  function colorParts(hex) { return [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)]; }
   function buildBaseOwnerLookup() {
     const lookup = new Map();
     presetStates.forEach(([, , color], index) => {
@@ -239,12 +225,6 @@
     if (!landPixels || point.x < 0 || point.y < 0 || point.x >= project.width || point.y >= project.height) return false;
     return landPixels[Math.floor(point.y) * project.width + Math.floor(point.x)] === 1;
   }
-  function randomAt(seed, stamp, vertex) {
-    let value = (seed + Math.imul(stamp + 1, 374761393) + Math.imul(vertex + 1, 668265263)) | 0;
-    value = Math.imul(value ^ (value >>> 13), 1274126177);
-    return ((value ^ (value >>> 16)) >>> 0) / 4294967295;
-  }
-  function strokeSegments(stroke) { return stroke.segments || (stroke.points ? [stroke.points] : []); }
   function buildZoneBorder() {
     if (!paintCanvas.width || !paintCanvas.height || !landPixels || !baseOwnerPixels || !baseEdgePixels) { zoneMaskLayer = null; zoneBorderLayer = null; return; }
     const width = paintCanvas.width, height = paintCanvas.height, pixels = paintCtx.getImageData(0, 0, width, height).data, erasePixels = eraseCtx.getImageData(0, 0, width, height).data, paintHistoryPixels = paintHistoryCtx.getImageData(0, 0, width, height).data;
@@ -597,11 +577,6 @@
     $('#tool-hint').textContent = tool === 'label' ? 'Clicca sulla mappa per posizionare l’etichetta dello Stato selezionato.' : tool === 'erase' ? 'Cancella qualsiasi territorio, anche quello del preset: la gomma si ferma fuori dalla terra.' : 'Dipingi lo Stato selezionato: il tratto si ferma al bordo e riprende quando rientri.';
     canvas.style.cursor = tool === 'label' ? 'copy' : tool === 'erase' ? 'cell' : 'crosshair';
   }
-  function exportProject() {
-    const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
-    download(blob, 'letherel-mapmaker.json');
-  }
-  function download(blob, name) { const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
   function exportImage() {
     if (!project.map) { alert('Carica prima la mappa di base.'); return; }
     const out = document.createElement('canvas'); out.width = project.width; out.height = project.height; const outCtx = out.getContext('2d');
@@ -649,9 +624,9 @@
   $('#map-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { const probe = new Image(); probe.onload = () => { project.map = reader.result; project.mapName = file.name; project.width = probe.naturalWidth; project.height = probe.naturalHeight; project.strokes = []; project.labels = []; renderAll(); save(); }; probe.src = reader.result; }; reader.readAsDataURL(file); event.target.value = ''; });
   $('#remove-map').addEventListener('click', () => { if (!project.map || !confirm('Rimuovere la mappa di base e azzerare pennellate ed etichette? Gli Stati resteranno nel progetto.')) return; project.map = ''; project.mapName = ''; project.width = 0; project.height = 0; project.strokes = []; project.labels = []; renderAll(); save(); });
   $('#reset-project').addEventListener('click', () => { if (!confirm('Ripristinare il preset originale di Letherel? Le modifiche correnti verranno cancellate.')) return; project = createPreset(); selectedId = project.states[0]?.id || null; renderAll(); save(); });
-  $('#save-project').addEventListener('click', exportProject); $('#export-image').addEventListener('click', exportImage);
+  $('#save-project').addEventListener('click', () => exportProject(project)); $('#export-image').addEventListener('click', exportImage);
   $('#open-project').addEventListener('click', () => $('#project-upload').click());
-  $('#project-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const next = JSON.parse(reader.result); if (!next || !Array.isArray(next.states) || !Array.isArray(next.strokes) || !Array.isArray(next.labels)) throw new Error(); project = next; normalizeStateColors(); selectedId = project.states[0]?.id || null; renderAll(); save(); } catch { alert('Il file non è un progetto Mapmaker valido.'); } }; reader.readAsText(file); event.target.value = ''; });
+  $('#project-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { project = parseProject(reader.result); normalizeStateColors(); selectedId = project.states[0]?.id || null; renderAll(); save(); } catch { alert('Il file non è un progetto Mapmaker valido.'); } }; reader.readAsText(file); event.target.value = ''; });
   window.addEventListener('resize', fitCanvas);
   image.addEventListener('load', () => { landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; baseSourcePixels = null; neutralMapLayer = null; baseFillLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); buildLandMask(); fitCanvas(); });
   neutralImage.addEventListener('load', () => { if (baseOwnerPixels && project.map === BASE_MAP) { buildEditableBaseLayers(); renderStrokes(); } });

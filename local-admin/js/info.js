@@ -1,5 +1,5 @@
 (() => {
-  const infoPath = "assets/info.json";
+  const infoPath = "assets/data/info.json";
   const form = document.getElementById("info-form");
   const titleInput = document.getElementById("info-title");
   const sectionsRoot = document.getElementById("info-sections");

@@ -4,18 +4,20 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..', '..');
 const verification = __dirname;
 const work = path.join(verification, '.work');
-const source = fs.readFileSync(path.join(root, 'mapmaker', 'mapmaker.js'), 'utf8');
+const source = fs.readFileSync(path.join(root, 'mapmaker', 'js', 'mapmaker.js'), 'utf8');
+const geometrySource = fs.readFileSync(path.join(root, 'mapmaker', 'js', 'geometry.js'), 'utf8');
+const presetSource = fs.readFileSync(path.join(root, 'mapmaker', 'js', 'preset.js'), 'utf8');
 const pngMeta = JSON.parse(fs.readFileSync(path.join(work, 'base-meta.json'), 'utf8'));
 const rgba = new Uint8ClampedArray(fs.readFileSync(path.join(work, 'base.rgba')));
-const presetMatch = source.match(/const presetStates = (\[[\s\S]*?\n  \]);/);
-if (!presetMatch) throw new Error('Could not read presetStates from mapmaker.js');
+const presetMatch = presetSource.match(/const presetStates = (\[[\s\S]*?\n  \]);/);
+if (!presetMatch) throw new Error('Could not read presetStates from preset.js');
 const presetStates = new Function(`${presetMatch[0]}; return presetStates;`)();
 const states = presetStates.map(([key, name, color], index) => ({ id: `base-${key}`, name, color, baseColor: color, code: index + 1 }));
 
-function extractFunction(name) {
-  const start = source.indexOf(`function ${name}(`);
-  if (start < 0) throw new Error(`Missing ${name} in mapmaker.js`);
-  const open = source.indexOf('{', start);
+function extractFunction(name, from = source) {
+  const start = from.indexOf(`function ${name}(`);
+  if (start < 0) throw new Error(`Missing ${name} in source`);
+  const open = from.indexOf('{', start);
   let depth = 0, quote = '', escaped = false, lineComment = false, blockComment = false;
   for (let index = open; index < source.length; index++) {
     const char = source[index], next = source[index + 1];
@@ -31,12 +33,12 @@ function extractFunction(name) {
     if (char === '/' && next === '*') { blockComment = true; index++; continue; }
     if (char === '"' || char === "'" || char === '`') { quote = char; continue; }
     if (char === '{') depth++;
-    if (char === '}' && --depth === 0) return source.slice(start, index + 1);
+    if (char === '}' && --depth === 0) return from.slice(start, index + 1);
   }
-  throw new Error(`Could not parse ${name} from mapmaker.js`);
+  throw new Error(`Could not parse ${name} from source`);
 }
-const drawProductionStroke = new Function(`${extractFunction('randomAt')}; ${extractFunction('strokeSegments')}; ${extractFunction('drawRoughStroke')}; return drawRoughStroke;`)();
-const drawProductionEraser = new Function(`${extractFunction('randomAt')}; ${extractFunction('strokeSegments')}; ${extractFunction('drawRoughStroke')}; ${extractFunction('drawEraseStroke')}; return drawEraseStroke;`)();
+const drawProductionStroke = new Function(`${extractFunction('randomAt', geometrySource)}; ${extractFunction('strokeSegments', geometrySource)}; ${extractFunction('drawRoughStroke')}; return drawRoughStroke;`)();
+const drawProductionEraser = new Function(`${extractFunction('randomAt', geometrySource)}; ${extractFunction('strokeSegments', geometrySource)}; ${extractFunction('drawRoughStroke')}; ${extractFunction('drawEraseStroke')}; return drawEraseStroke;`)();
 
 class MemoryCanvas {
   constructor() { this.width = 0; this.height = 0; this.pixels = null; this.context = new MemoryContext(this); }
@@ -77,7 +79,7 @@ env.paintHistoryCtx = { getImageData: () => ({ data: env.paintHistoryPixels }) }
 env.eraseCtx = { getImageData: () => ({ data: env.erasePixels }) };
 const code = [
   'isSeaPixel', 'colorParts', 'buildBaseOwnerLookup', 'buildEditableBaseLayers', 'buildLandMask',
-].map(extractFunction).join('\n');
+].map(name => extractFunction(name, ['isSeaPixel', 'colorParts'].includes(name) ? geometrySource : source)).join('\n');
 const zoneFunction = extractFunction('buildZoneBorder');
 const instrumentedZoneFunction = zoneFunction.slice(0, -1) + `
   env.debug = { finalOwner, changed, erased, activeZone, internalEdges, border, expanded, clearMask: maskPixels.data };

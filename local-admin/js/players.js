@@ -1,6 +1,6 @@
 (() => {
-  const manifestPath = "assets/player-cards/index.json";
-  const rosterPath = "assets/player-cards/roster.json";
+  const manifestPath = "assets/data/player-cards/index.json";
+  const rosterPath = "assets/data/player-cards/roster.json";
   const form = document.getElementById("player-form");
   const list = document.getElementById("player-list");
   const count = document.getElementById("player-count");
@@ -50,7 +50,7 @@
     }
     players = await Promise.all(manifest.map(async file => ({
       file,
-      data: await LocalRepository.readJson(`assets/player-cards/${file}`)
+      data: await LocalRepository.readJson(`assets/data/player-cards/${file}`)
     })));
     render();
   }
@@ -168,7 +168,7 @@
       }
       const file = `${slug}.json`;
       const renamed = Boolean(previous && file !== editingFile);
-      if ((renamed || !previous) && (manifest.includes(file) || await LocalRepository.exists(`assets/player-cards/${file}`))) {
+      if ((renamed || !previous) && (manifest.includes(file) || await LocalRepository.exists(`assets/data/player-cards/${file}`))) {
         throw new Error(`Esiste già il file ${file}. Scegli un nome diverso o rinomina il file esistente.`);
       }
 
@@ -180,17 +180,17 @@
         : { ...roster, [rank]: [...(Array.isArray(roster[rank]) ? roster[rank] : []), name] };
       const previousFile = editingFile;
       try {
-        await LocalRepository.writeJson(`assets/player-cards/${file}`, player, { create: !previous || renamed });
+        await LocalRepository.writeJson(`assets/data/player-cards/${file}`, player, { create: !previous || renamed });
         await LocalRepository.writeJson(manifestPath, nextManifest);
         await LocalRepository.writeJson(rosterPath, nextRoster);
-        if (renamed) await LocalRepository.removeFile(`assets/player-cards/${previousFile}`);
+        if (renamed) await LocalRepository.removeFile(`assets/data/player-cards/${previousFile}`);
       } catch (error) {
         const rollback = [
           LocalRepository.writeJson(manifestPath, manifest),
           LocalRepository.writeJson(rosterPath, roster)
         ];
-        if (previous) rollback.push(LocalRepository.writeJson(`assets/player-cards/${previousFile}`, previous.data, { create: true }));
-        if (!previous || renamed) rollback.push(LocalRepository.removeFile(`assets/player-cards/${file}`));
+        if (previous) rollback.push(LocalRepository.writeJson(`assets/data/player-cards/${previousFile}`, previous.data, { create: true }));
+        if (!previous || renamed) rollback.push(LocalRepository.removeFile(`assets/data/player-cards/${file}`));
         await Promise.allSettled(rollback);
         throw error;
       }
@@ -212,13 +212,13 @@
       Array.isArray(names) ? names.filter(name => normalize(name) !== normalize(player.data.nome)) : []
     ]));
     try {
-      await LocalRepository.removeFile(`assets/player-cards/${file}`);
+      await LocalRepository.removeFile(`assets/data/player-cards/${file}`);
       try {
         await LocalRepository.writeJson(manifestPath, nextManifest);
         await LocalRepository.writeJson(rosterPath, nextRoster);
       } catch (error) {
         await Promise.allSettled([
-          LocalRepository.writeJson(`assets/player-cards/${file}`, player.data, { create: true }),
+          LocalRepository.writeJson(`assets/data/player-cards/${file}`, player.data, { create: true }),
           LocalRepository.writeJson(manifestPath, manifest),
           LocalRepository.writeJson(rosterPath, roster)
         ]);

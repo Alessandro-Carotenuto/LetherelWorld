@@ -1,5 +1,5 @@
 (() => {
-  const ADVENTURES_PATH = "assets/avventure.json";
+  const ADVENTURES_PATH = "assets/data/avventure.json";
   const form = document.getElementById("adventure-form");
   const list = document.getElementById("adventure-list");
   const count = document.getElementById("adventure-count");

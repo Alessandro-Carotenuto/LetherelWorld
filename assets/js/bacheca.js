@@ -1,16 +1,7 @@
 (() => {
-  const dataUrl = "./assets/bacheca.json";
+  const dataUrl = "./assets/data/bacheca.json";
   let boardPromise;
-
-  function escapeHtml(value) {
-    return String(value ?? "").replace(/[&<>"']/g, character => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    }[character]));
-  }
+  const { escapeHtml } = window.LetherelShared;
 
   function loadBoard() {
     if (!boardPromise) {
@@ -111,7 +102,7 @@
       if (isCurrent()) {
         const message = window.location?.protocol === "file:"
           ? "Hai aperto index.html come file locale: il browser blocca il caricamento del JSON. Avvia Avvia-LetherelWorld.bat oppure visita la versione pubblicata su GitHub Pages."
-          : "Non è stato possibile caricare le missioni. Verifica che assets/bacheca.json sia disponibile e ricarica la pagina.";
+          : "Non è stato possibile caricare le missioni. Verifica che assets/data/bacheca.json sia disponibile e ricarica la pagina.";
         root.innerHTML = `<section class="page-intro"><div class="eyebrow">Distretto Rovere</div><h1 class="page-title">Bacheca</h1><p class="page-lede" role="alert">${escapeHtml(message)}</p></section>`;
       }
     }

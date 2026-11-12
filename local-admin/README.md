@@ -1,12 +1,12 @@
 # Gestione locale Letherel
 
-Questa cartella è esclusa da Git. Apri `index.html` in Chrome o Edge, premi **Collega cartella** e seleziona la cartella principale `LetherelWorld`.
+Apri `index.html` in Chrome o Edge, premi **Collega cartella** e seleziona la cartella principale `LetherelWorld`.
 
 Il tool scrive localmente i file scelti tramite il selettore del browser. Puoi creare, modificare e rimuovere schede e missioni:
 
-- Personaggi: `assets/player-cards/*.json`, `index.json` e `roster.json`.
-- Bacheca: `assets/bacheca.json`.
-- Info: `assets/info.json`, con titolo, sottotitoli, paragrafi ed elenchi puntati.
+- Personaggi: `assets/data/player-cards/*.json`, `index.json` e `roster.json`.
+- Bacheca: `assets/data/bacheca.json`.
+- Info: `assets/data/info.json`, con titolo, sottotitoli, paragrafi ed elenchi puntati.
 
 Il browser chiede accesso alla cartella. Non vengono inviati dati online. Dopo le modifiche, ricarica il sito per vedere gli aggiornamenti. Per pubblicarli su GitHub Pages, controlla e invia i file modificati come fai normalmente.
 

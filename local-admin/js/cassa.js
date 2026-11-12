@@ -1,6 +1,6 @@
 (() => {
   const PRESETS_PATH = "local-admin/schede-stampabili.json";
-  const CASSA_PATH = "assets/cassa.json";
+  const CASSA_PATH = "assets/data/cassa.json";
   const form = document.getElementById("cassa-form");
   const presetSelect = document.getElementById("cassa-preset");
   const ownerInput = document.getElementById("cassa-owner");

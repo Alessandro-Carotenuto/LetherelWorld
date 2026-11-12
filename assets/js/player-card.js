@@ -1,13 +1,5 @@
 (() => {
-  function escapeHtml(value) {
-    return String(value ?? "").replace(/[&<>"']/g, character => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    }[character]));
-  }
+  const { escapeHtml } = window.LetherelShared;
 
   function slugify(value) {
     return String(value ?? "").toLocaleLowerCase("it").normalize("NFD")

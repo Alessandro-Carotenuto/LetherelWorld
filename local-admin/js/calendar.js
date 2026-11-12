@@ -1,5 +1,5 @@
 (() => {
-  const CALENDAR_PATH = "assets/calendario.json";
+  const CALENDAR_PATH = "assets/data/calendario.json";
   const form = document.getElementById("calendar-form");
   const currentLabelInput = document.getElementById("calendar-current-label");
   const list = document.getElementById("calendar-timeline-list");

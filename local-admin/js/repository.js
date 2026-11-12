@@ -71,11 +71,11 @@
     rootHandle = selectedRoot;
     try {
       await Promise.all([
-        readJson("assets/player-cards/index.json"),
-        readJson("assets/player-cards/roster.json"),
-        readJson("assets/bacheca.json"),
-        readJson("assets/info.json"),
-        readJson("assets/calendario.json")
+        readJson("assets/data/player-cards/index.json"),
+        readJson("assets/data/player-cards/roster.json"),
+        readJson("assets/data/bacheca.json"),
+        readJson("assets/data/info.json"),
+        readJson("assets/data/calendario.json")
       ]);
     } catch (error) {
       rootHandle = null;

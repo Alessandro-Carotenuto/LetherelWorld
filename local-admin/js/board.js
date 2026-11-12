@@ -1,5 +1,5 @@
 (() => {
-  const boardPath = "assets/bacheca.json";
+  const boardPath = "assets/data/bacheca.json";
   const form = document.getElementById("mission-form");
   const list = document.getElementById("mission-list");
   const count = document.getElementById("mission-count");

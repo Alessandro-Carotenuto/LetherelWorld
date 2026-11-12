@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#141313">
   <title>Gestione locale · Letherel</title>
-  <link rel="stylesheet" href="../assets/site.css">
-  <link rel="stylesheet" href="./admin.css">
-  <script src="./repository.js" defer></script>
-  <script src="./players.js" defer></script>
-  <script src="./board.js" defer></script>
-  <script src="./adventures.js" defer></script>
-  <script src="./calendar.js" defer></script>
-  <script src="./info.js" defer></script>
-  <script src="./cards.js" defer></script>
-  <script src="./cassa.js" defer></script>
-  <script src="./admin.js" defer></script>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="./css/admin.css">
+  <script src="./js/repository.js" defer></script>
+  <script src="./js/players.js" defer></script>
+  <script src="./js/board.js" defer></script>
+  <script src="./js/adventures.js" defer></script>
+  <script src="./js/calendar.js" defer></script>
+  <script src="./js/info.js" defer></script>
+  <script src="./js/cards.js" defer></script>
+  <script src="./js/cassa.js" defer></script>
+  <script src="./js/admin.js" defer></script>
 </head>
 <body>
   <div class="admin-shell">
@@ -92,7 +92,7 @@
       </section>
 
       <section class="admin-view" id="board-view" data-panel="board" hidden>
-        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Bacheca</h2><p>Le missioni seguono la struttura di <code>assets/bacheca.json</code>. L’ordine dell’elenco determina l’ordine delle card sul sito.</p></div>
+        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Bacheca</h2><p>Le missioni seguono la struttura di <code>assets/data/bacheca.json</code>. L’ordine dell’elenco determina l’ordine delle card sul sito.</p></div>
         <div class="admin-columns board-columns">
           <form id="mission-form" class="admin-panel" data-requires-repository>
             <div class="admin-panel-heading"><div><span id="mission-form-kicker" class="admin-kicker">Nuovo incarico</span><h3 id="mission-form-title">Aggiungi missione</h3></div><span class="panel-mark">02</span></div>
@@ -125,7 +125,7 @@
       </section>
 
       <section class="admin-view" id="adventures-view" data-panel="adventures" hidden>
-        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Avventure</h2><p>Gestisci le avventure mostrate sul sito. I contenuti vengono salvati in <code>assets/avventure.json</code>; l’ordine qui sotto determina l’ordine delle schede.</p></div>
+        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Avventure</h2><p>Gestisci le avventure mostrate sul sito. I contenuti vengono salvati in <code>assets/data/avventure.json</code>; l’ordine qui sotto determina l’ordine delle schede.</p></div>
         <div class="admin-columns adventures-columns">
           <form id="adventure-form" class="admin-panel" data-requires-repository>
             <div class="admin-panel-heading"><div><span id="adventure-form-kicker" class="admin-kicker">Nuova avventura</span><h3 id="adventure-form-title">Aggiungi avventura</h3></div><span class="panel-mark">07</span></div>
@@ -198,7 +198,7 @@
       </section>
 
       <section class="admin-view" id="cassa-view" data-panel="cassa" hidden>
-        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Cassa Distretto</h2><p>Importa un preset di equipaggiamento, assegna il proprietario, correggi il costo in mo e scegli il colore della carta. Gli oggetti vengono salvati in <code>assets/cassa.json</code> e mostrati sul sito.</p></div>
+        <div class="admin-page-intro"><div class="eyebrow">Distretto Rovere</div><h2>Cassa Distretto</h2><p>Importa un preset di equipaggiamento, assegna il proprietario, correggi il costo in mo e scegli il colore della carta. Gli oggetti vengono salvati in <code>assets/data/cassa.json</code> e mostrati sul sito.</p></div>
         <div class="admin-columns cassa-admin-columns">
           <form id="cassa-form" class="admin-panel" data-requires-repository>
             <div class="admin-panel-heading"><div><span id="cassa-form-kicker" class="admin-kicker">Nuovo oggetto</span><h3>Importa un preset</h3></div><span class="panel-mark">05</span></div>
@@ -229,7 +229,7 @@
       </section>
 
       <section class="admin-view" id="info-view" data-panel="info" hidden>
-        <div class="admin-page-intro"><div class="eyebrow">Compendio</div><h2>Info</h2><p>Modifica il contenuto della pagina in <code>assets/info.json</code>. La scheda ha un titolo e una o più sottosezioni con paragrafo ed elenco puntato facoltativo.</p></div>
+        <div class="admin-page-intro"><div class="eyebrow">Compendio</div><h2>Info</h2><p>Modifica il contenuto della pagina in <code>assets/data/info.json</code>. La scheda ha un titolo e una o più sottosezioni con paragrafo ed elenco puntato facoltativo.</p></div>
         <form id="info-form" class="admin-panel" data-requires-repository>
           <div class="admin-panel-heading"><div><span class="admin-kicker">Contenuti del sito</span><h3>Pagina Info</h3></div><span class="panel-mark">03</span></div>
           <div class="admin-form-grid">
