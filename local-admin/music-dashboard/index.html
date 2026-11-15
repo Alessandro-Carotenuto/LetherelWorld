@@ -829,6 +829,7 @@
         .folder-picker { display: inline-block; }
         .folder-picker input { display: none; }
         .folder-status { color: #c9c2ae; font-size: 12px; flex-basis: 100%; }
+        .ambience-status { color: #e8af84; font-size: 13px; margin-bottom: 12px; }
         .tab:disabled { opacity: .55; cursor: not-allowed; }
     </style>
 </head>
@@ -944,6 +945,7 @@
             <div id="ambienceTab" class="tab-content">
                 <div class="ambience-deck">
                     <h2 style="margin-bottom: 20px; color: #b8956a;">🌲 Ambience Deck</h2>
+                    <div class="ambience-status" id="ambienceStatus" role="status" aria-live="polite"></div>
                     <div class="ambience-grid" id="ambienceGrid">
                         <!-- Ambience buttons will be generated here -->
                     </div>
@@ -1083,8 +1085,7 @@
                 }
                 for (const [path, ambience] of this.activeAmbiences) {
                     if (oldPaths.has(path)) {
-                        ambience.audio.pause();
-                        this.activeAmbiences.delete(path);
+                        this.stopAmbience(path);
                     }
                 }
                 for (const url of oldUrls.values()) URL.revokeObjectURL(url);
@@ -1222,7 +1223,7 @@
                     const response = await fetch('/api/ambience', { cache: 'no-store' });
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const data = await response.json();
-                    if (data.version !== 5) throw new Error('Server musicale non aggiornato. Chiudilo e riavvia Avvia-LetherelWorld.bat.');
+                    if (data.version !== 6) throw new Error('Server musicale non aggiornato. Chiudilo e riavvia Avvia-LetherelWorld.bat.');
                     this.serverAmbienceSounds = data.files || [];
                     this.syncAmbience();
                 } catch (error) {
@@ -1277,13 +1278,8 @@
             // Toggle ambience sound
             toggleAmbience(path, name) {
                 if (this.activeAmbiences.has(path)) {
-                    // Stop the sound
-                    const ambience = this.activeAmbiences.get(path);
-                    ambience.audio.pause();
-                    ambience.audio.currentTime = 0;
-                    this.activeAmbiences.delete(path);
+                    this.stopAmbience(path);
                 } else {
-                    // Start the sound
                     const source = this.resolveAudioPath(path);
                     if (!source) {
                         alert('Collega la cartella che contiene questa atmosfera.');
@@ -1292,11 +1288,29 @@
                     const audio = new Audio(source);
                     audio.loop = true;
                     audio.volume = 0.5;
-                    audio.play();
                     this.activeAmbiences.set(path, { audio, volume: 50 });
+                    document.getElementById('ambienceStatus').textContent = '';
+                    const onFailure = error => {
+                        if (this.activeAmbiences.get(path)?.audio !== audio) return;
+                        this.stopAmbience(path);
+                        this.renderAmbienceDeck();
+                        document.getElementById('ambienceStatus').textContent =
+                            `Impossibile avviare ${name}: ${error.message}. Prova a fermare un'altra atmosfera e riprova.`;
+                    };
+                    audio.addEventListener('error', () => onFailure(new Error('file audio non leggibile')));
+                    audio.play().catch(onFailure);
                 }
 
                 this.renderAmbienceDeck();
+            },
+
+            stopAmbience(path) {
+                const ambience = this.activeAmbiences.get(path);
+                if (!ambience) return;
+                this.activeAmbiences.delete(path);
+                ambience.audio.pause();
+                ambience.audio.removeAttribute('src');
+                ambience.audio.load();
             },
 
             // Update ambience volume

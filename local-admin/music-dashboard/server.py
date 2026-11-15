@@ -308,31 +308,14 @@ class MusicPlayerHandler(SimpleHTTPRequestHandler):
             self.send_error(404, "File not found")
             return
 
-        # Serve the file
-        try:
-            with open(full_path, 'rb') as f:
-                content = f.read()
-
-            # Get MIME type
-            mime_type, _ = mimetypes.guess_type(str(full_path))
-            if mime_type is None:
-                mime_type = 'application/octet-stream'
-
-            self.send_response(200)
-            self.send_header('Content-type', mime_type)
-            self.send_header('Content-Length', len(content))
-            self.send_header('Accept-Ranges', 'bytes')
-            self.end_headers()
-            self.wfile.write(content)
-        except Exception as e:
-            self.send_error(500, f"Error serving file: {str(e)}")
+        self.send_audio_file(full_path)
 
     def serve_ambience_list(self):
         """Return a JSON list of all ambience sound files"""
         try:
             ambience_folder = Path(__file__).parent / 'ambience'
             ambience_data = self.scan_ambience_folder(ambience_folder)
-            ambience_data['version'] = 5
+            ambience_data['version'] = 6
             response = json.dumps(ambience_data, indent=2)
 
             self.send_response(200)
@@ -396,24 +379,62 @@ class MusicPlayerHandler(SimpleHTTPRequestHandler):
             self.send_error(404, "File not found")
             return
 
-        # Serve the file
+        self.send_audio_file(full_path)
+
+    def send_audio_file(self, full_path):
+        """Stream audio and honor the byte ranges requested by media players."""
         try:
-            with open(full_path, 'rb') as f:
-                content = f.read()
+            source = open(full_path, 'rb')
+        except OSError as error:
+            self.send_error(500, f"Error serving file: {error}")
+            return
 
-            # Get MIME type
-            mime_type, _ = mimetypes.guess_type(str(full_path))
-            if mime_type is None:
-                mime_type = 'application/octet-stream'
+        with source:
+            size = os.fstat(source.fileno()).st_size
+            start, end = 0, size - 1
+            range_header = self.headers.get('Range')
+            if range_header:
+                match = re.fullmatch(r'bytes=(\d*)-(\d*)', range_header.strip())
+                if not match or not any(match.groups()):
+                    self.send_audio_range_error(size)
+                    return
+                first, last = match.groups()
+                if first:
+                    start = int(first)
+                    end = min(int(last), size - 1) if last else size - 1
+                else:
+                    suffix = int(last)
+                    start = max(size - suffix, 0)
+                if start >= size or end < start or (not first and not suffix):
+                    self.send_audio_range_error(size)
+                    return
 
-            self.send_response(200)
+            length = end - start + 1
+            mime_type = mimetypes.guess_type(str(full_path))[0] or 'application/octet-stream'
+            self.send_response(206 if range_header else 200)
             self.send_header('Content-type', mime_type)
-            self.send_header('Content-Length', len(content))
+            self.send_header('Content-Length', str(length))
             self.send_header('Accept-Ranges', 'bytes')
+            if range_header:
+                self.send_header('Content-Range', f'bytes {start}-{end}/{size}')
             self.end_headers()
-            self.wfile.write(content)
-        except Exception as e:
-            self.send_error(500, f"Error serving file: {str(e)}")
+
+            source.seek(start)
+            try:
+                while length:
+                    chunk = source.read(min(length, 64 * 1024))
+                    if not chunk:
+                        break
+                    self.wfile.write(chunk)
+                    length -= len(chunk)
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                pass
+
+    def send_audio_range_error(self, size):
+        self.send_response(416)
+        self.send_header('Content-Range', f'bytes */{size}')
+        self.send_header('Content-Length', '0')
+        self.end_headers()
 
     def log_message(self, format, *args):
         """Custom log format"""
