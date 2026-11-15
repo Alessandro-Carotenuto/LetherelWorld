@@ -825,6 +825,11 @@
         .playlists-panel, .library-panel, .current-playlist-panel { background-color: #191b17; border-color: #514735; }
         button, input { font-family: inherit; }
         a.letherel-back { color: #d0ad67; margin-right: 20px; font-size: 13px; white-space: nowrap; }
+        .folder-pickers { padding: 12px 15px; border-bottom: 1px solid #514735; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .folder-picker { display: inline-block; }
+        .folder-picker input { display: none; }
+        .folder-status { color: #c9c2ae; font-size: 12px; flex-basis: 100%; }
+        .tab:disabled { opacity: .55; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -857,8 +862,13 @@
         <div class="library-panel">
             <div class="tabs">
                 <button class="tab active" onclick="app.switchTab('library', this)">📚 Library</button>
-                <button class="tab" onclick="app.switchTab('youtube', this)">📥 YouTube Download</button>
+                <button class="tab" id="youtubeTabButton" onclick="app.switchTab('youtube', this)">📥 YouTube Download</button>
                 <button class="tab" onclick="app.switchTab('ambience', this)">🌲 Ambience Deck</button>
+            </div>
+            <div class="folder-pickers">
+                <label class="btn folder-picker">📁 Collega cartella Musica<input id="musicFolderInput" type="file" webkitdirectory multiple></label>
+                <label class="btn folder-picker">🌲 Collega cartella Ambience<input id="ambienceFolderInput" type="file" webkitdirectory multiple></label>
+                <span class="folder-status" id="folderStatus">Seleziona la cartella music per ascoltare i brani senza caricarli online. Dopo aver riaperto la pagina, selezionala di nuovo.</span>
             </div>
 
             <!-- Library Tab -->
@@ -996,6 +1006,12 @@
         const app = {
             audio: document.getElementById('audioPlayer'),
             library: [],
+            serverMusicTracks: [],
+            localMusicTracks: [],
+            localMusicUrls: new Map(),
+            serverAmbienceSounds: [],
+            localAmbienceSounds: [],
+            localAmbienceUrls: new Map(),
             playlists: [],
             currentPlaylist: null,
             currentTrackIndex: -1,
@@ -1009,6 +1025,11 @@
 
             // Initialize the app
             init() {
+                if (!this.hasLocalServer()) {
+                    const youtubeTab = document.getElementById('youtubeTabButton');
+                    youtubeTab.disabled = true;
+                    youtubeTab.title = 'Il download YouTube richiede il server locale';
+                }
                 this.loadPlaylists();
                 this.loadLibrary();
                 this.loadAmbienceSounds();
@@ -1017,6 +1038,85 @@
                 this.updateUI();
                 this.loadCompactMode();
                 this.setupPlayerDrag();
+            },
+
+            hasLocalServer() {
+                return ['127.0.0.1', 'localhost'].includes(location.hostname) && location.port === '8765';
+            },
+
+            escapeHtml(value) {
+                return String(value).replace(/[&<>"']/g, character => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                })[character]);
+            },
+
+            resolveAudioPath(path) {
+                return this.localMusicUrls.get(path) || this.localAmbienceUrls.get(path) ||
+                    (this.hasLocalServer() ? path : null);
+            },
+
+            attachFolder(kind, files) {
+                const isMusic = kind === 'music';
+                const oldUrls = isMusic ? this.localMusicUrls : this.localAmbienceUrls;
+                const oldPaths = new Set(oldUrls.keys());
+                const nextUrls = new Map();
+                const tracks = [];
+                const ambienceFromMusic = [];
+                const prefix = isMusic ? '/music/' : '/ambience/';
+
+                for (const file of files) {
+                    if (!/\.(mp3|wav|ogg|m4a|flac)$/i.test(file.name)) continue;
+                    const parts = (file.webkitRelativePath || file.name).replace(/\\/g, '/').split('/');
+                    const relativePath = (parts.length > 1 ? parts.slice(1) : parts).join('/');
+                    const path = prefix + relativePath;
+                    nextUrls.set(path, URL.createObjectURL(file));
+                    const folder = parts.length > 2 ? parts.slice(1, -1).join('/') : 'Root';
+                    const track = { name: file.name, path, folder, size: file.size };
+                    tracks.push(track);
+                    if (isMusic && parts.length === 3 && parts[1].toLowerCase() === 'ambience') {
+                        ambienceFromMusic.push(track);
+                    }
+                }
+
+                if (this.currentPlaylist && oldPaths.has(this.currentPlaylist.tracks[this.currentTrackIndex]?.path)) {
+                    this.stop();
+                }
+                for (const [path, ambience] of this.activeAmbiences) {
+                    if (oldPaths.has(path)) {
+                        ambience.audio.pause();
+                        this.activeAmbiences.delete(path);
+                    }
+                }
+                for (const url of oldUrls.values()) URL.revokeObjectURL(url);
+
+                if (isMusic) {
+                    this.localMusicUrls = nextUrls;
+                    this.localMusicTracks = tracks;
+                    this.localAmbienceFromMusic = ambienceFromMusic;
+                    this.syncLibrary();
+                } else {
+                    this.localAmbienceUrls = nextUrls;
+                    this.localAmbienceSounds = tracks;
+                }
+                this.syncAmbience();
+                document.getElementById('folderStatus').textContent =
+                    `${this.localMusicTracks.length} brani dalla cartella Musica · ${this.localAmbienceSounds.length + (this.localAmbienceFromMusic?.length || 0)} atmosfere collegate. I file restano sul tuo computer; ricollega le cartelle dopo aver riaperto la pagina.`;
+            },
+
+            syncLibrary() {
+                this.library = [...new Map([...this.serverMusicTracks, ...this.localMusicTracks]
+                    .map(track => [track.path, track])).values()];
+                this.filterLibrary(document.getElementById('searchInput').value);
+                document.getElementById('trackCount').textContent = `${this.library.length} tracks loaded`;
+            },
+
+            syncAmbience() {
+                this.ambienceSounds = [...new Map([
+                    ...this.serverAmbienceSounds,
+                    ...(this.localAmbienceFromMusic || []),
+                    ...this.localAmbienceSounds
+                ].map(sound => [sound.path, sound])).values()];
+                this.renderAmbienceDeck();
             },
 
             // Toggle compact mode (default is compact, expanded is optional)
@@ -1114,16 +1214,21 @@
 
             // Load ambience sounds
             async loadAmbienceSounds() {
+                if (!this.hasLocalServer()) {
+                    this.syncAmbience();
+                    return;
+                }
                 try {
                     const response = await fetch('/api/ambience', { cache: 'no-store' });
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const data = await response.json();
                     if (data.version !== 5) throw new Error('Server musicale non aggiornato. Chiudilo e riavvia Avvia-LetherelWorld.bat.');
-                    this.ambienceSounds = data.files || [];
-                    this.renderAmbienceDeck();
+                    this.serverAmbienceSounds = data.files || [];
+                    this.syncAmbience();
                 } catch (error) {
                     console.error('Error loading ambience sounds:', error);
-                    document.getElementById('ambienceGrid').textContent = error.message;
+                    this.syncAmbience();
+                    if (this.ambienceSounds.length === 0) document.getElementById('ambienceGrid').textContent = error.message;
                 }
             },
 
@@ -1132,20 +1237,20 @@
                 const grid = document.getElementById('ambienceGrid');
 
                 if (this.ambienceSounds.length === 0) {
-                    grid.innerHTML = '<div class="empty-state">No ambience sounds found. Add audio files to the ambience folder.</div>';
+                    grid.innerHTML = '<div class="empty-state">Nessuna atmosfera. Collega la cartella Ambience oppure la cartella Musica con una sottocartella ambience.</div>';
                     return;
                 }
 
                 let html = '';
                 this.ambienceSounds.forEach((sound, index) => {
-                    const soundName = sound.name.replace(/\.[^/.]+$/, "");
+                    const soundName = this.escapeHtml(sound.name.replace(/\.[^/.]+$/, ""));
                     const isActive = this.activeAmbiences.has(sound.path);
                     const volume = isActive ? this.activeAmbiences.get(sound.path).volume : 50;
 
                     html += `
                         <div class="ambience-button ${isActive ? 'active' : ''}" id="ambience-${index}">
                             <div class="name">${soundName}</div>
-                            <button type="button" class="ambience-rename" onclick="event.stopPropagation(); app.renameAmbienceSound(${index})">Rinomina</button>
+                            ${this.hasLocalServer() ? `<button type="button" class="ambience-rename" onclick="event.stopPropagation(); app.renameAmbienceSound(${index})">Rinomina</button>` : ''}
                             <div class="volume-container">
                                 <input type="range" class="volume-slider" min="0" max="100" value="${volume}"
                                     aria-label="Volume ${soundName}">
@@ -1179,7 +1284,12 @@
                     this.activeAmbiences.delete(path);
                 } else {
                     // Start the sound
-                    const audio = new Audio(path);
+                    const source = this.resolveAudioPath(path);
+                    if (!source) {
+                        alert('Collega la cartella che contiene questa atmosfera.');
+                        return;
+                    }
+                    const audio = new Audio(source);
                     audio.loop = true;
                     audio.volume = 0.5;
                     audio.play();
@@ -1211,6 +1321,10 @@
 
             async renameTrack(track) {
                 if (!track) return;
+                if (!this.hasLocalServer() || this.localMusicUrls.has(track.path) || this.localAmbienceUrls.has(track.path)) {
+                    alert('Per rinominare il file sul disco, apri la dashboard con Avvia-LetherelWorld.bat.');
+                    return;
+                }
                 const oldPath = track.path;
                 const name = prompt('Nuovo nome del file (estensione invariata):', track.name.replace(/\.[^/.]+$/, ''));
                 if (name === null) return;
@@ -1387,21 +1501,38 @@
                 document.getElementById('searchInput').addEventListener('input', (e) => {
                     this.filterLibrary(e.target.value);
                 });
+                document.getElementById('musicFolderInput').addEventListener('change', e => {
+                    if (e.target.files.length) this.attachFolder('music', e.target.files);
+                    e.target.value = '';
+                });
+                document.getElementById('ambienceFolderInput').addEventListener('change', e => {
+                    if (e.target.files.length) this.attachFolder('ambience', e.target.files);
+                    e.target.value = '';
+                });
+                window.addEventListener('pagehide', () => {
+                    for (const url of [...this.localMusicUrls.values(), ...this.localAmbienceUrls.values()]) {
+                        URL.revokeObjectURL(url);
+                    }
+                });
             },
 
             // Load music library from server
             async loadLibrary() {
+                if (!this.hasLocalServer()) {
+                    this.syncLibrary();
+                    return;
+                }
                 try {
                     const response = await fetch('/api/music');
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const data = await response.json();
-                    this.library = data.files || [];
-                    this.renderLibrary();
-                    document.getElementById('trackCount').textContent =
-                        `${this.library.length} tracks loaded`;
+                    this.serverMusicTracks = data.files || [];
+                    this.syncLibrary();
                 } catch (error) {
                     console.error('Error loading library:', error);
-                    document.getElementById('libraryContent').innerHTML =
-                        '<div class="empty-state">Error loading music library. Make sure the server is running and the music folder exists.</div>';
+                    this.syncLibrary();
+                    if (this.library.length === 0) document.getElementById('libraryContent').innerHTML =
+                        '<div class="empty-state">Impossibile leggere la libreria dal server locale. Puoi collegare la cartella Musica qui sopra.</div>';
                 }
             },
 
@@ -1411,12 +1542,12 @@
                 const libraryContent = document.getElementById('libraryContent');
 
                 if (tracks.length === 0) {
-                    libraryContent.innerHTML = '<div class="empty-state">No tracks found. Add MP3 files to your music folder.</div>';
+                    libraryContent.innerHTML = '<div class="empty-state">Nessun brano. Collega la cartella Musica qui sopra.</div>';
                     return;
                 }
 
                 // Group by folder
-                const folders = {};
+                const folders = Object.create(null);
                 tracks.forEach(track => {
                     const folder = track.folder || 'Root';
                     if (!folders[folder]) {
@@ -1430,8 +1561,8 @@
                     const isCollapsed = this.collapsedFolders.has(folderName);
                     html += `
                         <div class="folder-group">
-                            <div class="folder-header" onclick="app.toggleFolder('${folderName}')">
-                                <span>📁 ${folderName} (${folders[folderName].length})</span>
+                            <div class="folder-header" data-folder="${this.escapeHtml(folderName)}">
+                                <span>📁 ${this.escapeHtml(folderName)} (${folders[folderName].length})</span>
                                 <span class="folder-toggle">${isCollapsed ? '▶' : '▼'}</span>
                             </div>
                             <div class="track-list" style="display: ${isCollapsed ? 'none' : 'block'}">
@@ -1439,13 +1570,13 @@
 
                     folders[folderName].forEach((track, index) => {
                         const globalIndex = this.library.indexOf(track);
-                        const trackName = track.name.replace(/\.[^/.]+$/, ""); // Remove extension
+                        const trackName = this.escapeHtml(track.name.replace(/\.[^/.]+$/, "")); // Remove extension
                         html += `
                             <div class="track-item" ondblclick="app.playTrackFromLibrary(${globalIndex})">
                                 <span class="track-name">${trackName}</span>
                                 <div class="track-actions">
                                     <button onclick="app.addToCurrentPlaylist(${globalIndex}); event.stopPropagation();">+ Add</button>
-                                    <button onclick="event.stopPropagation(); app.renameLibraryTrack(${globalIndex})">Rinomina</button>
+                                    ${this.hasLocalServer() ? `<button onclick="event.stopPropagation(); app.renameLibraryTrack(${globalIndex})">Rinomina</button>` : ''}
                                 </div>
                             </div>
                         `;
@@ -1458,6 +1589,9 @@
                 });
 
                 libraryContent.innerHTML = html;
+                libraryContent.querySelectorAll('.folder-header').forEach(header => {
+                    header.addEventListener('click', () => this.toggleFolder(header.dataset.folder));
+                });
             },
 
             // Toggle folder collapse
@@ -1586,11 +1720,11 @@
                 let html = '';
                 this.currentPlaylist.tracks.forEach((track, index) => {
                     const isPlaying = index === this.currentTrackIndex && this.isPlaying;
-                    const trackName = track.name.replace(/\.[^/.]+$/, "");
+                    const trackName = this.escapeHtml(track.name.replace(/\.[^/.]+$/, ""));
                     html += `
                         <div class="current-track-item ${isPlaying ? 'playing' : ''}" ondblclick="app.playTrack(${index})">
                             <span class="track-name">${isPlaying ? '▶ ' : ''}${trackName}</span>
-                            <button class="track-rename" onclick="event.stopPropagation(); app.renamePlaylistTrack(${index})">Rinomina</button>
+                            ${this.hasLocalServer() ? `<button class="track-rename" onclick="event.stopPropagation(); app.renamePlaylistTrack(${index})">Rinomina</button>` : ''}
                             <button class="remove-btn" onclick="app.removeFromPlaylist(${index}); event.stopPropagation();">×</button>
                         </div>
                     `;
@@ -1672,7 +1806,12 @@
                 if (!this.currentPlaylist || this.currentPlaylist.tracks.length === 0) return;
 
                 const track = this.currentPlaylist.tracks[this.currentTrackIndex];
-                this.audio.src = track.path;
+                const source = this.resolveAudioPath(track.path);
+                if (!source) {
+                    alert('Collega la cartella Musica che contiene questo brano.');
+                    return;
+                }
+                this.audio.src = source;
                 this.audio.play();
                 this.isPlaying = true;
                 this.updateUI();

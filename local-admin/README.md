@@ -20,6 +20,8 @@ I preset si salvano in `local-admin/schede-stampabili.json`, file versionato nel
 
 ## Musica e atmosfere
 
+Nella versione online della dashboard premi **Collega cartella Musica** e seleziona la cartella `music-dashboard/music/` del tuo computer. I brani vengono letti nel browser senza essere caricati su GitHub. Se la cartella contiene `ambience/`, quei brani compaiono anche nell'Ambience Deck; puoi inoltre usare **Collega cartella Ambience** per la cartella separata `music-dashboard/ambience/`. Dopo aver riaperto la pagina devi selezionare nuovamente le cartelle. Le playlist restano salvate nel browser usato per il sito online e sono separate da quelle dell'indirizzo locale. Download YouTube e rinomina dei file richiedono il server locale.
+
 Avvia `Avvia-LetherelWorld.bat` dalla cartella principale, poi apri **Musica** nel Local Admin. Il sito e la dashboard musicale usano lo stesso server locale sulla porta 8765. Metti i brani in `music-dashboard/music/`. Per le atmosfere puoi usare `music-dashboard/ambience/` oppure scrivere `ambience` nel campo **Save to Folder** del download YouTube: in questo caso i file finiscono in `music-dashboard/music/ambience/` e compaiono nell'Ambience Deck. La libreria include anche `assets/audio/` del sito. Puoi impostare `music_folder` in `music-dashboard/config.json` per usare una cartella musicale diversa. Le playlist sono salvate nel browser per l'indirizzo locale del sito. Per il download da YouTube servono yt-dlp e ffmpeg.
 
 Se YouTube restituisce un errore, leggilo nella scheda Download. Aggiorna yt-dlp con `python -m pip install -U "yt-dlp[default]"` e riavvia `Avvia-LetherelWorld.bat`: la versione installata deve restare compatibile con i cambiamenti di YouTube.
