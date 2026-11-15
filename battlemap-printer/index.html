@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#141913">
+  <title>Battlemap Printer · Letherel</title>
+  <link rel="stylesheet" href="./printer.css">
+  <script src="./printer.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../local-admin/index.html"><span class="brand-mark">L</span><span><strong>Battlemap Printer</strong><small>Stampa mappe in scala reale</small></span></a>
+    <a class="back-link" href="../local-admin/index.html">Local Admin ↗</a>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro">
+      <p class="eyebrow">Utility locale · PDF A4</p>
+      <h1>Una mappa.<br><em>Più pagine, scala giusta.</em></h1>
+      <p>Carica una o più immagini, seleziona un quadretto da 1″ e genera un PDF per ogni mappa. Ogni pagina ospita una sezione massima da 8″ × 11″.</p>
+    </section>
+
+    <section class="upload-panel" aria-labelledby="upload-title">
+      <div>
+        <p class="eyebrow">01 / Immagini</p>
+        <h2 id="upload-title">Aggiungi battlemap</h2>
+        <p>Supporta i formati immagine del browser. Le immagini restano sul tuo dispositivo.</p>
+      </div>
+      <label class="upload-button" for="image-files">Seleziona immagini</label>
+      <input id="image-files" type="file" accept="image/*" multiple hidden>
+    </section>
+
+    <section id="image-list" class="image-list" aria-live="polite"></section>
+
+    <section id="empty-state" class="empty-state">
+      <span aria-hidden="true">▧</span>
+      <p>Qui appariranno le mappe caricate.</p>
+    </section>
+
+    <section id="output-panel" class="output-panel" hidden>
+      <div class="output-copy">
+        <p class="eyebrow">02 / Esportazione</p>
+        <h2>PDF pronti da stampare</h2>
+        <p>Stampa le tessere al 100%, senza «Adatta alla pagina». Puoi aggiungere una pagina reference facoltativa.</p>
+      </div>
+      <div class="output-actions">
+        <label class="reference-toggle"><input id="include-reference" type="checkbox"><span>Aggiungi pagina reference</span></label>
+        <button id="generate" class="generate-button" type="button" disabled>Genera PDF</button>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <p class="footnote">Tessere in ordine: da sinistra a destra, poi dall’alto in basso. L’ultima tessera può lasciare spazio bianco. A4 include margine extra attorno alla sezione 8″ × 11″.</p>
+  </main>
+</body>
+</html>

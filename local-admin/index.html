@@ -31,6 +31,9 @@
         <button type="button" data-view="cards"><span>▧</span>Carte</button>
         <button type="button" data-view="cassa"><span>▣</span>Cassa</button>
         <button type="button" data-view="info"><span>✦</span>Info</button>
+        <a class="admin-nav-link" href="./music-dashboard/index.html" target="_blank" rel="noopener noreferrer"><span>♫</span>Musica ↗</a>
+        <a class="admin-nav-link" href="../mapmaker/index.html" target="_blank" rel="noopener noreferrer" aria-label="Apri Mapmaker in una nuova scheda"><span aria-hidden="true">⌖</span>Mapmaker ↗</a>
+        <a class="admin-nav-link" href="../battlemap-printer/index.html" target="_blank" rel="noopener noreferrer" aria-label="Apri Battlemap Printer in una nuova scheda"><span aria-hidden="true">▦</span>Battlemap ↗</a>
       </nav>
       <p class="admin-private-note">La pagina non invia dati online. Le modifiche vengono scritte nella cartella del progetto che selezioni.</p>
     </aside>
@@ -45,7 +48,6 @@
       </header>
 
       <div id="global-message" class="admin-global-message" role="status" aria-live="polite"></div>
-
       <section class="admin-view" id="dashboard-view" data-panel="dashboard">
         <div class="admin-hero">
           <div><div class="eyebrow">Strumenti del coordinatore</div><h2>Gestisci l’archivio</h2><p>Collega la cartella del progetto per aggiornare personaggi, missioni, avventure, calendario e pagine informative. Le modifiche restano locali finché non decidi di pubblicarle.</p></div>
@@ -59,6 +61,9 @@
           <button type="button" class="admin-dashboard-card" data-view="cards"><span class="dashboard-icon">▧</span><strong>Carte stampabili</strong><small>Crea carte per equipaggiamento, creature e incantesimi; salva i modelli in preset JSON e stampali.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
           <button type="button" class="admin-dashboard-card" data-view="cassa"><span class="dashboard-icon">▣</span><strong>Cassa Distretto</strong><small>Importa equipaggiamento dai preset, assegna un proprietario e aggiorna gli oggetti pubblicati.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
           <button type="button" class="admin-dashboard-card" data-view="info"><span class="dashboard-icon">✦</span><strong>Info</strong><small>Modifica il titolo, i sottotitoli, i paragrafi e gli elenchi della pagina Info.</small><span class="dashboard-action">Apri gestione <b>↗</b></span></button>
+          <a class="admin-dashboard-card admin-dashboard-card-link" href="./music-dashboard/index.html" target="_blank" rel="noopener noreferrer"><span class="dashboard-icon">♫</span><strong>Musica e atmosfere</strong><small>Apri la dashboard musicale per gestire brani, playlist e atmosfere.</small><span class="dashboard-action">Apri player <b>↗</b></span></a>
+          <a class="admin-dashboard-card admin-dashboard-card-link" href="../mapmaker/index.html" target="_blank" rel="noopener noreferrer"><span class="dashboard-icon">⌖</span><strong>Mapmaker</strong><small>Modifica i territori di Letherel ed esporta la mappa. Si apre in una nuova scheda.</small><span class="dashboard-action">Apri utility <b>↗</b></span></a>
+          <a class="admin-dashboard-card admin-dashboard-card-link" href="../battlemap-printer/index.html" target="_blank" rel="noopener noreferrer"><span class="dashboard-icon">▦</span><strong>Battlemap Printer</strong><small>Dividi mappe in pagine A4 con griglia stampata in scala reale.</small><span class="dashboard-action">Apri utility <b>↗</b></span></a>
         </div>
         <div class="admin-tip"><strong>Prima volta?</strong><span>Premi <em>Collega cartella</em> e seleziona la cartella principale <code>LetherelWorld</code>, quella che contiene <code>index.html</code>.</span></div>
       </section>
@@ -240,6 +245,7 @@
           <div class="admin-form-footer"><p id="info-message" class="admin-message" role="status" aria-live="polite"></p><button class="admin-button" type="submit">Salva Info</button></div>
         </form>
       </section>
+
     </main>
   </div>
   <div id="printable-card-print-output" aria-hidden="true"></div>

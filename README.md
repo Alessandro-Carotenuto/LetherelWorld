@@ -36,6 +36,10 @@ La card viene generata da `createMissionCard` e inserita da `insertMissionCard` 
 
 Apri `mapmaker/index.html` per usare il preset cartografico di Letherel, con i confini colorati e le etichette delle 20 casate e della Confraternita. Il tool è autonomo rispetto alla dashboard in `local-admin`; dettagli in `mapmaker/README.md`.
 
+## Battlemap Printer
+
+Apri `battlemap-printer/index.html` per dividere una o più battlemap in tessere A4 stampabili in scala reale. Seleziona un quadretto da 1 pollice per calibrare la mappa; ogni PDF contiene una tessera per pagina, con segni di ritaglio. Il tool calcola i fogli minimi; puoi chiedere fogli extra, che restano vuoti. Attiva il toggle per aggiungere una pagina reference numerata. Stampa le tessere al 100%, senza adattamento alla pagina. Il collegamento è disponibile nella dashboard di `local-admin`.
+
 ## Modificare i personaggi
 
 Ogni scheda è un JSON in `assets/data/player-cards/`. Per mostrarla nel Rovere, aggiungi il file anche a `assets/data/player-cards/index.json` e il nome esatto al rango corrispondente in `assets/data/player-cards/roster.json`.
