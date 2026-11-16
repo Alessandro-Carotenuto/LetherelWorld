@@ -171,7 +171,9 @@
     if (String(data.name || "").length > 38) title.classList.add("very-long-name");
     header.append(title);
     if (type === "incantesimo" && String(data.level ?? "").trim()) {
-      header.append(node("span", "print-card-level", data.level));
+      const level = node("span", "print-card-level");
+      level.append(node("span", "", data.level));
+      header.append(level);
     }
     card.append(header);
 
