@@ -12,6 +12,10 @@
   const list = document.getElementById("printable-card-list");
   const sheetList = document.getElementById("printable-card-sheet-list");
   const count = document.getElementById("printable-card-count");
+  const searchInput = document.getElementById("printable-card-search");
+  const filterType = document.getElementById("printable-card-filter-type");
+  const filterCategory = document.getElementById("printable-card-filter-category");
+  const resultsLabel = document.getElementById("printable-card-results");
   const message = document.getElementById("printable-card-message");
   const saveButton = document.getElementById("printable-card-save");
   const formTitle = document.getElementById("printable-card-form-title");
@@ -236,37 +240,98 @@
     message.dataset.kind = kind;
   }
 
+  function normalizeSearch(value) {
+    return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("it");
+  }
+
+  function presetCategory(preset) {
+    const data = preset.data || {};
+    const value = preset.type === "equipaggiamento" ? data.category
+      : preset.type === "creatura" ? data.creatureType
+        : preset.type === "incantesimo" ? data.school : "";
+    return String(value || "").trim();
+  }
+
+  function refreshCategoryFilter() {
+    const previous = filterCategory.value;
+    const selectedType = filterType.value;
+    const categories = [...new Set(presets
+      .filter(preset => !selectedType || preset.type === selectedType)
+      .map(presetCategory)
+      .filter(Boolean))].sort((a, b) => a.localeCompare(b, "it", { sensitivity: "base" }));
+    filterCategory.replaceChildren(new Option("Tutte le categorie", ""));
+    categories.forEach(category => filterCategory.add(new Option(category, category)));
+    filterCategory.value = categories.includes(previous) ? previous : "";
+  }
+
   function renderList() {
     count.textContent = String(presets.length);
     list.replaceChildren();
+    refreshCategoryFilter();
     if (!presets.length) {
       list.append(node("p", "empty-state", "Non hai ancora salvato preset."));
+      resultsLabel.textContent = "0 preset";
       renderSheet();
       return;
     }
-    presets.forEach(preset => {
-      const row = node("div", "record-row");
-      const copy = node("div", "record-copy");
-      copy.append(node("strong", "", preset.title || preset.data?.name || "Carta senza nome"));
-      const typeLabel = TYPE_LABELS[preset.type] || "Carta";
-      const costLabel = preset.type === "equipaggiamento" && formatCost(preset.data?.cost);
-      copy.append(node("small", "", costLabel ? `${typeLabel} · ${costLabel}` : typeLabel));
-      const actions = node("div", "record-actions");
-      [
-        ["load", "Carica", "Carica questo preset"],
-        ["add", "Aggiungi", "Aggiungi al foglio di stampa"],
-        ["delete", "×", "Elimina questo preset"]
-      ].forEach(([action, label, title]) => {
-        const button = node("button", `record-action${action === "delete" ? " danger" : ""}`, label);
-        button.type = "button";
-        button.dataset.action = action;
-        button.dataset.id = preset.id;
-        button.title = title;
-        if (action === "add" && sheetQueue.length >= 9) button.disabled = true;
-        actions.append(button);
+    const queryTerms = normalizeSearch(searchInput.value.trim()).split(/\s+/).filter(Boolean);
+    const selectedType = filterType.value;
+    const selectedCategory = normalizeSearch(filterCategory.value);
+    const filtered = presets.filter(preset => {
+      if (selectedType && preset.type !== selectedType) return false;
+      if (selectedCategory && normalizeSearch(presetCategory(preset)) !== selectedCategory) return false;
+      if (!queryTerms.length) return true;
+      const dataText = Object.values(preset.data || {}).filter(value =>
+        typeof value === "string" || typeof value === "number"
+      ).join(" ");
+      const searchableText = normalizeSearch(`${preset.title || preset.data?.name || ""} ${TYPE_LABELS[preset.type] || "Carta"} ${presetCategory(preset)} ${dataText}`);
+      return queryTerms.every(term => searchableText.includes(term));
+    });
+    resultsLabel.textContent = `${filtered.length} di ${presets.length} preset`;
+    if (!filtered.length) {
+      list.append(node("p", "empty-state", "Nessun preset trovato. Prova a cambiare ricerca o filtri."));
+      renderSheet();
+      return;
+    }
+
+    const typeOrder = ["equipaggiamento", "creatura", "incantesimo"];
+    const types = [...new Set(filtered.map(preset => preset.type))].sort((a, b) => {
+      const aIndex = typeOrder.indexOf(a);
+      const bIndex = typeOrder.indexOf(b);
+      return (aIndex < 0 ? typeOrder.length : aIndex) - (bIndex < 0 ? typeOrder.length : bIndex);
+    });
+    types.forEach(type => {
+      const groupPresets = filtered.filter(preset => preset.type === type);
+      const group = node("section", "cards-preset-group");
+      group.append(node("h4", "", `${TYPE_LABELS[type] || "Carta"} · ${groupPresets.length}`));
+      const groupList = node("div", "cards-preset-group-list");
+      groupPresets.forEach(preset => {
+        const row = node("div", "record-row");
+        const copy = node("div", "record-copy");
+        copy.append(node("strong", "", preset.title || preset.data?.name || "Carta senza nome"));
+        const categoryLabel = presetCategory(preset);
+        const costLabel = type === "equipaggiamento" && formatCost(preset.data?.cost);
+        const details = [categoryLabel, costLabel].filter(Boolean).join(" · ");
+        copy.append(node("small", "", details || TYPE_LABELS[type] || "Carta"));
+        const actions = node("div", "record-actions");
+        [
+          ["load", "Carica", "Carica questo preset"],
+          ["add", "Aggiungi", "Aggiungi al foglio di stampa"],
+          ["delete", "×", "Elimina questo preset"]
+        ].forEach(([action, label, title]) => {
+          const button = node("button", `record-action${action === "delete" ? " danger" : ""}`, label);
+          button.type = "button";
+          button.dataset.action = action;
+          button.dataset.id = preset.id;
+          button.title = title;
+          if (action === "add" && sheetQueue.length >= 9) button.disabled = true;
+          actions.append(button);
+        });
+        row.append(copy, actions);
+        groupList.append(row);
       });
-      row.append(copy, actions);
-      list.append(row);
+      group.append(groupList);
+      list.append(group);
     });
     renderSheet();
   }
@@ -441,6 +506,16 @@
     document.getElementById("printable-card-sheet-clear").addEventListener("click", () => {
       sheetQueue.length = 0;
       renderList();
+    });
+    searchInput.addEventListener("input", renderList);
+    filterType.addEventListener("change", renderList);
+    filterCategory.addEventListener("change", renderList);
+    document.getElementById("printable-card-filter-reset").addEventListener("click", () => {
+      searchInput.value = "";
+      filterType.value = "";
+      filterCategory.value = "";
+      renderList();
+      searchInput.focus();
     });
     list.addEventListener("click", event => {
       const button = event.target.closest("button[data-action]");

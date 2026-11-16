@@ -198,6 +198,13 @@
         <section class="admin-panel cards-presets-panel" data-requires-repository>
           <div class="admin-panel-heading"><div><span class="admin-kicker">Archivio locale</span><h3>Preset salvati</h3></div><span id="printable-card-count" class="admin-count">0</span></div>
           <p class="admin-help">I preset sono salvati in <code>local-admin/schede-stampabili.json</code>, una cartella esclusa dalla pubblicazione del sito.</p>
+          <div class="cards-preset-filters" role="search" aria-label="Cerca e filtra i preset">
+            <label class="cards-preset-search">Cerca un preset<input id="printable-card-search" type="search" placeholder="Nome, descrizione, proprietà…"></label>
+            <label>Tipo di carta<select id="printable-card-filter-type"><option value="">Tutti i tipi</option><option value="equipaggiamento">Equipaggiamento</option><option value="creatura">Creatura</option><option value="incantesimo">Incantesimo</option></select></label>
+            <label>Categoria<select id="printable-card-filter-category"><option value="">Tutte le categorie</option></select></label>
+            <button id="printable-card-filter-reset" class="admin-button secondary" type="button">Pulisci filtri</button>
+            <p id="printable-card-results" class="cards-preset-results" aria-live="polite"></p>
+          </div>
           <div id="printable-card-list" class="admin-record-list" aria-live="polite"><p class="empty-state">Collega prima la cartella del progetto.</p></div>
         </section>
       </section>
