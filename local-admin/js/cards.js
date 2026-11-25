@@ -510,20 +510,47 @@
   }
 
   async function downloadCardImage(data, title, button) {
+    if (button.disabled) return;
+    const filename = String(title || "carta").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[<>:"/\\|?*\x00-\x1f]/g, "").trim().replace(/[. ]+$/g, "") || "carta";
+    const previousLink = button.nextElementSibling;
+    if (previousLink?.matches("a[data-card-download]")) {
+      URL.revokeObjectURL(previousLink.href);
+      previousLink.remove();
+    }
     button.disabled = true;
     try {
+      let fileHandle;
+      if (typeof window.showSaveFilePicker === "function") {
+        try {
+          fileHandle = await window.showSaveFilePicker({
+            suggestedName: `${filename}.png`,
+            types: [{ description: "Immagine PNG", accept: { "image/png": [".png"] } }]
+          });
+        } catch (error) {
+          if (error.name === "AbortError") return;
+          // Se il browser non permette il selettore file, mostra un link di download.
+        }
+      }
       const blob = await renderCardPng(data);
-      const filename = String(title || "carta").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/[<>:"/\\|?*\x00-\x1f]/g, "").trim().replace(/[. ]+$/g, "") || "carta";
+      if (fileHandle) {
+        const writable = await fileHandle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        showMessage(`PNG salvato: ${filename}.png`, "success");
+        return;
+      }
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
+      const link = node("a", button.classList.contains("record-action") ? "record-action" : "admin-button secondary", "Scarica PNG");
+      link.dataset.cardDownload = "true";
       link.href = url;
       link.download = `${filename}.png`;
-      document.body.append(link);
-      link.click();
-      link.remove();
-      window.setTimeout(() => URL.revokeObjectURL(url), 30000);
-      showMessage(`PNG scaricato: ${filename}.png`, "success");
+      link.addEventListener("click", () => {
+        showMessage(`Download avviato: ${filename}.png`, "success");
+        window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+      }, { once: true });
+      (button.isConnected ? button : document.getElementById("printable-card-preview-download")).after(link);
+      showMessage(`PNG pronto: clicca «Scarica PNG» accanto al pulsante.`, "success");
     } catch (error) {
       showMessage(`Download PNG non riuscito: ${error.message}`, "error");
     } finally {
