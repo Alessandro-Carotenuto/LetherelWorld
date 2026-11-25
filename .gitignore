@@ -5,3 +5,4 @@ local-admin/music-dashboard/config.json
 local-admin/music-dashboard/__pycache__/
 /tmp/
 /extra assets/
+/.repowise/
