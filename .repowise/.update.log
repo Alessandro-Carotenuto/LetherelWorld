@@ -277,3 +277,50 @@ Related pages refreshed on 1 pages
 
   ✓ VS Code MCP configured (C:\Users\alex1\Documents\Cloned Repositories\LetherelWorld\.vscode\mcp.json)
   ✓ VS Code extension recommended (C:\Users\alex1\Documents\Cloned Repositories\LetherelWorld\.vscode\extensions.json)
+
+--- post-commit hook fired at Wed, Nov 25, 2026  8:05:27 PM for HEAD 4f29e2bfd5df288412f2321af3d113ff3379cb9c ---
+repowise update · LetherelWorld
+def19e23..4f29e2bf
+68 changed · 11 modified, 57 added
+       added  .claude/CLAUDE.md
+    modified  .gitignore
+       added  .mcp.json
+       added  .repowise/.update.log
+       added  .repowise/centrality_cache.pkl
+       added  .repowise/cleanup-debt.json
+       added  .repowise/commit_window_cache.json
+       added  .repowise/config.yaml
+       added  .repowise/duplication_cache.pkl
+       added  .repowise/duplication_pairs.pkl
+  +58 more (use -v to list all)
+Pages from an older renderer: 1
+
+⚠ Cascade budget of 50 pages was reached. 19 dependent pages were skipped and marked stale.
+  Pass `--cascade-budget 69` to regenerate them all.
+
+Pages to regenerate: 51
+Pages to decay: 19
+Health analysis (partial): 68 changed, 10 performance-affected, 8 findings
+Dead code findings: 63
+Knowledge graph refreshed: 4 layers, 7 tour steps
+  ✓ Re-rendered 3 wiki pages from structure
+Related pages refreshed on 3 pages
+Health re-score: 96 files, 76 findings
+
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── {^ ^}  repowise index-only update complete ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                                                                                                                                                                                                                                                                                                                              │
+│   Files changed           68                                                                                                                                                                                                                                                                                                                                                                                 │
+│   Graph                   401 nodes · 490 edges                                                                                                                                                                                                                                                                                                                                                              │
+│   Dead code               0 unreachable · 0 unused exports                                                                                                                                                                                                                                                                                                                                                   │
+│   Wiki pages              3 re-rendered from structure                                                                                                                                                                                                                                                                                                                                                       │
+│   Git history             3 files refreshed                                                                                                                                                                                                                                                                                                                                                                  │
+│   Elapsed                 9.7s                                                                                                                                                                                                                                                                                                                                                                               │
+│                                                                                                                                                                                                                                                                                                                                                                                                              │
+│   What's next:                                                                                                                                                                                                                                                                                                                                                                                               │
+│   repowise serve              browse the index at localhost:3000                                                                                                                                                                                                                                                                                                                                             │
+│   repowise generate           upgrade the wiki to model-written prose (needs a key)                                                                                                                                                                                                                                                                                                                          │
+│                                                                                                                                                                                                                                                                                                                                                                                                              │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+  ✓ VS Code MCP configured (C:\Users\alex1\Documents\Cloned Repositories\LetherelWorld\.vscode\mcp.json)
+  ✓ VS Code extension recommended (C:\Users\alex1\Documents\Cloned Repositories\LetherelWorld\.vscode\extensions.json)

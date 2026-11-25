@@ -4,7 +4,7 @@
   "project": {
     "name": "LetherelWorld",
     "is_monorepo": false,
-    "total_files": 97,
+    "total_files": 96,
     "entry_points": [
       "local-admin/music-dashboard/server.py"
     ],
@@ -30,9 +30,9 @@
       "filePath": ".claude/CLAUDE.md",
       "language": "markdown",
       "symbolCount": 0,
-      "lineCount": 162,
+      "lineCount": 164,
       "complexity": "moderate",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 6,
       "tags": [],
       "summary": "Repository instructions and context for AI coding agents."
@@ -45,7 +45,7 @@
       "symbolCount": 0,
       "lineCount": 8,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 7,
       "tags": [
         "config"
@@ -60,7 +60,7 @@
       "symbolCount": 0,
       "lineCount": 83,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 8,
       "tags": [],
       "summary": "Project overview and entry point for new readers."
@@ -73,7 +73,7 @@
       "symbolCount": 0,
       "lineCount": 49,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 9,
       "tags": [],
       "summary": "Application module card-frame-preview."
@@ -86,7 +86,7 @@
       "symbolCount": 0,
       "lineCount": 350,
       "complexity": "moderate",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module casate."
@@ -99,7 +99,7 @@
       "symbolCount": 0,
       "lineCount": 173,
       "complexity": "moderate",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module confraternita."
@@ -112,7 +112,7 @@
       "symbolCount": 0,
       "lineCount": 1624,
       "complexity": "complex",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module regno."
@@ -125,7 +125,7 @@
       "symbolCount": 0,
       "lineCount": 169,
       "complexity": "moderate",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module site-images."
@@ -138,10 +138,11 @@
       "symbolCount": 0,
       "lineCount": 308,
       "complexity": "moderate",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
-      "summary": "Application module taverna-content."
+      "summary": "Application module taverna-content.",
+      "primaryOwner": "Alessandro Carotenuto"
     },
     {
       "id": "file:assets/data/avventure.json",
@@ -151,7 +152,7 @@
       "symbolCount": 0,
       "lineCount": 24,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 10,
       "tags": [
         "config"
@@ -166,7 +167,7 @@
       "symbolCount": 0,
       "lineCount": 115,
       "complexity": "moderate",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 11,
       "tags": [
         "config"
@@ -181,7 +182,7 @@
       "symbolCount": 0,
       "lineCount": 10,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 12,
       "tags": [
         "config"
@@ -196,7 +197,7 @@
       "symbolCount": 0,
       "lineCount": 115,
       "complexity": "moderate",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 13,
       "tags": [
         "config"
@@ -211,7 +212,7 @@
       "symbolCount": 0,
       "lineCount": 58,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 14,
       "tags": [
         "config"
@@ -226,7 +227,7 @@
       "symbolCount": 0,
       "lineCount": 26,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 15,
       "tags": [
         "config"
@@ -241,7 +242,7 @@
       "symbolCount": 0,
       "lineCount": 18,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 16,
       "tags": [
         "config"
@@ -256,7 +257,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 17,
       "tags": [
         "config"
@@ -271,7 +272,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 18,
       "tags": [
         "config"
@@ -286,7 +287,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 19,
       "tags": [
         "config"
@@ -301,7 +302,7 @@
       "symbolCount": 0,
       "lineCount": 15,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 20,
       "tags": [
         "config"
@@ -316,7 +317,7 @@
       "symbolCount": 0,
       "lineCount": 16,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 21,
       "tags": [
         "config"
@@ -331,7 +332,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 22,
       "tags": [
         "config"
@@ -346,7 +347,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 23,
       "tags": [
         "config"
@@ -361,7 +362,7 @@
       "symbolCount": 0,
       "lineCount": 24,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 24,
       "tags": [
         "config"
@@ -376,7 +377,7 @@
       "symbolCount": 0,
       "lineCount": 28,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 25,
       "tags": [
         "config"
@@ -391,7 +392,7 @@
       "symbolCount": 0,
       "lineCount": 15,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 26,
       "tags": [
         "config"
@@ -406,7 +407,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 27,
       "tags": [
         "config"
@@ -421,7 +422,7 @@
       "symbolCount": 0,
       "lineCount": 21,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 28,
       "tags": [
         "config"
@@ -436,7 +437,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 29,
       "tags": [
         "config"
@@ -451,7 +452,7 @@
       "symbolCount": 0,
       "lineCount": 17,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 30,
       "tags": [
         "config"
@@ -466,7 +467,7 @@
       "symbolCount": 0,
       "lineCount": 21,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 31,
       "tags": [
         "config"
@@ -481,7 +482,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 32,
       "tags": [
         "config"
@@ -496,7 +497,7 @@
       "symbolCount": 0,
       "lineCount": 12,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 33,
       "tags": [
         "config"
@@ -511,7 +512,7 @@
       "symbolCount": 0,
       "lineCount": 19,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 34,
       "tags": [
         "config"
@@ -526,7 +527,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 35,
       "tags": [
         "config"
@@ -541,7 +542,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 36,
       "tags": [
         "config"
@@ -556,7 +557,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 37,
       "tags": [
         "config"
@@ -571,7 +572,7 @@
       "symbolCount": 0,
       "lineCount": 16,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 38,
       "tags": [
         "config"
@@ -586,7 +587,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 39,
       "tags": [
         "config"
@@ -601,7 +602,7 @@
       "symbolCount": 0,
       "lineCount": 15,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 40,
       "tags": [
         "config"
@@ -616,7 +617,7 @@
       "symbolCount": 0,
       "lineCount": 18,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 41,
       "tags": [
         "config"
@@ -631,7 +632,7 @@
       "symbolCount": 0,
       "lineCount": 16,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 42,
       "tags": [
         "config"
@@ -646,7 +647,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 43,
       "tags": [
         "config"
@@ -661,7 +662,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 44,
       "tags": [
         "config"
@@ -676,7 +677,7 @@
       "symbolCount": 0,
       "lineCount": 21,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 45,
       "tags": [
         "config"
@@ -691,7 +692,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 46,
       "tags": [
         "config"
@@ -706,7 +707,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 47,
       "tags": [
         "config"
@@ -721,7 +722,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 48,
       "tags": [
         "config"
@@ -736,7 +737,7 @@
       "symbolCount": 0,
       "lineCount": 26,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 49,
       "tags": [
         "config"
@@ -751,7 +752,7 @@
       "symbolCount": 0,
       "lineCount": 16,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 50,
       "tags": [
         "config"
@@ -766,7 +767,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 51,
       "tags": [
         "config"
@@ -781,7 +782,7 @@
       "symbolCount": 0,
       "lineCount": 21,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 52,
       "tags": [
         "config"
@@ -796,7 +797,7 @@
       "symbolCount": 0,
       "lineCount": 20,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 53,
       "tags": [
         "config"
@@ -811,7 +812,7 @@
       "symbolCount": 0,
       "lineCount": 16,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 54,
       "tags": [
         "config"
@@ -826,7 +827,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 55,
       "tags": [
         "config"
@@ -841,7 +842,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 56,
       "tags": [
         "config"
@@ -856,7 +857,7 @@
       "symbolCount": 0,
       "lineCount": 14,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 57,
       "tags": [
         "config"
@@ -871,7 +872,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 58,
       "tags": [
         "config"
@@ -886,7 +887,7 @@
       "symbolCount": 0,
       "lineCount": 13,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 59,
       "tags": [
         "config"
@@ -901,7 +902,7 @@
       "symbolCount": 0,
       "lineCount": 23,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 60,
       "tags": [
         "config"
@@ -916,7 +917,7 @@
       "symbolCount": 0,
       "lineCount": 146,
       "complexity": "moderate",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module bacheca."
@@ -929,7 +930,7 @@
       "symbolCount": 0,
       "lineCount": 146,
       "complexity": "moderate",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module pages."
@@ -942,7 +943,7 @@
       "symbolCount": 0,
       "lineCount": 134,
       "complexity": "moderate",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module player-card."
@@ -955,7 +956,7 @@
       "symbolCount": 0,
       "lineCount": 21,
       "complexity": "simple",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module shared."
@@ -968,7 +969,7 @@
       "symbolCount": 43,
       "lineCount": 754,
       "complexity": "complex",
-      "pagerank": 0.008493,
+      "pagerank": 0.00856,
       "communityId": 1,
       "tags": [],
       "summary": "Application module site defining cassaText, cassaParagraphs, cassaCost."
@@ -981,7 +982,7 @@
       "symbolCount": 0,
       "lineCount": 61,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 61,
       "tags": [],
       "summary": "Application module menu-baseline-preview."
@@ -994,7 +995,7 @@
       "symbolCount": 0,
       "lineCount": 71,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 62,
       "tags": [],
       "summary": "Application module mini-baseline-preview."
@@ -1007,7 +1008,7 @@
       "symbolCount": 0,
       "lineCount": 64,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 5,
       "tags": [],
       "summary": "Application module index."
@@ -1020,25 +1021,10 @@
       "symbolCount": 0,
       "lineCount": 551,
       "complexity": "complex",
-      "pagerank": 0.014481,
+      "pagerank": 0.014595,
       "communityId": 5,
       "tags": [],
       "summary": "Application module printer."
-    },
-    {
-      "id": "file:extra assets/battlemaps/2 Page Forest Map Dense.json",
-      "type": "config",
-      "filePath": "extra assets/battlemaps/2 Page Forest Map Dense.json",
-      "language": "json",
-      "symbolCount": 0,
-      "lineCount": 362,
-      "complexity": "moderate",
-      "pagerank": 0.007828,
-      "communityId": 66,
-      "tags": [
-        "config"
-      ],
-      "summary": "Configuration file: 2 Page Forest Map Dense.json."
     },
     {
       "id": "file:index.html",
@@ -1048,7 +1034,7 @@
       "symbolCount": 0,
       "lineCount": 88,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 1,
       "tags": [],
       "summary": "Application module index."
@@ -1059,10 +1045,10 @@
       "filePath": "local-admin/README.md",
       "language": "markdown",
       "symbolCount": 0,
-      "lineCount": 94,
+      "lineCount": 98,
       "complexity": "simple",
-      "pagerank": 0.007828,
-      "communityId": 67,
+      "pagerank": 0.007889,
+      "communityId": 66,
       "tags": [],
       "summary": "Project overview and entry point for new readers."
     },
@@ -1072,9 +1058,9 @@
       "filePath": "local-admin/index.html",
       "language": "html",
       "symbolCount": 0,
-      "lineCount": 696,
+      "lineCount": 724,
       "complexity": "complex",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 2,
       "tags": [],
       "summary": "Application module index."
@@ -1087,7 +1073,7 @@
       "symbolCount": 0,
       "lineCount": 92,
       "complexity": "simple",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
       "summary": "Application module admin."
@@ -1100,7 +1086,7 @@
       "symbolCount": 0,
       "lineCount": 274,
       "complexity": "moderate",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
       "summary": "Application module adventures."
@@ -1113,7 +1099,7 @@
       "symbolCount": 0,
       "lineCount": 266,
       "complexity": "moderate",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
       "summary": "Application module board."
@@ -1126,7 +1112,7 @@
       "symbolCount": 0,
       "lineCount": 173,
       "complexity": "moderate",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
       "summary": "Application module calendar."
@@ -1137,12 +1123,13 @@
       "filePath": "local-admin/js/cards.js",
       "language": "javascript",
       "symbolCount": 0,
-      "lineCount": 522,
+      "lineCount": 714,
       "complexity": "complex",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
-      "summary": "Application module cards."
+      "summary": "Application module cards.",
+      "primaryOwner": "Alessandro Carotenuto"
     },
     {
       "id": "file:local-admin/js/cassa.js",
@@ -1152,7 +1139,7 @@
       "symbolCount": 0,
       "lineCount": 225,
       "complexity": "moderate",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
       "summary": "Application module cassa."
@@ -1165,7 +1152,7 @@
       "symbolCount": 0,
       "lineCount": 160,
       "complexity": "moderate",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
       "summary": "Application module info."
@@ -1178,7 +1165,7 @@
       "symbolCount": 0,
       "lineCount": 348,
       "complexity": "moderate",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
       "summary": "Application module players."
@@ -1191,7 +1178,7 @@
       "symbolCount": 0,
       "lineCount": 73,
       "complexity": "simple",
-      "pagerank": 0.008567,
+      "pagerank": 0.008634,
       "communityId": 2,
       "tags": [],
       "summary": "Application module repository."
@@ -1204,8 +1191,8 @@
       "symbolCount": 0,
       "lineCount": 1944,
       "complexity": "complex",
-      "pagerank": 0.007828,
-      "communityId": 68,
+      "pagerank": 0.007889,
+      "communityId": 67,
       "tags": [],
       "summary": "Application module index."
     },
@@ -1217,13 +1204,12 @@
       "symbolCount": 26,
       "lineCount": 741,
       "complexity": "complex",
-      "pagerank": 0.008778,
+      "pagerank": 0.008847,
       "communityId": 0,
       "tags": [
         "entry_point"
       ],
-      "summary": "Application module server defining log, MusicPlayerHandler, __init__.",
-      "primaryOwner": "Alessandro Carotenuto"
+      "summary": "Application module server defining log, MusicPlayerHandler, __init__."
     },
     {
       "id": "file:local-admin/music-dashboard/test-ambience.cjs",
@@ -1233,11 +1219,10 @@
       "symbolCount": 13,
       "lineCount": 69,
       "complexity": "moderate",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 3,
       "tags": [],
-      "summary": "Application module test-ambience defining TestAudio, constructor, play.",
-      "primaryOwner": "Alessandro Carotenuto"
+      "summary": "Application module test-ambience defining TestAudio, constructor, play."
     },
     {
       "id": "file:local-admin/music-dashboard/test_server_audio.py",
@@ -1247,13 +1232,12 @@
       "symbolCount": 2,
       "lineCount": 58,
       "complexity": "simple",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 0,
       "tags": [
         "test"
       ],
-      "summary": "Tests for server_audio.",
-      "primaryOwner": "Alessandro Carotenuto"
+      "summary": "Tests for server_audio."
     },
     {
       "id": "file:local-admin/schede-stampabili.json",
@@ -1261,10 +1245,10 @@
       "filePath": "local-admin/schede-stampabili.json",
       "language": "json",
       "symbolCount": 0,
-      "lineCount": 285,
-      "complexity": "moderate",
-      "pagerank": 0.007828,
-      "communityId": 69,
+      "lineCount": 986,
+      "complexity": "complex",
+      "pagerank": 0.007889,
+      "communityId": 68,
       "tags": [
         "config"
       ],
@@ -1276,10 +1260,10 @@
       "filePath": "mapmaker/README.md",
       "language": "markdown",
       "symbolCount": 0,
-      "lineCount": 49,
+      "lineCount": 70,
       "complexity": "simple",
-      "pagerank": 0.007828,
-      "communityId": 70,
+      "pagerank": 0.007889,
+      "communityId": 69,
       "tags": [],
       "summary": "Project overview and entry point for new readers."
     },
@@ -1289,9 +1273,9 @@
       "filePath": "mapmaker/index.html",
       "language": "html",
       "symbolCount": 0,
-      "lineCount": 144,
+      "lineCount": 159,
       "complexity": "moderate",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 4,
       "tags": [],
       "summary": "Application module index."
@@ -1304,7 +1288,7 @@
       "symbolCount": 0,
       "lineCount": 19,
       "complexity": "simple",
-      "pagerank": 0.009491,
+      "pagerank": 0.009566,
       "communityId": 4,
       "tags": [],
       "summary": "Application module geometry."
@@ -1315,12 +1299,13 @@
       "filePath": "mapmaker/js/mapmaker.js",
       "language": "javascript",
       "symbolCount": 0,
-      "lineCount": 1218,
+      "lineCount": 1442,
       "complexity": "complex",
-      "pagerank": 0.009491,
+      "pagerank": 0.009566,
       "communityId": 4,
       "tags": [],
-      "summary": "Application module mapmaker."
+      "summary": "Application module mapmaker.",
+      "primaryOwner": "Alessandro Carotenuto"
     },
     {
       "id": "file:mapmaker/js/preset.js",
@@ -1330,7 +1315,7 @@
       "symbolCount": 0,
       "lineCount": 40,
       "complexity": "simple",
-      "pagerank": 0.009491,
+      "pagerank": 0.009566,
       "communityId": 4,
       "tags": [],
       "summary": "Application module preset."
@@ -1343,7 +1328,7 @@
       "symbolCount": 0,
       "lineCount": 20,
       "complexity": "simple",
-      "pagerank": 0.009491,
+      "pagerank": 0.009566,
       "communityId": 4,
       "tags": [],
       "summary": "Application module project-files."
@@ -1356,8 +1341,8 @@
       "symbolCount": 0,
       "lineCount": 0,
       "complexity": "simple",
-      "pagerank": 0.007828,
-      "communityId": 71,
+      "pagerank": 0.007889,
+      "communityId": 70,
       "tags": [
         "config"
       ],
@@ -1371,8 +1356,8 @@
       "symbolCount": 0,
       "lineCount": 253,
       "complexity": "moderate",
-      "pagerank": 0.007828,
-      "communityId": 72,
+      "pagerank": 0.007889,
+      "communityId": 71,
       "tags": [
         "config"
       ],
@@ -1386,7 +1371,7 @@
       "symbolCount": 42,
       "lineCount": 339,
       "complexity": "complex",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 0,
       "tags": [],
       "summary": "Application module render-probes defining read_raw, composite, make_card."
@@ -1399,7 +1384,7 @@
       "symbolCount": 61,
       "lineCount": 1021,
       "complexity": "complex",
-      "pagerank": 0.007828,
+      "pagerank": 0.007889,
       "communityId": 3,
       "tags": [],
       "summary": "Application module run-probes defining extractFunction, MemoryCanvas, constructor."
@@ -2332,7 +2317,6 @@
         "file:assets/mini-baseline-preview.html",
         "file:battlemap-printer/index.html",
         "file:battlemap-printer/printer.js",
-        "file:extra assets/battlemaps/2 Page Forest Map Dense.json",
         "file:index.html",
         "file:local-admin/README.md",
         "file:local-admin/index.html",
@@ -2453,8 +2437,7 @@
       "depth": 0,
       "kind": "overview",
       "reason": "Start here for the end-to-end picture before diving into the code.",
-      "layer_id": "layer:application",
-      "wikiPageIds": []
+      "layer_id": "layer:application"
     },
     {
       "order": 2,
@@ -2464,8 +2447,7 @@
       "depth": 0,
       "kind": "code",
       "reason": "A re-export hub \u2014 the package's public surface fans out from here.",
-      "layer_id": "layer:application",
-      "wikiPageIds": []
+      "layer_id": "layer:application"
     },
     {
       "order": 3,
@@ -2475,8 +2457,7 @@
       "depth": 0,
       "kind": "code",
       "reason": "The face of assets/ \u2014 13 code files live here.",
-      "layer_id": "layer:application",
-      "wikiPageIds": []
+      "layer_id": "layer:application"
     },
     {
       "order": 4,
@@ -2486,8 +2467,7 @@
       "depth": 0,
       "kind": "code",
       "reason": "The face of local-admin/ \u2014 13 code files live here.",
-      "layer_id": "layer:application",
-      "wikiPageIds": []
+      "layer_id": "layer:application"
     },
     {
       "order": 5,
@@ -2497,8 +2477,7 @@
       "depth": 0,
       "kind": "code",
       "reason": "The face of mapmaker/ \u2014 7 code files live here.",
-      "layer_id": "layer:application",
-      "wikiPageIds": []
+      "layer_id": "layer:application"
     },
     {
       "order": 6,
@@ -2508,8 +2487,7 @@
       "depth": 0,
       "kind": "code",
       "reason": "The face of battlemap-printer/ \u2014 2 code files live here.",
-      "layer_id": "layer:application",
-      "wikiPageIds": []
+      "layer_id": "layer:application"
     },
     {
       "order": 7,
@@ -2519,8 +2497,7 @@
       "depth": 1,
       "kind": "code",
       "reason": "The test suite \u2014 how the system's behavior is verified.",
-      "layer_id": "layer:test",
-      "wikiPageIds": []
+      "layer_id": "layer:test"
     }
   ],
   "modules": [
@@ -2547,7 +2524,6 @@
         "file:assets/mini-baseline-preview.html",
         "file:battlemap-printer/index.html",
         "file:battlemap-printer/printer.js",
-        "file:extra assets/battlemaps/2 Page Forest Map Dense.json",
         "file:index.html",
         "file:local-admin/README.md",
         "file:local-admin/index.html",
