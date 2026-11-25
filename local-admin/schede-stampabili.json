@@ -84,43 +84,22 @@
     },
     {
       "id": "f43274bc-ae0a-49f4-a0f5-d63bf3b1dd4b",
-      "type": "creatura",
-      "title": "Haghen",
+      "type": "equipaggiamento",
+      "title": "\"Agli uomini liberi\"",
       "data": {
-        "type": "creatura",
-        "textSize": "8",
-        "name": "Haghen",
-        "ac": "16",
-        "hp": "144",
-        "speed": "9 m",
-        "initiative": "",
-        "proficiency": "+3",
-        "FOR-score": "11",
-        "FOR-mod": "0",
-        "FOR-save": "",
-        "DES-score": "20",
-        "DES-mod": "+5",
-        "DES-save": "+8",
-        "COS-score": "18",
-        "COS-mod": "+4",
-        "COS-save": "+7",
-        "INT-score": "11",
-        "INT-mod": "0",
-        "INT-save": "",
-        "SAG-score": "18",
-        "SAG-mod": "+4",
-        "SAG-save": "+7",
-        "CAR-score": "10",
-        "CAR-mod": "0",
-        "CAR-save": "",
-        "skills": "Acrobazia +8, Percezione +7, Furtività +8",
-        "senses": "Percezione passiva 17",
-        "traits": "**(1/r)** +1d10 al prossimo TxC o danno con arco lungo/corto. **(2/g):** ripete un TS fallito.\n**Azione impetuosa** 1, **Elusione**",
-        "actions": "**Spada corta:** +8 TxC, (1d6 + 5) danni P.\n**2 Arco lungo:** +8 TxC, 45/180 m, (1d8 + 5) danni P.\n**Bonus:** Disimpegno o Nascondersi.\n**Bonus (3/g):** se non incapacitato, marca creatura visibile entro 30 m; vulnerabile ai danni perforanti fino a fine turno, salvo resistenza/immunità.\n**Reazione (3/g):** azzera danni di un attacco.",
-        "loot": "",
-        "creatureType": "Umanoide Medio",
-        "alignment": "CB",
-        "challenge": "8 (3.900 PE)"
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "\"Agli uomini liberi\"",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Lettera",
+        "rarity": "Unica",
+        "weight": "",
+        "description": "Ricordiamo che la formulazione della sostanza fa sì che vada trattata con la più grande parsimonia, tale avviso è più importante per voi che per noi.\nLa prossima lettera di credito verrà recapitata solamente dopo che i nostri osservatori avranno notato un effetto significativo. Ripeto, è consigliato puntare ad animali piccoli, prede, in quanto se divorati è più facile che contaminino i predatori e gli animali della terra. Riponiamo grande fiducia in voi, voi che siete liberi,  liberate anche il resto del mondo. \n**!¡ᒷ∷!¡ᒷℸ̣⚍𝙹, ᒷℸ̣ᒷ∷リ𝙹, ╎リᒷ⍊╎ℸ̣ᔑʖ╎ꖎᒷ** \n\n",
+        "properties": ""
       }
     },
     {
@@ -182,8 +161,14 @@
         "description": "Sacco da 1.000 palline. Con un'azione le spargi su una superficie piana di 3 m per lato. Chi vi si muove sopra deve superare un TS Des CD 10 o cade prono; chi procede a velocità dimezzata evita il tiro.",
         "properties": "",
         "cardFacts": [
-          { "label": "AREA", "value": "3 m per lato" },
-          { "label": "PROVA", "value": "TS Des CD 10" }
+          {
+            "label": "AREA",
+            "value": "3 m per lato"
+          },
+          {
+            "label": "PROVA",
+            "value": "TS Des CD 10"
+          }
         ]
       }
     },
@@ -200,15 +185,11 @@
         "range": "",
         "mastery": "",
         "cost": "50",
-        "category": "Strumenti da artigiano",
+        "category": "Strumenti",
         "rarity": "",
         "weight": "4,5 kg",
         "description": "Set di strumenti per riparazioni e piccoli lavori d'invenzione.",
-        "properties": "Con competenza, si aggiunge il bonus alle prove pertinenti di costruzione e riparazione.",
-        "cardFacts": [
-          { "label": "COSTO", "value": "50 mo" },
-          { "label": "USO", "value": "Riparazioni" }
-        ]
+        "properties": "Con competenza, si aggiunge il bonus alle prove pertinenti di costruzione e riparazione."
       }
     },
     {
@@ -224,15 +205,11 @@
         "range": "",
         "mastery": "",
         "cost": "25",
-        "category": "Strumenti da ladro",
+        "category": "Strumenti",
         "rarity": "",
         "weight": "0,45 kg",
         "description": "Grimaldelli e piccoli attrezzi per serrature e trappole.",
-        "properties": "Con competenza, si aggiunge il bonus alle prove per aprire serrature o disinnescare trappole.",
-        "cardFacts": [
-          { "label": "COSTO", "value": "25 mo" },
-          { "label": "USO", "value": "Serrature e trappole" }
-        ]
+        "properties": "Con competenza, si aggiunge il bonus alle prove per aprire serrature o disinnescare trappole."
       }
     },
     {
@@ -241,22 +218,731 @@
       "title": "Pozione di cura",
       "data": {
         "type": "equipaggiamento",
-        "textSize": "8",
+        "textSize": "12",
         "name": "Pozione di cura",
         "damage": "",
         "damageType": "",
-        "range": "",
+        "range": "Se Stessi/1,5m",
         "mastery": "",
         "cost": "50",
         "category": "Pozione",
         "rarity": "Comune",
         "weight": "0,23 kg",
-        "description": "Come azione bonus, puoi berla o somministrarla a una creatura entro 1,5 m. La creatura recupera 2d4 + 2 PF.",
-        "properties": "",
-        "cardFacts": [
-          { "label": "CURA", "value": "2d4 + 2 PF" },
-          { "label": "USO", "value": "Azione bonus" }
-        ]
+        "description": "Come azione bonus, puoi berla o somministrarla a una creatura entro 1,5 m. La creatura recupera **2d4 + 2 PF**. Puoi spendere sia Azione che Movimento per recuperare o far recuperare **10 PF**.",
+        "properties": ""
+      }
+    },
+    {
+      "id": "fd2b4791-8485-4121-b9ef-d2a335c29c73",
+      "type": "equipaggiamento",
+      "title": "Pollotron",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Pollotron",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Anello",
+        "rarity": "Mega Turbo Raro",
+        "weight": "",
+        "description": "Questo anello con una piccola coscia di pollo ornamentale è placcato d'oro e non si sa da dove provenga.",
+        "properties": "**1/giorno** come azione bonus. \nCura di **1d6 PF** se stessi o una creatura scelta visibile entro 12m."
+      }
+    },
+    {
+      "id": "53a8493e-bfc3-4c62-b9bb-06a191de181f",
+      "type": "incantesimo",
+      "title": "Aura Gelida",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Aura Gelida",
+        "level": "",
+        "range": "3m da te",
+        "components": "",
+        "duration": "1 min",
+        "castingTime": "1 bonus",
+        "school": "Capacità di Classe",
+        "classes": "Drago d'Argento",
+        "description": "Le tue scaglie emanano un’aura di gelo difensiva. Tu e gli alleati entro 3 m guadagnate **+1 CA** e resistenza ai danni da fuoco per 1 minuto,\n- **1/riposo lungo** (Lv 2-8)\n- **2/riposo lungo** (Lv 9-16)\n- **3/riposo lung**o (Lv 17+)",
+        "material": ""
+      }
+    },
+    {
+      "id": "cc172309-5e20-4225-9b6b-15968e5ca546",
+      "type": "equipaggiamento",
+      "title": "Bombasangue",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "8",
+        "name": "Bombasangue",
+        "damage": "2d8 +5",
+        "damageType": "",
+        "range": "9m",
+        "mastery": "",
+        "cost": "",
+        "category": "Arma da lancio",
+        "rarity": "Unica",
+        "weight": "",
+        "description": "Infligge 2d8 +5",
+        "properties": "Recuperi la metà dei danni inflitti"
+      }
+    },
+    {
+      "id": "7dfa38b0-6f81-4ec3-a307-b9135947f1b2",
+      "type": "equipaggiamento",
+      "title": "Fungo di Limburn",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Fungo di Limburn",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Flora",
+        "rarity": "Non comune",
+        "weight": "",
+        "description": "Tipico fungo dal colore bluastro che cresce nella foresta attorno alla città di Limburg, è una specie piuttosto diffusa in tutta l'area di influenza Sewerly ed ogni città tende spesso a rivendicarne una variante come tipicamente propria. Una volta colto si secca rapidamente ma rimane commestibile per mesi in funzione delle sue proprietà magiche.",
+        "properties": "Se ingerito **crudo** da **svantaggio** alle prove basate su Intelligenza, **vantaggio** a quelle basate su Saggezza, per **10 minuti**.\nSe ingerito **cotto** ha lo stesso effetto senza lo svantaggio e dura **2 ore.**"
+      }
+    },
+    {
+      "id": "6b5708c7-e182-4e35-a59e-a74e74106e31",
+      "type": "incantesimo",
+      "title": "Mutare Forma (Forma Umana)",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "11",
+        "name": "Mutare Forma (Forma Umana)",
+        "level": "",
+        "range": "",
+        "components": "",
+        "duration": "Indefinito",
+        "castingTime": "1 Azione",
+        "school": "Capacità di Classe",
+        "classes": "Drago",
+        "description": "Puoi assumere la forma di un umanoide medio.  Funziona come l’incantesimo **Alterare Sè Stessi**, ma limitato a forma umanoide. Questa capacità magica non è soggette a **Dispel Magic**, **Counterspell **o ad altre interruzioni magiche standard. Terminabile come **Azione Bonus**. Il tuo equipaggiamento si adatta alla forma. In forma umanoide mantieni i punteggi di caratteristica, CA, HP e capacità razziali, ma **non puoi usare le ali o il soffio, artigli, coda e morso.**",
+        "material": ""
+      }
+    },
+    {
+      "id": "8cd179f5-fe17-4da7-a846-fd424190701d",
+      "type": "incantesimo",
+      "title": "Soffio Gelido",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Soffio Gelido",
+        "level": "",
+        "range": "15m",
+        "components": "",
+        "duration": "",
+        "castingTime": "1 Azione",
+        "school": "Capacità di Classe",
+        "classes": "Drago d'argento",
+        "description": "**Danni gelanti (livelli):**\n- 2d6 (1-2)  3d6 (3-4)  4d8 (5-6)\n- 5d8 (7-8)  6d8 (9-10)  7d8 (11-12)\n- 8d8 (13-14)  9d8 (15-16)  10d8 (17+)\n- **TS Destrezza** dimezza\n- **CD 8+ Comp.+ Mod.Costituzione**\nㅤ\n**N.utilizzi/giorno (livelli):**\n- 1 (1-2), 2 (3-6), 3 (7-14)\n- 4 (15-19), 5 (20)",
+        "material": ""
+      }
+    },
+    {
+      "id": "27a22786-c75f-4225-bae3-5e6f7ba96c2d",
+      "type": "incantesimo",
+      "title": "Raggio del Gelo",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Raggio del Gelo",
+        "level": "0",
+        "range": "12m",
+        "components": "V,S",
+        "duration": "Istantaneo",
+        "castingTime": "",
+        "school": "Evocazione",
+        "classes": "",
+        "description": "Un raggio gelido di luce bianco-azzurra sfreccia verso una creatura entro gittata. **Effettua un attacco con incantesimo a distanza contro il bersaglio**. Se colpisce, subisce **1d8 danni da freddo** e la sua velocità **si riduce di 3 metri** fino all’inizio del tuo prossimo turno.\n\n**Potenziamento**:\n- 5° livello  -> Danni 2d8\n- 11° livello -> Danni 3d8\n- 17° livello -> Danni 4d8",
+        "material": ""
+      }
+    },
+    {
+      "id": "fe4e9af6-0c0d-4060-9ac1-2f522b5f9c10",
+      "type": "incantesimo",
+      "title": "Armatura di Agathys",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "10",
+        "name": "Armatura di Agathys",
+        "level": "1",
+        "range": "",
+        "components": "V,S,M",
+        "duration": "1 ora",
+        "castingTime": "1 azione",
+        "school": "Abiurazione",
+        "classes": "",
+        "description": "Una forza magica protettiva circonda l'incantatore, manifestandosi come una patina di gelo spettrale che ricopre sia lui che il suo equipaggiamento. **L'incantatore ottiene 5 punti ferita temporanei per la durata dell'incantesimo.** Se una creatura colpisce l'incantatore con un attacco in mischia finché egli possiede questi punti ferita, **essa subisce 5 danni da freddo**.\nㅤ\n**Ai Livelli Superiori**. Se lancaiato al 2° livello o superiore, sia i punti ferita temporanei che i danni da freddo aumentano di 5 per ogni slot di livello superiore al 1°. ",
+        "material": "Una coppa d'acqua"
+      }
+    },
+    {
+      "id": "0b1c1056-1356-4862-9a9a-efa87cfdb51b",
+      "type": "incantesimo",
+      "title": "Nube di nebbia",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "11",
+        "name": "Nube di nebbia",
+        "level": "1",
+        "range": "36m",
+        "components": "V,S",
+        "duration": "Concentraz. Max 1h",
+        "castingTime": "1 azione",
+        "school": "Abiurazione",
+        "classes": "",
+        "description": "L'incantatore crea una sfera di nebbia del raggio di 6 metri centrata su un punto entro gittata. La sfera si diffonde oltre gli angoli **e la sua area risulta pesantemente oscurata**. La nebbia permane per la durata dell'incantesimo o finché un vento moderato o superiore (almeno 15 km all'ora) non la disperde.\nㅤ\n**Ai Livelli Superiori**: Quando l'incantatore lancia questo incantesimo usando uno slot incantesimo di 2° livello o superiore, il raggio della sfera di nebbia aumenta di 6 metri per ogni slot di livello superiore al 1°. ",
+        "material": ""
+      }
+    },
+    {
+      "id": "ea079422-dc97-4d11-845e-cd6c9d97696b",
+      "type": "incantesimo",
+      "title": "Passo Velato",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Passo Velato",
+        "level": "2",
+        "range": "",
+        "components": "V",
+        "duration": "",
+        "castingTime": "1 Azione Bonus",
+        "school": "Evocazione",
+        "classes": "",
+        "description": "L'incantatore è avvolto per un istante da una foschia argentata e si teletrasporta di un **massimo di 9 metri** fino a uno spazio libero che **egli sia in grado di vedere**.",
+        "material": ""
+      }
+    },
+    {
+      "id": "18165eeb-2ca6-484a-9722-9040507180d0",
+      "type": "incantesimo",
+      "title": "Fiamma Sacra",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Fiamma Sacra",
+        "level": "0",
+        "range": "18 m",
+        "components": "V, S",
+        "duration": "Istantanea",
+        "castingTime": "1 azione",
+        "school": "Invocazione",
+        "classes": "",
+        "description": "Un bagliore simile a una fiamma scende fino a una creatura entro gittata e che l’incantatore sia **in grado di vedere**.  entro gittata effettua un **TS Des**. l bersaglio non beneficia della copertura per questo TS, se lo supera non subisce danni, se lo fallisce subisce danni radiosi pari a:\n- **1d8** (Lv 1-4)\n- **2d8** (Lv 5-10)\n- **3d8** (Lv 11-16)\n- **4d8** (Lv 17+)\n",
+        "material": ""
+      }
+    },
+    {
+      "id": "c1fa342f-c66d-4a41-ba8f-bfd6f905b039",
+      "type": "incantesimo",
+      "title": "Luce",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Luce",
+        "level": "0",
+        "range": "Contatto",
+        "components": "V, M",
+        "duration": "1 ora",
+        "castingTime": "1 azione",
+        "school": "Invocazione",
+        "classes": "",
+        "description": "Un oggetto toccato (max 3 m per lato) emette **luce intensa per 6 m** e fioca per altri 6 m. Scegli il colore; coprirlo con materiale opaco blocca la luce.\nTermina se lanci di nuovo Luce o la interrompi con un'azione. Se l'oggetto è impugnato o posseduto da una creatura ostile, questa evita l'effetto con un **TS Des** riuscito.",
+        "material": "Una lucciola o muschio fosforescente"
+      }
+    },
+    {
+      "id": "f162282c-f4af-4dda-bf32-d6bc47d8f272",
+      "type": "incantesimo",
+      "title": "Riparare",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Riparare",
+        "level": "0",
+        "range": "Contatto",
+        "components": "V, S, M",
+        "duration": "Istantanea",
+        "castingTime": "1 minuto",
+        "school": "Trasmutazione",
+        "classes": "",
+        "description": "Ripari una **crepa o uno squarcio** in un oggetto toccato, purché il danno non superi **30 cm** in ogni dimensione. Non resta traccia del danno.\nPuoi riparare fisicamente un oggetto magico o un costrutto, ma **non ripristinarne la magia**.",
+        "material": "Due calamite"
+      }
+    },
+    {
+      "id": "f7a7465d-b891-49a2-856b-3b92ab225af7",
+      "type": "incantesimo",
+      "title": "Taumaturgia",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "11",
+        "name": "Taumaturgia",
+        "level": "0",
+        "range": "9 m",
+        "components": "V",
+        "duration": "Fino a 1 min",
+        "castingTime": "1 azione",
+        "school": "Trasmutazione",
+        "classes": "",
+        "description": "Crei un effetto minore entro gittata: \n- voce triplicata in potenza;\n- fiamma che cambia intensità o colore; \n- tremito innocuo; \n- suono istantaneo; \n- porta o finestra non chiusa a chiave che si apre o chiude; \n- aspetto degli occhi alterato.\nㅤ\nVoce, fiamma, tremito e occhi durano **1 minuto**. Puoi mantenere fino a **3 effetti** da 1 minuto contemporaneamente e congedarne uno con un'azione.",
+        "material": ""
+      }
+    },
+    {
+      "id": "0fab0255-92bf-435f-b3c8-fe04231522ad",
+      "type": "incantesimo",
+      "title": "Onda Tonante",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Onda Tonante",
+        "level": "1",
+        "range": "Cubo di 4,5 m da te",
+        "components": "V, S",
+        "duration": "Istantanea",
+        "castingTime": "1 azione",
+        "school": "Invocazione",
+        "classes": "",
+        "description": "Ogni creatura nel cubo effettua un **TS Cos**: fallimento, **2d8 danni da tuono** e spinta di **3 m**; successo, metà danni e nessuna spinta. Gli oggetti non fissati interamente nell'area vengono spinti di 3 m. Il rombo si sente fino a 90 m.\n**Slot superiore:** +1d8 danni per livello oltre il 1°.",
+        "material": ""
+      }
+    },
+    {
+      "id": "61d7c4e0-95fd-43e3-8df3-763d28b08c6e",
+      "type": "incantesimo",
+      "title": "Creare o Distruggere Acqua",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Creare o Distruggere Acqua",
+        "level": "1",
+        "range": "9 m",
+        "components": "V, S, M",
+        "duration": "Istantanea",
+        "castingTime": "1 azione",
+        "school": "Trasmutazione",
+        "classes": "",
+        "description": "**Creare:** fino a 40 l d'acqua pulita in un contenitore aperto; oppure pioggia in un cubo di 9 m di lato, che spegne le fiamme.\n**Distruggere:** fino a 40 l d'acqua in un contenitore aperto; oppure nebbia in un cubo di 9 m di lato.\n**Slot superiore:** +40 l o +1,5 m al lato del cubo per livello oltre il 1°.",
+        "material": "Una goccia d'acqua (creare) o sabbia (distruggere)"
+      }
+    },
+    {
+      "id": "c50324ed-04bb-4650-9870-d9177cdf8349",
+      "type": "incantesimo",
+      "title": "Dardo Tracciante",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Dardo Tracciante",
+        "level": "1",
+        "range": "36 m",
+        "components": "V, S",
+        "duration": "1 round",
+        "castingTime": "1 azione",
+        "school": "Invocazione",
+        "classes": "",
+        "description": "Un lampo di luce sfreccia verso una creatura scelta dall’incantatore e situata entro gittata. effettua un **attacco con incantesimo a distanza** contro una creatura. Se colpisci, infliggi **4d6 danni radiosi**. Il prossimo tiro per colpire contro il bersaglio, entro la fine del tuo turno successivo, ha **vantaggio**.\n**Slot superiore:** +1d6 danni per livello oltre il 1°.",
+        "material": ""
+      }
+    },
+    {
+      "id": "219faf6c-c809-4415-afa4-dc7a93869ded",
+      "type": "incantesimo",
+      "title": "Infliggi Ferite",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Infliggi Ferite",
+        "level": "1",
+        "range": "Contatto",
+        "components": "V, S",
+        "duration": "Istantanea",
+        "castingTime": "1 azione",
+        "school": "Necromanzia",
+        "classes": "",
+        "description": "Effettua un **attacco con incantesimo in mischia** contro una creatura entro la tua portata. Se colpisci, infliggi **3d10 danni necrotici**.\n**Slot superiore:** +1d10 danni per livello oltre il 1°.",
+        "material": ""
+      }
+    },
+    {
+      "id": "b403d285-2e43-4c55-b2ae-c59b1db3fa94",
+      "type": "incantesimo",
+      "title": "Scudo della Fede",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Scudo della Fede",
+        "level": "1",
+        "range": "18 m",
+        "components": "V, S, M",
+        "duration": "Concentraz., 10 min",
+        "castingTime": "1 azione bonus",
+        "school": "Abiurazione",
+        "classes": "",
+        "description": "Una creatura a tua scelta entro gittata è avvolta da energia scintillante e ottiene **+2 alla CA** per la durata dell'incantesimo.",
+        "material": "Una pergamena con un frammento di testo sacro"
+      }
+    },
+    {
+      "id": "74c2c042-8d1e-41ba-8d6e-f6398d58cac4",
+      "type": "incantesimo",
+      "title": "Folata di Vento",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Folata di Vento",
+        "level": "2",
+        "range": "Linea di 18 m da te",
+        "components": "V, S, M",
+        "duration": "Concentraz., 1 min",
+        "castingTime": "1 azione",
+        "school": "Invocazione",
+        "classes": "",
+        "description": "Crei una linea di vento lunga **18 m** e larga **3 m**. Chi vi inizia il turno effettua un **TS For** o viene spinto di **4,5 m**. Per avanzare verso di te nella linea serve il doppio del movimento.\nDisperde gas e vapori; spegne le fiamme scoperte. Le fiamme protette hanno il **50%** di probabilità di spegnersi. Puoi cambiare direzione con un'azione bonus a ogni turno.",
+        "material": "Il seme di un legume"
+      }
+    },
+    {
+      "id": "3980de11-99f4-4ed5-8800-3164688939bf",
+      "type": "incantesimo",
+      "title": "Frantumare",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Frantumare",
+        "level": "2",
+        "range": "18 m",
+        "components": "V, S, M",
+        "duration": "Istantanea",
+        "castingTime": "1 azione",
+        "school": "Invocazione",
+        "classes": "",
+        "description": "Ogni creatura in una sfera di **3 m di raggio** effettua un **TS Cos**: **3d8 danni da tuono** se fallisce, metà se riesce. Creature di materiale inorganico hanno svantaggio al TS. Gli oggetti non magici non indossati o trasportati nell'area subiscono i danni.\n**Slot superiore:** +1d8 danni per livello oltre il 2°.",
+        "material": "Un frammento di mica"
+      }
+    },
+    {
+      "id": "099267b6-2548-46d4-8c22-826bd8934fab",
+      "type": "incantesimo",
+      "title": "Arma Spirituale",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Arma Spirituale",
+        "level": "2",
+        "range": "18 m",
+        "components": "V, S",
+        "duration": "1 minuto",
+        "castingTime": "1 azione bonus",
+        "school": "Invocazione",
+        "classes": "",
+        "description": "Crei un'arma spettrale entro gittata. Al lancio, effettua un **attacco con incantesimo in mischia** contro una creatura entro 1,5 m dall'arma: se colpisce, infligge **1d8 danni da forza + il tuo modificatore da incantatore**.\nNei turni successivi puoi usare un'azione bonus per muovere l'arma fino a **6 m** e ripetere l'attacco. Termina se lanci di nuovo Arma Spirituale.\n**Slot superiore:** +1d8 danni per ogni 2 livelli di slot oltre il 2°.",
+        "material": ""
+      }
+    },
+    {
+      "id": "ede7b3dd-5dc5-494b-bb20-c2aa42638358",
+      "type": "incantesimo",
+      "title": "Cecità/Sordità",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Cecità/Sordità",
+        "level": "2",
+        "range": "9 m",
+        "components": "V",
+        "duration": "1 minuto",
+        "castingTime": "1 azione",
+        "school": "Necromanzia",
+        "classes": "",
+        "description": "Una creatura che vedi entro gittata effettua un **TS Cos**. Se fallisce, è **accecata o assordata** (scegli tu) per la durata. Ripete il TS alla fine di ogni turno, terminando l'effetto se riesce.\n**Slot superiore:** +1 bersaglio per livello oltre il 2°.",
+        "material": ""
+      }
+    },
+    {
+      "id": "97b6cf3a-d230-49fa-b605-ef947edf0dbb",
+      "type": "incantesimo",
+      "title": "Silenzio",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Silenzio",
+        "level": "2",
+        "range": "36 m",
+        "components": "V, S",
+        "duration": "Concentraz., 10 min",
+        "castingTime": "1 azione (rituale)",
+        "school": "Illusione",
+        "classes": "",
+        "description": "Crei una sfera di **6 m di raggio** centrata su un punto entro gittata. Nessun suono nasce al suo interno né la attraversa. Creature e oggetti interamente all'interno sono immuni ai danni da tuono; le creature sono assordate. Nell'area **non si possono lanciare incantesimi con componente verbale**.",
+        "material": ""
+      }
+    },
+    {
+      "id": "53be0a03-dd1f-4ac2-a40d-fbca7e21b18d",
+      "type": "incantesimo",
+      "title": "Invocare il Fulmine",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Invocare il Fulmine",
+        "level": "3",
+        "range": "36 m",
+        "components": "V, S",
+        "duration": "Concentraz., 10 min",
+        "castingTime": "1 azione",
+        "school": "Evocazione",
+        "classes": "",
+        "description": "Una nube di **18 m di raggio e 3 m d'altezza** appare sopra un punto che vedi; serve spazio sufficiente. Scegli un punto visibile sotto la nube: ogni creatura entro **1,5 m** effettua un **TS Des** o subisce **3d10 danni da fulmine** (metà se riesce).\nA ogni turno puoi usare un'azione per richiamare un fulmine. Se lanci all'aperto durante una tempesta, usi la nube esistente e infliggi **+1d10** danni.\n**Slot superiore:** +1d10 per livello oltre il 3°.",
+        "material": ""
+      }
+    },
+    {
+      "id": "6340d309-58ff-4974-9d80-61e4e75538f0",
+      "type": "incantesimo",
+      "title": "Tempesta di Nevischio",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "11",
+        "name": "Tempesta di Nevischio",
+        "level": "3",
+        "range": "45 m",
+        "components": "V, S, M",
+        "duration": "Concentraz., 1 min",
+        "castingTime": "1 azione",
+        "school": "Evocazione",
+        "classes": "",
+        "description": "Crei un cilindro di nevischio di **12 m di raggio e 6 m d'altezza**. L'area è pesantemente oscurata e diventa terreno difficile; le fiamme scoperte si spengono.\nChi entra nell'area per la prima volta in un turno o vi inizia il turno effettua un **TS Des** o cade prono. Chi inizia il turno nell'area concentrandosi su un incantesimo effettua un **TS Cos contro la tua CD incantesimi** o perde la concentrazione.",
+        "material": "Un pizzico di polvere e alcune gocce d'acqua"
+      }
+    },
+    {
+      "id": "1a99f9e1-586d-4c08-8b5f-5c2f19b37695",
+      "type": "incantesimo",
+      "title": "Guardiani Spirituali",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Guardiani Spirituali",
+        "level": "3",
+        "range": "4,5 m da te",
+        "components": "V, S, M",
+        "duration": "Concentraz., 10 min",
+        "castingTime": "1 azione",
+        "school": "Evocazione",
+        "classes": "",
+        "description": "Gli spiriti ti circondano entro **4,5 m**. Al lancio scegli le creature visibili immuni all'effetto. Nell'area, la velocità delle altre creature è dimezzata.\nQuando una creatura influenzata entra nell'area per la prima volta in un turno o vi inizia il turno, effettua un **TS Sag**: **3d8 danni radiosi** (incantatore buono/neutrale) o **necrotici** (malvagio), metà se riesce.\n**Slot superiore:** +1d8 per livello oltre il 3°.",
+        "material": "Un simbolo sacro"
+      }
+    },
+    {
+      "id": "caaae4ed-de21-48f9-be48-2fd245cbdba7",
+      "type": "incantesimo",
+      "title": "Protezione dall'Energia",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Protezione dall'Energia",
+        "level": "3",
+        "range": "Contatto",
+        "components": "V, S",
+        "duration": "Concentraz., 1 ora",
+        "castingTime": "1 azione",
+        "school": "Abiurazione",
+        "classes": "",
+        "description": "Una creatura consenziente che tocchi ottiene **resistenza** a un tipo di danno scelto da te: **acido, freddo, fulmine, fuoco o tuono**.",
+        "material": ""
+      }
+    },
+    {
+      "id": "b29183ac-eb32-41d7-a714-c6e1a951ec52",
+      "type": "equipaggiamento",
+      "title": "Fungo misterioso",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Fungo misterioso",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Flora",
+        "rarity": "Non comune",
+        "weight": "",
+        "description": "Questo fungo misterioso di colore bluastro con sfumature rosse assomiglia ad una variante di un fungo di Limburn, ma sembra più vivo del normale seppur meno diffuso.",
+        "properties": "Sconosciute"
+      }
+    },
+    {
+      "id": "666d1faf-a086-4526-a29b-5b228462a622",
+      "type": "equipaggiamento",
+      "title": "Arco Corto del Tributo",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Arco Corto del Tributo",
+        "damage": "1d6 P + X",
+        "damageType": "",
+        "range": "24/96 m",
+        "mastery": "",
+        "cost": "",
+        "category": "Arma Magica a distanza",
+        "rarity": "Raro",
+        "weight": "",
+        "description": "Arma a distanza magica, ogni TxC, preleva energia vitale dall'utilizzatore infliggendo **1d4 danni da forza**. Il risultato rollato viene aggiunto sia al **TxC** sia al **Danno**.",
+        "properties": "**Munizioni (frecce), due mani.**\n"
+      }
+    },
+    {
+      "id": "3a39a7d2-2306-4c6f-91de-7bbad63d36d5",
+      "type": "incantesimo",
+      "title": "Caffè Corretto di Skinner",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Caffè Corretto di Skinner",
+        "level": "",
+        "range": "",
+        "components": "",
+        "duration": "1 minuto",
+        "castingTime": "1 Azione Bonus",
+        "school": "",
+        "classes": "",
+        "description": "Non si sa esattamente \"con cosa\" sia corretto questo caffè, già di suo particolarmente potente, ma sotto il suo effetto si ottiene una sorta di impeto iperattivo per poco tempo, prima di avere un crash di energie e sonno. Per **1m** si ottiene:\n**+1 TxC**\n**+2 Danni**\nDopo un minuto l'effetto svanisce e si ottiene **1 livello di sfinimento**",
+        "material": ""
+      }
+    },
+    {
+      "id": "c595f756-5044-4584-b880-833c52a63a38",
+      "type": "incantesimo",
+      "title": "Caffè dello studente mega-corretto di Skinner",
+      "data": {
+        "type": "incantesimo",
+        "textSize": "12",
+        "name": "Caffè dello studente mega-corretto di Skinner",
+        "level": "",
+        "range": "",
+        "components": "",
+        "duration": "1 minuti",
+        "castingTime": "1 Azione Bonus",
+        "school": "",
+        "classes": "",
+        "description": "Non si sa esattamente \"con cosa\" sia corretto questo potente intruglio di caffeina concentrata in altra caffeina, ma sotto il suo effetto si ottiene un poderoso impeto iperattivo per poco tempo, prima di avere un enorme crash di energie e sonno. Per **1m** si ottiene:\n**+1 CA**\n**+2 TxC**\n**+3 Danni**\nDopo un minuto l'effetto svanisce e si ottengono **2 livelli di sfinimento**",
+        "material": ""
+      }
+    },
+    {
+      "id": "cc871881-439e-4fba-a9ac-8ba77cb3b7a6",
+      "type": "equipaggiamento",
+      "title": "Polvere prosciugante",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Polvere prosciugante",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Oggetto meraviglioso",
+        "rarity": "Non comune",
+        "weight": "",
+        "description": "Un sacchetto contiene **1d6 + 4 pizzichi** di polvere finissima.",
+        "properties": "**Azione:** spargi un pizzico sull'acqua. Un cubo d'acqua di **4,5 m per lato** diventa una pallina grande come una biglia, quasi senza peso.\n**Azione:** rompi la pallina contro una superficie dura per liberare tutta l'acqua assorbita; la magia termina.\n**Elementale composto soprattutto d'acqua:** se esposto a un pizzico, **TS Cos CD 13**; **10d6 danni necrotici** se fallisce, metà se riesce."
+      }
+    },
+    {
+      "id": "618e5176-f12b-489b-b516-50568dcab9a5",
+      "type": "equipaggiamento",
+      "title": "Pozione di scalare",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Pozione di scalare",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Pozione",
+        "rarity": "Comune",
+        "weight": "",
+        "description": "Il liquido mostra strati marroni, argentei e grigi, simili a fasce di roccia. Agitare la bottiglia non li mescola.",
+        "properties": "Se la bevi, per **1 ora** ottieni una **velocità di scalata pari alla tua velocità di camminata** e **vantaggio alle prove di Forza (Atletica) per arrampicarti**."
+      }
+    },
+    {
+      "id": "d443635b-f54f-4311-a2a8-92a563dcb157",
+      "type": "equipaggiamento",
+      "title": "Polvere della sparizione",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Polvere della sparizione",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Oggetto meraviglioso",
+        "rarity": "Non comune",
+        "weight": "",
+        "description": "Una bustina di polvere finissima, sufficiente per **un solo uso**.",
+        "properties": "**Azione:** lancia la polvere in aria. Tu e ogni creatura e oggetto entro **3 m** da te diventate **invisibili per 2d4 minuti**. La durata è uguale per tutti; la polvere si consuma.\nSe una creatura influenzata **attacca o lancia un incantesimo**, l'invisibilità termina **per quella creatura**."
+      }
+    },
+    {
+      "id": "cc19fff2-2c7a-499d-b705-93df6f32129c",
+      "type": "equipaggiamento",
+      "title": "Olio della scivolosità",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Olio della scivolosità",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Pozione",
+        "rarity": "Non comune",
+        "weight": "",
+        "description": "Unguento nero, denso nel contenitore; quando viene versato scorre rapidamente.",
+        "properties": "**Su una creatura:** applicarlo richiede **10 minuti**. Un flacone copre una creatura Media o più piccola e il suo equipaggiamento; ogni taglia oltre Media richiede un flacone aggiuntivo. La creatura ottiene l'effetto di *libertà di movimento* per **8 ore**.\n**Sul terreno:** versarlo richiede **un'azione**. Copre un quadrato di **3 m per lato** con l'effetto dell'incantesimo *unto* per **8 ore**."
+      }
+    },
+    {
+      "id": "9a06262d-3577-4dac-aa33-a6c6c073c7a0",
+      "type": "equipaggiamento",
+      "title": "Bottiglia del fumo perenne",
+      "data": {
+        "type": "equipaggiamento",
+        "textSize": "12",
+        "name": "Bottiglia del fumo perenne",
+        "damage": "",
+        "damageType": "",
+        "range": "",
+        "mastery": "",
+        "cost": "",
+        "category": "Oggetto meraviglioso",
+        "rarity": "Non comune",
+        "weight": "0,45 kg",
+        "description": "Bottiglia d'ottone con tappo di piombo da cui filtra fumo.",
+        "properties": "**Azione:** togli il tappo. La bottiglia emette fumo denso in un raggio di **18 m**: l'area è **pesantemente oscurata**. Finché resta aperta e nella nube, il raggio cresce di **3 m al minuto**, fino a **36 m**.\n**Azione:** pronuncia la parola di comando per richiuderla. Il fumo residuo svanisce dopo **10 minuti**. Un vento moderato (circa **18–32 km/h**) lo disperde in **1 minuto**; un vento forte (**34 km/h o più**) in **1 round**."
       }
     }
   ]

@@ -8,7 +8,7 @@
   const paintHistoryCanvas = document.createElement('canvas'), paintHistoryCtx = paintHistoryCanvas.getContext('2d');
   const eraseCanvas = document.createElement('canvas'), eraseCtx = eraseCanvas.getContext('2d');
   const basePaintCanvas = document.createElement('canvas'), basePaintCtx = basePaintCanvas.getContext('2d');
-  const stateList = $('#state-list'), labelsLayer = $('#labels-layer');
+  const stateList = $('#state-list'), locationList = $('#location-list'), labelsLayer = $('#labels-layer');
   const STORAGE_KEY = 'letherel-mapmaker-v1';
   const STATE_OPACITY = .7;
   const palette = ['#e89092','#ab84db','#85d887','#d3b975','#83b7e8','#d68aca','#7acfc6','#dfa866','#98c8ec','#c39bd3'];
@@ -20,11 +20,12 @@
     return {
       map: BASE_MAP, mapName: 'Letherel · Stati e confini', width, height,
       states: presetStates.map(([key, name, color], index) => ({ id: `base-${key}`, name, color, baseColor: color, code: index + 1, showLabel: true })),
-      strokes: [], labels: presetStates.map(([key, , , x, y, size, rotation, labelWidth, curve]) => ({ stateId: `base-${key}`, x: x * width, y: y * height, size, rotation, width: labelWidth, curve }))
+      strokes: [], labels: presetStates.map(([key, , , x, y, size, rotation, labelWidth, curve]) => ({ stateId: `base-${key}`, x: x * width, y: y * height, size, rotation, width: labelWidth, curve })),
+      locations: [], locationsVisible: true
     };
   }
   let project = createPreset();
-  let selectedId = project.states[0]?.id || null, tool = 'brush', drawing = false, activeStroke = null, landMask = null, landPixels = null, baseOwnerPixels = null, baseEdgePixels = null, baseEdgeLayer = null, preservedEdgeLayer = null, baseSourcePixels = null, neutralMapLayer = null, baseFillLayer = null, zoneMaskLayer = null, zoneBorderLayer = null;
+  let selectedId = project.states[0]?.id || null, selectedLocationId = null, tool = 'brush', drawing = false, activeStroke = null, landMask = null, landPixels = null, baseOwnerPixels = null, baseEdgePixels = null, baseEdgeLayer = null, preservedEdgeLayer = null, baseSourcePixels = null, neutralMapLayer = null, baseFillLayer = null, zoneMaskLayer = null, zoneBorderLayer = null;
 
   function id() { return `state-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`; }
   function selectedState() { return project.states.find(state => state.id === selectedId); }
@@ -45,6 +46,14 @@
         state.code ??= nextCode++;
       }
     });
+  }
+  function normalizeLocations() {
+    if (!Array.isArray(project.locations)) project.locations = [];
+    if (typeof project.locationsVisible !== 'boolean') project.locationsVisible = true;
+    for (const location of project.locations) {
+      location.iconSize = Number.isFinite(location.iconSize) ? Math.max(16, Math.min(120, location.iconSize)) : 44;
+      location.labelSize = Number.isFinite(location.labelSize) ? Math.max(10, Math.min(80, location.labelSize)) : 24;
+    }
   }
   function say(text) { $('#save-status').textContent = text; }
   function save() {
@@ -530,6 +539,47 @@
       textPath.setAttribute('textLength', String(width)); textPath.setAttribute('lengthAdjust', 'spacingAndGlyphs');
       textPath.textContent = state.name || 'Stato'; text.append(textPath); labelsLayer.append(defs, text);
     }
+    renderLocationMarkers();
+  }
+  function renderLocationMarkers() {
+    if (!project.locationsVisible) return;
+    const ns = 'http://www.w3.org/2000/svg';
+    const layer = document.createElementNS(ns, 'g');
+    layer.setAttribute('id', 'locations-layer');
+    for (const location of project.locations) {
+      if (!Number.isFinite(location.x) || !Number.isFinite(location.y)) continue;
+      const marker = document.createElementNS(ns, 'g');
+      marker.setAttribute('transform', `translate(${location.x} ${location.y})`);
+      const icon = document.createElementNS(ns, 'g');
+      icon.setAttribute('transform', `scale(${location.iconSize / 44})`);
+      const halo = document.createElementNS(ns, 'circle');
+      halo.setAttribute('r', '22'); halo.setAttribute('fill', '#f2f4ed'); halo.setAttribute('fill-opacity', '.94');
+      halo.setAttribute('stroke', '#26313a'); halo.setAttribute('stroke-width', '2');
+      icon.append(halo);
+      const symbol = document.createElementNS(ns, 'path');
+      const shapes = {
+        city: 'M -14 12 V -7 H -10 V -11 H -6 V -7 H -2 V -13 H 2 V -7 H 6 V -11 H 10 V -7 H 14 V 12 Z M -4 12 V 3 A 4 4 0 0 1 4 3 V 12',
+        mountains: 'M -17 12 L -6 -12 L 2 4 L 8 -8 L 18 12 Z M -10 0 L -6 -7 L -2 0 M 5 1 L 8 -3 L 11 1',
+        forest: 'M -13 10 L -7 -7 L -1 10 Z M -7 10 V 15 M -3 9 L 5 -14 L 13 9 Z M 5 9 V 15 M 9 9 L 14 -4 L 19 9 Z M 14 9 V 15'
+      };
+      symbol.setAttribute('d', shapes[location.type] || shapes.city);
+      symbol.setAttribute('fill', { city: '#c9a977', mountains: '#aeb8b9', forest: '#8aaa87' }[location.type] || '#c9a977');
+      symbol.setAttribute('stroke', '#26313a'); symbol.setAttribute('stroke-width', '2');
+      symbol.setAttribute('stroke-linecap', 'round'); symbol.setAttribute('stroke-linejoin', 'round');
+      icon.append(symbol); marker.append(icon);
+      if (location.name) {
+        const name = document.createElementNS(ns, 'text');
+        name.setAttribute('y', String(location.iconSize / 2 + location.labelSize + 2)); name.setAttribute('text-anchor', 'middle');
+        name.setAttribute('font-family', '"Palatino Linotype", Georgia, serif');
+        name.setAttribute('font-size', String(location.labelSize)); name.setAttribute('font-weight', '700');
+        name.setAttribute('fill', '#26313a'); name.setAttribute('stroke', '#f2f4ed');
+        name.setAttribute('stroke-width', String(Math.max(2, location.labelSize / 6))); name.setAttribute('stroke-linejoin', 'round');
+        name.setAttribute('paint-order', 'stroke'); name.textContent = location.name;
+        marker.append(name);
+      }
+      layer.append(marker);
+    }
+    labelsLayer.append(layer);
   }
   function renderStates() {
     stateList.replaceChildren();
@@ -550,10 +600,71 @@
     }
     $('#state-total').textContent = project.states.length;
   }
+  function locationSizeControl(location, key, title, min, max) {
+    const label = document.createElement('label'); label.className = 'location-size-control';
+    const heading = document.createElement('span'); heading.className = 'location-size-heading';
+    const caption = document.createElement('span'); caption.textContent = title;
+    const value = document.createElement('output'); value.textContent = `${location[key]} px`;
+    heading.append(caption, value);
+    const slider = document.createElement('input'); slider.type = 'range';
+    slider.min = String(min); slider.max = String(max); slider.value = String(location[key]);
+    slider.setAttribute('aria-label', `${title} di ${location.name || 'luogo'}`);
+    slider.addEventListener('input', () => {
+      location[key] = Number(slider.value); value.textContent = `${slider.value} px`;
+      renderLabels(); save();
+    });
+    label.append(heading, slider);
+    return label;
+  }
+  function renderLocationList() {
+    locationList.replaceChildren();
+    $('#show-locations').checked = project.locationsVisible;
+    if (!project.locations.length) {
+      const empty = document.createElement('div'); empty.className = 'empty-states';
+      empty.textContent = 'Nessun luogo. Premi + per aggiungerne uno.'; locationList.append(empty);
+    }
+    for (const location of project.locations) {
+      const card = document.createElement('div');
+      card.className = `location-card${location.id === selectedLocationId && tool === 'location' ? ' selected' : ''}`;
+      const top = document.createElement('div'); top.className = 'location-card-top';
+      const name = document.createElement('input'); name.className = 'location-name'; name.type = 'text'; name.maxLength = 50;
+      name.placeholder = 'Etichetta (facoltativa)'; name.value = location.name;
+      name.setAttribute('aria-label', 'Etichetta del luogo');
+      name.addEventListener('input', () => { location.name = name.value; renderLabels(); save(); });
+      const kind = document.createElement('select'); kind.className = 'location-kind'; kind.setAttribute('aria-label', `Simbolo di ${location.name || 'luogo'}`);
+      for (const [value, title] of [['city', 'Città'], ['mountains', 'Monti'], ['forest', 'Foresta']]) {
+        const option = document.createElement('option'); option.value = value; option.textContent = title; kind.append(option);
+      }
+      kind.value = location.type;
+      kind.addEventListener('change', () => { location.type = kind.value; renderLabels(); save(); });
+      top.append(name, kind);
+      const sizes = document.createElement('div'); sizes.className = 'location-sizes';
+      sizes.append(
+        locationSizeControl(location, 'iconSize', 'Dimensione simbolo', 16, 120),
+        locationSizeControl(location, 'labelSize', 'Dimensione etichetta', 10, 80)
+      );
+      const bottom = document.createElement('div'); bottom.className = 'location-card-bottom';
+      const place = document.createElement('button'); place.type = 'button'; place.className = 'location-place';
+      place.textContent = Number.isFinite(location.x) ? 'Sposta' : 'Posiziona';
+      place.addEventListener('click', () => { selectedLocationId = location.id; project.locationsVisible = true; setTool('location'); renderLocationList(); renderLabels(); save(); });
+      const status = document.createElement('span'); status.className = 'location-status';
+      status.textContent = Number.isFinite(location.x) ? 'Sulla mappa' : 'Da posizionare';
+      const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'location-delete';
+      remove.textContent = 'Elimina'; remove.setAttribute('aria-label', `Elimina ${location.name || 'luogo'}`);
+      remove.addEventListener('click', () => {
+        project.locations = project.locations.filter(item => item.id !== location.id);
+        if (selectedLocationId === location.id) { selectedLocationId = null; if (tool === 'location') setTool('brush'); }
+        renderLocationList(); renderLabels(); save();
+      });
+      bottom.append(place, status, remove); card.append(top, sizes, bottom); locationList.append(card);
+    }
+  }
   function select(stateId) { selectedId = stateId; renderStates(); }
   function renderAll() {
+    normalizeLocations();
+    if (tool === 'location' && !project.locations.some(item => item.id === selectedLocationId)) { selectedLocationId = null; setTool('brush'); }
     if (baseOwnerPixels) buildEditableBaseLayers();
-    renderStates(); renderStrokes(); renderLabels();
+    renderStates(); renderLocationList(); renderStrokes(); renderLabels();
     const hasMap = Boolean(project.map);
     stage.classList.toggle('has-map', hasMap); image.hidden = !hasMap;
     if (hasMap) {
@@ -568,14 +679,20 @@
     project.states.push(state); selectedId = state.id; renderStates(); save();
     if (!name) { const input = stateList.querySelector(`[data-id="${CSS.escape(state.id)}"] input`); input?.focus(); input?.select(); }
   }
+  function addLocation() {
+    const location = { id: id(), type: 'city', name: 'Nuova città', x: null, y: null, iconSize: 44, labelSize: 24 };
+    project.locations.push(location); selectedLocationId = location.id;
+    project.locationsVisible = true; setTool('location'); renderLocationList(); renderLabels(); save();
+    locationList.querySelector('.location-card:last-child .location-name')?.select();
+  }
   function pos(event) {
     const rect = canvas.getBoundingClientRect();
     return { x: Math.max(0, Math.min(project.width, (event.clientX - rect.left) * project.width / rect.width)), y: Math.max(0, Math.min(project.height, (event.clientY - rect.top) * project.height / rect.height)) };
   }
   function setTool(next) {
     tool = next; document.querySelectorAll('[data-tool]').forEach(button => button.classList.toggle('active', button.dataset.tool === tool));
-    $('#tool-hint').textContent = tool === 'label' ? 'Clicca sulla mappa per posizionare l’etichetta dello Stato selezionato.' : tool === 'erase' ? 'Cancella qualsiasi territorio, anche quello del preset: la gomma si ferma fuori dalla terra.' : 'Dipingi lo Stato selezionato: il tratto si ferma al bordo e riprende quando rientri.';
-    canvas.style.cursor = tool === 'label' ? 'copy' : tool === 'erase' ? 'cell' : 'crosshair';
+    $('#tool-hint').textContent = tool === 'location' ? 'Clicca sulla mappa per posizionare o spostare il luogo selezionato.' : tool === 'label' ? 'Clicca sulla mappa per posizionare l’etichetta dello Stato selezionato.' : tool === 'erase' ? 'Cancella qualsiasi territorio, anche quello del preset: la gomma si ferma fuori dalla terra.' : 'Dipingi lo Stato selezionato: il tratto si ferma al bordo e riprende quando rientri.';
+    canvas.style.cursor = tool === 'label' || tool === 'location' ? 'copy' : tool === 'erase' ? 'cell' : 'crosshair';
   }
   function exportImage() {
     if (!project.map) { alert('Carica prima la mappa di base.'); return; }
@@ -593,11 +710,19 @@
   }
   $('#add-state').addEventListener('click', () => { $('#state-name').value = ''; $('#state-dialog').showModal(); $('#state-name').focus(); });
   $('#state-form').addEventListener('submit', event => { if (event.submitter?.value === 'cancel') return; event.preventDefault(); const name = $('#state-name').value.trim(); if (!name) return; addState(name, $('#state-color').value); $('#state-dialog').close(); });
+  $('#add-location').addEventListener('click', addLocation);
+  $('#show-locations').addEventListener('change', event => { project.locationsVisible = event.target.checked; renderLabels(); save(); });
   document.querySelectorAll('[data-tool]').forEach(button => button.addEventListener('click', () => setTool(button.dataset.tool)));
   $('#brush-size').addEventListener('input', event => { $('#brush-value').textContent = `${event.target.value} px`; });
   $('#roughness').addEventListener('input', event => { $('#roughness-value').textContent = `${event.target.value}%`; });
   canvas.addEventListener('pointerdown', event => {
     if (!project.map) return;
+    if (tool === 'location') {
+      const location = project.locations.find(item => item.id === selectedLocationId);
+      if (!location) { say('Seleziona un luogo da posizionare'); return; }
+      const point = pos(event); location.x = point.x; location.y = point.y;
+      renderLocationList(); renderLabels(); save(); return;
+    }
     if (tool === 'label') { const state = selectedState(); if (!state) { alert('Crea o seleziona uno Stato prima di aggiungere un’etichetta.'); return; } const point = pos(event); const label = project.labels.find(item => item.stateId === state.id); if (label) { label.x = point.x; label.y = point.y; } else project.labels.push({ stateId: state.id, ...point }); renderLabels(); save(); return; }
     if (tool === 'brush' && !selectedState()) { alert('Crea o seleziona uno Stato prima di dipingere.'); return; }
     const point = pos(event);
@@ -621,8 +746,8 @@
   canvas.addEventListener('pointerup', finishStroke); canvas.addEventListener('pointercancel', finishStroke);
   $('#undo').addEventListener('click', () => { if (!project.strokes.length) return; project.strokes.pop(); renderStates(); renderStrokes(); save(); });
   $('#clear-state').addEventListener('click', () => { if (!selectedId) { alert('Seleziona uno Stato.'); return; } const name = selectedState().name; if (!confirm(`Cancellare tutte le pennellate di “${name}”?`)) return; project.strokes = project.strokes.filter(stroke => stroke.tool === 'erase' || stroke.stateId !== selectedId); renderStates(); renderStrokes(); save(); });
-  $('#map-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { const probe = new Image(); probe.onload = () => { project.map = reader.result; project.mapName = file.name; project.width = probe.naturalWidth; project.height = probe.naturalHeight; project.strokes = []; project.labels = []; renderAll(); save(); }; probe.src = reader.result; }; reader.readAsDataURL(file); event.target.value = ''; });
-  $('#remove-map').addEventListener('click', () => { if (!project.map || !confirm('Rimuovere la mappa di base e azzerare pennellate ed etichette? Gli Stati resteranno nel progetto.')) return; project.map = ''; project.mapName = ''; project.width = 0; project.height = 0; project.strokes = []; project.labels = []; renderAll(); save(); });
+  $('#map-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; if ((project.strokes.length || project.labels.length || project.locations.length) && !confirm('Caricare una nuova immagine e cancellare pennellate, etichette e luoghi?')) { event.target.value = ''; return; } const reader = new FileReader(); reader.onload = () => { const probe = new Image(); probe.onload = () => { project.map = reader.result; project.mapName = file.name; project.width = probe.naturalWidth; project.height = probe.naturalHeight; project.strokes = []; project.labels = []; project.locations = []; selectedLocationId = null; renderAll(); save(); }; probe.src = reader.result; }; reader.readAsDataURL(file); event.target.value = ''; });
+  $('#remove-map').addEventListener('click', () => { if (!project.map || !confirm('Rimuovere la mappa di base e azzerare pennellate, etichette e luoghi? Gli Stati resteranno nel progetto.')) return; project.map = ''; project.mapName = ''; project.width = 0; project.height = 0; project.strokes = []; project.labels = []; project.locations = []; selectedLocationId = null; renderAll(); save(); });
   $('#reset-project').addEventListener('click', () => { if (!confirm('Ripristinare il preset originale di Letherel? Le modifiche correnti verranno cancellate.')) return; project = createPreset(); selectedId = project.states[0]?.id || null; renderAll(); save(); });
   $('#save-project').addEventListener('click', () => exportProject(project)); $('#export-image').addEventListener('click', exportImage);
   $('#open-project').addEventListener('click', () => $('#project-upload').click());

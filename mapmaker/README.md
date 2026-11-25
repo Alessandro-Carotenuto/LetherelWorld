@@ -6,4 +6,10 @@ Ogni riga permette di rinominare, ricolorare, eliminare o nascondere l’etichet
 
 Il progetto viene salvato automaticamente nel browser. **Esporta progetto** crea un JSON riapribile con **Apri progetto**; **Esporta mappa** produce un PNG con immagine, colori ed etichette visibili.
 
+## Luoghi
+
+Ogni luogo ha due cursori indipendenti: **Dimensione simbolo** (16–120 px) e **Dimensione etichetta** (10–80 px). I progetti precedenti usano le dimensioni originali di 44 px e 24 px.
+
+Nella sezione **Luoghi sulla mappa**, premi **+ Aggiungi luogo** in cima alla barra laterale, scegli il simbolo **Città**, **Monti** o **Foresta** e scrivi il nome nel campo dell'etichetta. Premi **Posiziona** e clicca sulla mappa; in seguito **Sposta** permette di cambiare posizione. Puoi lasciare il nome vuoto per mostrare solo il simbolo o eliminare un luogo dalla lista. **Mostra il livello dei luoghi** accende o spegne tutti i simboli e le relative etichette, anche nel PNG esportato. I luoghi e la visibilità sono inclusi nel salvataggio automatico e nel file progetto JSON; i vecchi progetti si aprono con il livello vuoto e visibile.
+
 La cartella non dipende dalla dashboard in `local-admin` e non modifica i dati del sito: serve a preparare mappe autonome da usare come immagini. La mappa chiara del preset conserva costa e fiumi sotto i colori; geometria politica, colori ed etichette restano modificabili nel progetto.

@@ -318,6 +318,8 @@
         const actions = node("div", "record-actions");
         [
           ["load", "Carica", "Carica questo preset"],
+          ["duplicate", "Duplica", "Crea un nuovo preset con gli stessi dati"],
+          ["download", "PNG", "Scarica questa carta come immagine PNG"],
           ["add", "Aggiungi", "Aggiungi al foglio di stampa"],
           ["delete", "×", "Elimina questo preset"]
         ].forEach(([action, label, title]) => {
@@ -440,6 +442,14 @@
     const preset = presets.find(item => item.id === id);
     if (!preset) return;
     editingId = preset.id;
+    fillFormFromPreset(preset);
+    formTitle.textContent = "Modifica preset";
+    saveButton.textContent = "Aggiorna preset";
+    showMessage(`Preset caricato: ${preset.title || preset.data?.name || "carta"}.`);
+  }
+
+  function fillFormFromPreset(preset) {
+    form.reset();
     typeSelect.value = preset.type;
     form.elements.namedItem("textSize").value = preset.data?.textSize || "8";
     renderFields(preset.type);
@@ -448,9 +458,77 @@
       if (control && "value" in control) control.value = value;
     });
     updatePreview();
-    formTitle.textContent = "Modifica preset";
-    saveButton.textContent = "Aggiorna preset";
-    showMessage(`Preset caricato: ${preset.title || preset.data?.name || "carta"}.`);
+  }
+
+  function duplicatePreset(id) {
+    const preset = presets.find(item => item.id === id);
+    if (!preset) return;
+    editingId = "";
+    fillFormFromPreset(preset);
+    formTitle.textContent = "Duplica preset";
+    saveButton.textContent = "Salva nuovo preset";
+    showMessage("Copia pronta: modifica la carta e salvala come nuovo preset.");
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  async function renderCardPng(data) {
+    const stage = node("div", "cards-image-export");
+    const card = renderCard(data);
+    stage.append(card);
+    document.body.append(stage);
+    try {
+      const rect = card.getBoundingClientRect();
+      const copy = card.cloneNode(true);
+      copy.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
+      const cardStyles = [...document.styleSheets].flatMap(sheet => {
+        try {
+          return [...sheet.cssRules].filter(rule => rule.selectorText?.includes(".print-card"))
+            .map(rule => rule.cssText);
+        } catch {
+          return [];
+        }
+      }).join("\n");
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${rect.width}" height="${rect.height}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><style>${cardStyles}</style>${copy.outerHTML}</div></foreignObject></svg>`;
+      const picture = new Image();
+      await new Promise((resolve, reject) => {
+        picture.onload = resolve;
+        picture.onerror = () => reject(new Error("Impossibile convertire la carta in immagine."));
+        picture.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      });
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(rect.width * 3);
+      canvas.height = Math.round(rect.height * 3);
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Canvas non disponibile.");
+      context.fillStyle = "#fff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(picture, 0, 0, canvas.width, canvas.height);
+      return await new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("PNG non disponibile.")), "image/png"));
+    } finally {
+      stage.remove();
+    }
+  }
+
+  async function downloadCardImage(data, title, button) {
+    button.disabled = true;
+    try {
+      const blob = await renderCardPng(data);
+      const filename = String(title || "carta").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[<>:"/\\|?*\x00-\x1f]/g, "").trim().replace(/[. ]+$/g, "") || "carta";
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${filename}.png`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 30000);
+      showMessage(`PNG scaricato: ${filename}.png`, "success");
+    } catch (error) {
+      showMessage(`Download PNG non riuscito: ${error.message}`, "error");
+    } finally {
+      button.disabled = false;
+    }
   }
 
   async function deletePreset(id) {
@@ -504,6 +582,10 @@
     typeSelect.addEventListener("change", () => renderFields(typeSelect.value));
     form.addEventListener("submit", save);
     document.getElementById("printable-card-new").addEventListener("click", startNew);
+    document.getElementById("printable-card-preview-download").addEventListener("click", event => {
+      const data = currentData();
+      void downloadCardImage(data, data.name, event.currentTarget);
+    });
     document.getElementById("printable-card-sheet-print").addEventListener("click", () => printCards(sheetQueue));
     document.getElementById("printable-card-sheet-clear").addEventListener("click", () => {
       sheetQueue.length = 0;
@@ -524,6 +606,11 @@
       if (!button) return;
       const { action, id } = button.dataset;
       if (action === "load") loadPreset(id);
+      if (action === "duplicate") duplicatePreset(id);
+      if (action === "download") {
+        const preset = presets.find(item => item.id === id);
+        if (preset) void downloadCardImage(preset.data || {}, preset.title || preset.data?.name, button);
+      }
       if (action === "add") addPresetToSheet(id);
       if (action === "delete") deletePreset(id);
     });

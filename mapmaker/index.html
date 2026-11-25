@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#151b1d">
   <title>Mapmaker · Letherel</title>
-  <link rel="stylesheet" href="./css/mapmaker.css?v=20261110-gothic-labels">
+  <link rel="stylesheet" href="./css/mapmaker.css?v=20261125-location-sizes">
   <script src="./assets/territori-base-data.js" defer></script>
   <script src="./assets/territori-neutral-data.js" defer></script>
   <script src="./js/preset.js" defer></script>
   <script src="./js/geometry.js" defer></script>
   <script src="./js/project-files.js" defer></script>
-  <script src="./js/mapmaker.js?v=20261110-gothic-labels" defer></script>
+  <script src="./js/mapmaker.js?v=20261125-location-sizes" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -20,11 +20,17 @@
   </header>
   <main class="layout">
     <aside class="sidebar">
-      <section class="section-heading"><div><span class="eyebrow">01 / Territori</span><h1>I tuoi Stati</h1></div><button id="add-state" class="icon-button" title="Crea uno Stato" aria-label="Crea uno Stato">＋</button></section>
+      <section class="locations-section">
+        <div class="section-heading"><div><span class="eyebrow">01 / Luoghi</span><h2>Luoghi sulla mappa</h2></div><button id="add-location" class="button primary add-location-button" type="button">+ Aggiungi luogo</button></div>
+        <p class="small-copy">Scegli Città, Monti o Foresta, scrivi il nome e clicca sulla mappa per posizionare il simbolo.</p>
+        <label class="locations-visibility"><input id="show-locations" type="checkbox" checked> Mostra il livello dei luoghi</label>
+        <div id="location-list" class="location-list"></div>
+      </section>
+      <section class="section-heading"><div><span class="eyebrow">02 / Territori</span><h1>I tuoi Stati</h1></div><button id="add-state" class="icon-button" title="Crea uno Stato" aria-label="Crea uno Stato">＋</button></section>
       <p class="intro">Crea gli Stati, scegli un colore e dipingi le aree sulla mappa. Ogni Stato ha pennellate ed etichetta indipendenti.</p>
       <div id="state-list" class="state-list"></div>
       <section class="tools-section">
-        <div class="section-heading compact"><div><span class="eyebrow">02 / Strumenti</span><h2>Pennello</h2></div></div>
+        <div class="section-heading compact"><div><span class="eyebrow">03 / Strumenti</span><h2>Pennello</h2></div></div>
         <div class="tool-switch" role="group" aria-label="Strumento di disegno"><button class="tool-button active" data-tool="brush" type="button"><span>✎</span>Dipingi</button><button class="tool-button" data-tool="label" type="button"><span>⌖</span>Etichetta</button><button class="tool-button" data-tool="erase" type="button"><span>◌</span>Gomma</button></div>
         <label class="slider-label" for="brush-size"><span>Dimensione pennello</span><strong id="brush-value">36 px</strong></label>
         <input id="brush-size" type="range" min="8" max="130" value="36">
@@ -34,7 +40,7 @@
         <div class="tool-footer"><button id="undo" class="button subtle full" type="button">↶ Annulla ultima pennellata</button><button id="clear-state" class="text-button" type="button">Cancella pennellate dello Stato</button></div>
       </section>
       <section class="map-section">
-        <div class="section-heading compact"><div><span class="eyebrow">03 / Supporto</span><h2>Mappa di base</h2></div></div>
+        <div class="section-heading compact"><div><span class="eyebrow">04 / Supporto</span><h2>Mappa di base</h2></div></div>
         <p class="small-copy">Il preset separa la mappa dai riempimenti: puoi cambiare o eliminare gli Stati senza lasciare colori incorporati nell’immagine.</p>
         <label class="button subtle full upload-button" for="map-upload">＋ Carica immagine</label><input id="map-upload" type="file" accept="image/*" hidden>
         <div class="map-actions"><button id="reset-project" class="text-button danger" type="button">Ripristina preset Letherel</button><button id="remove-map" class="text-button" type="button">Rimuovi immagine</button></div>
