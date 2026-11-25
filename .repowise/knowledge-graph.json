@@ -2437,7 +2437,8 @@
       "depth": 0,
       "kind": "overview",
       "reason": "Start here for the end-to-end picture before diving into the code.",
-      "layer_id": "layer:application"
+      "layer_id": "layer:application",
+      "wikiPageIds": []
     },
     {
       "order": 2,
@@ -2447,7 +2448,8 @@
       "depth": 0,
       "kind": "code",
       "reason": "A re-export hub \u2014 the package's public surface fans out from here.",
-      "layer_id": "layer:application"
+      "layer_id": "layer:application",
+      "wikiPageIds": []
     },
     {
       "order": 3,
@@ -2457,7 +2459,8 @@
       "depth": 0,
       "kind": "code",
       "reason": "The face of assets/ \u2014 13 code files live here.",
-      "layer_id": "layer:application"
+      "layer_id": "layer:application",
+      "wikiPageIds": []
     },
     {
       "order": 4,
@@ -2467,7 +2470,8 @@
       "depth": 0,
       "kind": "code",
       "reason": "The face of local-admin/ \u2014 13 code files live here.",
-      "layer_id": "layer:application"
+      "layer_id": "layer:application",
+      "wikiPageIds": []
     },
     {
       "order": 5,
@@ -2477,7 +2481,8 @@
       "depth": 0,
       "kind": "code",
       "reason": "The face of mapmaker/ \u2014 7 code files live here.",
-      "layer_id": "layer:application"
+      "layer_id": "layer:application",
+      "wikiPageIds": []
     },
     {
       "order": 6,
@@ -2487,7 +2492,8 @@
       "depth": 0,
       "kind": "code",
       "reason": "The face of battlemap-printer/ \u2014 2 code files live here.",
-      "layer_id": "layer:application"
+      "layer_id": "layer:application",
+      "wikiPageIds": []
     },
     {
       "order": 7,
@@ -2497,7 +2503,8 @@
       "depth": 1,
       "kind": "code",
       "reason": "The test suite \u2014 how the system's behavior is verified.",
-      "layer_id": "layer:test"
+      "layer_id": "layer:test",
+      "wikiPageIds": []
     }
   ],
   "modules": [
