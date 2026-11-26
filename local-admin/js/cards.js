@@ -9,6 +9,7 @@
   const typeSelect = document.getElementById("printable-card-type");
   const fields = document.getElementById("printable-card-fields");
   const preview = document.getElementById("printable-card-preview");
+  const previewDownload = document.getElementById("printable-card-preview-download");
   const list = document.getElementById("printable-card-list");
   const sheetList = document.getElementById("printable-card-sheet-list");
   const count = document.getElementById("printable-card-count");
@@ -23,6 +24,11 @@
   let presets = [];
   const sheetQueue = [];
   let editingId = "";
+  const pngUrls = new Map();
+  const pendingPngs = new Map();
+  const pngJobs = [];
+  let activePngJobs = 0;
+  let previewPngTimer;
 
   function input(name, label, { placeholder = "", hint = "", type = "text", required = false, step, min } = {}) {
     const attrs = [
@@ -234,7 +240,17 @@
 
   function updatePreview() {
     if (!form || !preview) return;
-    preview.replaceChildren(renderCard(currentData()));
+    const data = currentData();
+    preview.replaceChildren(renderCard(data));
+    const key = JSON.stringify(data);
+    previewDownload.dataset.cardKey = key;
+    previewDownload.removeAttribute("href");
+    previewDownload.removeAttribute("download");
+    previewDownload.setAttribute("aria-disabled", "true");
+    previewDownload.textContent = "Preparo PNG…";
+    clearTimeout(previewPngTimer);
+    if (pngUrls.has(key)) prepareDownloadLink(previewDownload, data, data.name, "Scarica anteprima PNG");
+    else previewPngTimer = setTimeout(() => prepareDownloadLink(previewDownload, data, data.name, "Scarica anteprima PNG"), 180);
   }
 
   function showMessage(text, kind = "") {
@@ -323,6 +339,15 @@
           ["add", "Aggiungi", "Aggiungi al foglio di stampa"],
           ["delete", "×", "Elimina questo preset"]
         ].forEach(([action, label, title]) => {
+          if (action === "download") {
+            const link = node("a", "record-action card-download-link", "Preparo PNG…");
+            link.title = title;
+            link.dataset.cardDownload = "true";
+            link.setAttribute("aria-disabled", "true");
+            actions.append(link);
+            prepareDownloadLink(link, preset.data || {}, preset.title || preset.data?.name, "PNG");
+            return;
+          }
           const button = node("button", `record-action${action === "delete" ? " danger" : ""}`, label);
           button.type = "button";
           button.dataset.action = action;
@@ -509,53 +534,61 @@
     }
   }
 
-  async function downloadCardImage(data, title, button) {
-    if (button.disabled) return;
-    const filename = String(title || "carta").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  function pngFilename(title) {
+    const name = String(title || "carta").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       .replace(/[<>:"/\\|?*\x00-\x1f]/g, "").trim().replace(/[. ]+$/g, "") || "carta";
-    const previousLink = button.nextElementSibling;
-    if (previousLink?.matches("a[data-card-download]")) {
-      URL.revokeObjectURL(previousLink.href);
-      previousLink.remove();
+    return `${name}.png`;
+  }
+
+  function runPngJobs() {
+    while (activePngJobs < 2 && pngJobs.length) {
+      const job = pngJobs.shift();
+      activePngJobs++;
+      renderCardPng(job.data).then(job.resolve, job.reject).finally(() => {
+        activePngJobs--;
+        runPngJobs();
+      });
     }
-    button.disabled = true;
-    try {
-      let fileHandle;
-      if (typeof window.showSaveFilePicker === "function") {
-        try {
-          fileHandle = await window.showSaveFilePicker({
-            suggestedName: `${filename}.png`,
-            types: [{ description: "Immagine PNG", accept: { "image/png": [".png"] } }]
-          });
-        } catch (error) {
-          if (error.name === "AbortError") return;
-          // Se il browser non permette il selettore file, mostra un link di download.
-        }
-      }
-      const blob = await renderCardPng(data);
-      if (fileHandle) {
-        const writable = await fileHandle.createWritable();
-        await writable.write(blob);
-        await writable.close();
-        showMessage(`PNG salvato: ${filename}.png`, "success");
-        return;
-      }
-      const url = URL.createObjectURL(blob);
-      const link = node("a", button.classList.contains("record-action") ? "record-action" : "admin-button secondary", "Scarica PNG");
-      link.dataset.cardDownload = "true";
+  }
+
+  function getCardPngUrl(data, priority = false) {
+    const key = JSON.stringify(data);
+    if (pngUrls.has(key)) return Promise.resolve(pngUrls.get(key));
+    if (!pendingPngs.has(key)) {
+      const job = new Promise((resolve, reject) => {
+        if (priority) pngJobs.unshift({ data, resolve, reject });
+        else pngJobs.push({ data, resolve, reject });
+        runPngJobs();
+      }).then(blob => {
+        const url = URL.createObjectURL(blob);
+        pngUrls.set(key, url);
+        pendingPngs.delete(key);
+        return url;
+      }, error => {
+        pendingPngs.delete(key);
+        throw error;
+      });
+      pendingPngs.set(key, job);
+    }
+    return pendingPngs.get(key);
+  }
+
+  function prepareDownloadLink(link, data, title, label) {
+    const key = JSON.stringify(data);
+    const filename = pngFilename(title);
+    link.dataset.cardKey = key;
+    void getCardPngUrl(data, link === previewDownload).then(url => {
+      if (!link.isConnected || link.dataset.cardKey !== key) return;
       link.href = url;
-      link.download = `${filename}.png`;
-      link.addEventListener("click", () => {
-        showMessage(`Download avviato: ${filename}.png`, "success");
-        window.setTimeout(() => URL.revokeObjectURL(url), 60000);
-      }, { once: true });
-      (button.isConnected ? button : document.getElementById("printable-card-preview-download")).after(link);
-      showMessage(`PNG pronto: clicca «Scarica PNG» accanto al pulsante.`, "success");
-    } catch (error) {
-      showMessage(`Download PNG non riuscito: ${error.message}`, "error");
-    } finally {
-      button.disabled = false;
-    }
+      link.download = filename;
+      link.textContent = label;
+      link.removeAttribute("aria-disabled");
+    }).catch(error => {
+      if (!link.isConnected || link.dataset.cardKey !== key) return;
+      link.textContent = "PNG non disponibile";
+      link.title = error.message;
+      if (link === previewDownload) showMessage(`PNG non disponibile: ${error.message}`, "error");
+    });
   }
 
   async function deletePreset(id) {
@@ -609,9 +642,12 @@
     typeSelect.addEventListener("change", () => renderFields(typeSelect.value));
     form.addEventListener("submit", save);
     document.getElementById("printable-card-new").addEventListener("click", startNew);
-    document.getElementById("printable-card-preview-download").addEventListener("click", event => {
-      const data = currentData();
-      void downloadCardImage(data, data.name, event.currentTarget);
+    previewDownload.addEventListener("click", event => {
+      if (!previewDownload.href) event.preventDefault();
+    });
+    list.addEventListener("click", event => {
+      const link = event.target.closest("a[data-card-download]");
+      if (link && !link.href) event.preventDefault();
     });
     document.getElementById("printable-card-sheet-print").addEventListener("click", () => printCards(sheetQueue));
     document.getElementById("printable-card-sheet-clear").addEventListener("click", () => {
@@ -634,10 +670,6 @@
       const { action, id } = button.dataset;
       if (action === "load") loadPreset(id);
       if (action === "duplicate") duplicatePreset(id);
-      if (action === "download") {
-        const preset = presets.find(item => item.id === id);
-        if (preset) void downloadCardImage(preset.data || {}, preset.title || preset.data?.name, button);
-      }
       if (action === "add") addPresetToSheet(id);
       if (action === "delete") deletePreset(id);
     });

@@ -135,6 +135,7 @@
 .cards-preview{display:grid;min-height:350px;place-items:center;padding:8px;background:rgba(0,0,0,.14)}
 .cards-preview-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
 a[data-card-download]{text-decoration:none}
+a[data-card-download][aria-disabled="true"]{opacity:.5;cursor:wait}
 .cards-image-export{position:fixed;top:0;left:-10000px;width:62mm;height:86mm;pointer-events:none}
 .cards-presets-panel{margin-top:14px}
 .cards-preset-filters{display:grid;grid-template-columns:minmax(220px,1.5fr) repeat(2,minmax(130px,.7fr)) auto;align-items:end;gap:10px;margin:0 0 14px}

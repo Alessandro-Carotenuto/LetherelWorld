@@ -14,7 +14,7 @@ Usa i pulsanti freccia per cambiare l’ordine dei personaggi dentro ogni rango 
 
 ## Carte stampabili
 
-Apri **Carte** per creare carte di equipaggiamento, creature e incantesimi in italiano. Scarica la carta in anteprima o un preset salvato come immagine PNG; **Duplica** apre un nuovo preset con gli stessi dati, da modificare e salvare separatamente. Aggiungi fino a nove preset al foglio di stampa, anche più copie dello stesso preset, poi stampa il foglio A4.
+Apri **Carte** per creare carte di equipaggiamento, creature e incantesimi in italiano. Scarica la carta in anteprima o un preset salvato come immagine PNG: il link diventa cliccabile quando termina la scritta **Preparo PNG…**. **Duplica** apre un nuovo preset con gli stessi dati, da modificare e salvare separatamente. Aggiungi fino a nove preset al foglio di stampa, anche più copie dello stesso preset, poi stampa il foglio A4.
 
 I preset si salvano in `local-admin/schede-stampabili.json`, file versionato nel repository.
 
