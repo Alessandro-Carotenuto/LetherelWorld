@@ -1,0 +1,23 @@
+// Area label positions from assets/Base-Map.json (the clean Letherel map).
+window.LETHEREL_MAPMAKER_BASE_LABELS = [
+  { stateId: 'base-igglopolt', x: 293.564, y: 474.227, size: 48, rotation: 0 },
+  { stateId: 'base-likari', x: 570.109, y: 401.928, size: 34, rotation: 0 },
+  { stateId: 'base-gray', x: 711.573, y: 525.261, size: 31, rotation: 12 },
+  { stateId: 'base-dalinar', x: 1003.009, y: 406.181, size: 39, rotation: -8 },
+  { stateId: 'base-tusk', x: 759.436, y: 661.351, size: 56, rotation: -43 },
+  { stateId: 'base-sewerly', x: 276.545, y: 833.591, size: 58, rotation: 48 },
+  { stateId: 'base-tikle', x: 458.640, y: 718.976, size: 45, rotation: 0 },
+  { stateId: 'base-barlon', x: 599.891, y: 878.246, size: 43, rotation: -10 },
+  { stateId: 'base-galvant', x: 479.700, y: 1031.348, size: 36, rotation: 22 },
+  { stateId: 'base-alaven', x: 1208.291, y: 777.241, size: 43, rotation: 0 },
+  { stateId: 'base-revachol', x: 1622.045, y: 590.116, size: 61, rotation: 0 },
+  { stateId: 'base-whiteflower', x: 1640.127, y: 263.711, size: 46, rotation: -17 },
+  { stateId: 'base-allomance', x: 1954.964, y: 465.721, size: 44, rotation: 0 },
+  { stateId: 'base-lavender', x: 1809.245, y: 732.586, size: 31, rotation: 0 },
+  { stateId: 'base-brightforge', x: 2050.691, y: 733.650, size: 31, rotation: 0 },
+  { stateId: 'base-pages', x: 1608.218, y: 810.201, size: 25, rotation: 0 },
+  { stateId: 'base-mankos', x: 1766.700, y: 963.008, size: 36, rotation: 0 },
+  { stateId: 'base-obsidian', x: 1322.100, y: 1068.561, size: 42, rotation: -9 },
+  { stateId: 'base-falkner', x: 1488.027, y: 1114.279, size: 39, rotation: 8 },
+  { stateId: 'base-confraternita', x: 304.200, y: 626.266, size: 19, rotation: 0 },
+];

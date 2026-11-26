@@ -5,18 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#151b1d">
   <title>Mapmaker · Letherel</title>
-  <link rel="stylesheet" href="./css/mapmaker.css?v=20261125-location-sizes">
+  <link rel="stylesheet" href="./css/mapmaker.css?v=20261126-states-sidebar">
   <script src="./assets/territori-base-data.js" defer></script>
   <script src="./assets/territori-neutral-data.js" defer></script>
   <script src="./js/preset.js" defer></script>
+  <script src="./js/base-labels.js" defer></script>
+  <script src="./js/portals.js" defer></script>
   <script src="./js/geometry.js" defer></script>
   <script src="./js/project-files.js" defer></script>
-  <script src="./js/mapmaker.js?v=20261125-location-sizes" defer></script>
+  <script src="./js/mapmaker.js?v=20261126-location-visibility" defer></script>
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="../index.html" aria-label="Torna a Letherel"><span class="brand-mark">L</span><span><strong>Mapmaker</strong><small>Atlante di Letherel</small></span></a>
-    <div class="top-actions"><span id="save-status" class="save-status">Pronto</span><button id="open-project" class="button subtle">Apri progetto</button><button id="save-project" class="button subtle">Esporta progetto</button><button id="export-image" class="button primary">Esporta mappa</button></div>
+    <div class="top-actions"><span id="save-status" class="save-status">Pronto</span><button id="open-project" class="button subtle">Apri progetto</button><button id="save-project" class="button subtle">Esporta progetto</button><button id="advanced-export" class="button subtle">Esporta avanzato</button><button id="export-image" class="button primary">Esporta mappa</button></div>
   </header>
   <main class="layout">
     <aside class="sidebar">
@@ -25,6 +27,11 @@
         <p class="small-copy">Scegli Città, Monti o Foresta, scrivi il nome e clicca sulla mappa per posizionare il simbolo.</p>
         <label class="locations-visibility"><input id="show-locations" type="checkbox" checked> Mostra il livello dei luoghi</label>
         <div id="location-list" class="location-list"></div>
+      </section>
+      <section class="layers-section" aria-label="Livelli della mappa">
+        <div class="section-heading compact"><div><span class="eyebrow">Livelli</span><h2>Visibilità sulla mappa</h2></div></div>
+        <label class="layer-toggle"><input id="show-all-labels" type="checkbox" checked> Mostra etichette delle aree di influenza</label>
+        <label class="layer-toggle"><input id="show-portals" type="checkbox" checked> Mostra i portali</label>
       </section>
       <section class="section-heading"><div><span class="eyebrow">02 / Territori</span><h1>I tuoi Stati</h1></div><button id="add-state" class="icon-button" title="Crea uno Stato" aria-label="Crea uno Stato">＋</button></section>
       <p class="intro">Crea gli Stati, scegli un colore e dipingi le aree sulla mappa. Ogni Stato ha pennellate ed etichetta indipendenti.</p>
@@ -48,12 +55,27 @@
       <p class="privacy-note">Il progetto viene salvato automaticamente in questo browser. Esporta il file progetto per conservarne una copia.</p>
     </aside>
     <section class="canvas-panel" aria-label="Area di lavoro della mappa">
-      <div class="canvas-toolbar"><div class="canvas-title"><span class="live-dot"></span><span id="canvas-label">Nessuna mappa caricata</span></div><div class="canvas-instructions">Trascina per dipingere <i>·</i> <kbd>Ctrl</kbd> + <kbd>Z</kbd> per annullare</div></div>
+      <div class="canvas-toolbar"><div class="canvas-title"><span class="live-dot"></span><span id="canvas-label">Nessuna mappa caricata</span></div><div class="map-zoom-controls" role="group" aria-label="Zoom anteprima"><button id="zoom-out" type="button" aria-label="Riduci zoom">−</button><output id="zoom-level">100%</output><button id="zoom-in" type="button" aria-label="Aumenta zoom">+</button><button id="zoom-reset" type="button" title="Adatta la mappa">Adatta</button><button id="zoom-pan" type="button" aria-pressed="false" title="Trascina per spostare la mappa">Sposta</button></div><div class="canvas-instructions">Rotella per zoom · Spazio per spostare</div></div>
       <div id="map-stage" class="map-stage"><div id="map-placeholder" class="map-placeholder"><div class="placeholder-mark">⌖</div><h2>La tua mappa, pronta da colorare</h2><p>Carica l’immagine vuota di Letherel per iniziare.<br>Puoi esportare la mappa finita come PNG.</p><label for="map-upload" class="button primary">Carica la mappa</label></div><img id="map-image" alt="Mappa di base" hidden><canvas id="paint-layer" aria-label="Mappa interattiva"></canvas><svg id="labels-layer" class="labels-layer" aria-hidden="true"></svg></div>
       <footer class="canvas-footer"><span><span id="map-dimensions">In attesa di una mappa</span><i>·</i>Build 2026.11.09.8</span><span><b id="state-total">0</b> Stati <i>·</i> <b id="stroke-total">0</b> pennellate</span></footer>
     </section>
   </main>
   <dialog id="state-dialog"><form method="dialog" id="state-form"><div class="dialog-eyebrow">Nuova entità politica</div><h2>Crea uno Stato</h2><label class="field-label" for="state-name">Nome dello Stato</label><input id="state-name" class="text-input" maxlength="50" placeholder="Es. Regno di Alaven" required><label class="field-label color-field" for="state-color">Colore del pennello<input id="state-color" type="color" value="#a0c9ee"></label><div class="dialog-actions"><button class="button subtle" value="cancel">Annulla</button><button id="create-state" class="button primary" value="create">Crea Stato</button></div></form></dialog>
+  <dialog id="advanced-export-dialog" class="advanced-export-dialog" aria-labelledby="advanced-export-title">
+    <div class="dialog-eyebrow">Esportazione avanzata</div>
+    <h2 id="advanced-export-title">Zoom su un'area</h2>
+    <label class="field-label" for="export-area-select">Area di influenza
+      <select id="export-area-select" class="text-input"></select>
+    </label>
+    <label class="field-label" for="export-zoom">Risoluzione
+      <select id="export-zoom" class="text-input"><option value="2">2×</option><option value="3">3×</option><option value="4" selected>4×</option></select>
+    </label>
+    <label class="field-label" for="export-margin">Margine attorno all'area: <output id="export-margin-value">12%</output>
+      <input id="export-margin" type="range" min="5" max="30" value="12">
+    </label>
+    <p id="advanced-export-summary" class="advanced-export-summary" role="status"></p>
+    <div class="dialog-actions"><button id="cancel-advanced-export" class="button subtle" type="button">Annulla</button><button id="confirm-advanced-export" class="button primary" type="button">Esporta PNG</button></div>
+  </dialog>
   <input id="project-upload" type="file" accept=".json,application/json" hidden>
 </body>
 </html>

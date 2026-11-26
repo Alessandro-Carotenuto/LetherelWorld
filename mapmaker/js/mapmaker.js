@@ -3,6 +3,7 @@
   const stage = $('#map-stage'), image = $('#map-image'), canvas = $('#paint-layer'), ctx = canvas.getContext('2d');
   const { isSeaPixel, colorParts, randomAt, strokeSegments } = window.LetherelMapmakerGeometry;
   const { presetStates, legacyPresetColors } = window.LETHEREL_MAPMAKER_PRESET;
+  const { width: portalWidth, height: portalHeight, points: portalPoints } = window.LETHEREL_MAPMAKER_PORTALS;
   const { download, exportProject, parseProject } = window.LetherelMapmakerFiles;
   const paintCanvas = document.createElement('canvas'), paintCtx = paintCanvas.getContext('2d');
   const paintHistoryCanvas = document.createElement('canvas'), paintHistoryCtx = paintHistoryCanvas.getContext('2d');
@@ -11,6 +12,7 @@
   const stateList = $('#state-list'), locationList = $('#location-list'), labelsLayer = $('#labels-layer');
   const STORAGE_KEY = 'letherel-mapmaker-v1';
   const STATE_OPACITY = .7;
+  const STATE_LABEL_SCALE = .9;
   const palette = ['#e89092','#ab84db','#85d887','#d3b975','#83b7e8','#d68aca','#7acfc6','#dfa866','#98c8ec','#c39bd3'];
   const BASE_MAP = window.LETHEREL_BASE_MAP_DATA || './assets/territori-base.png';
   const neutralImage = new Image();
@@ -21,10 +23,13 @@
       map: BASE_MAP, mapName: 'Letherel · Stati e confini', width, height,
       states: presetStates.map(([key, name, color], index) => ({ id: `base-${key}`, name, color, baseColor: color, code: index + 1, showLabel: true })),
       strokes: [], labels: presetStates.map(([key, , , x, y, size, rotation, labelWidth, curve]) => ({ stateId: `base-${key}`, x: x * width, y: y * height, size, rotation, width: labelWidth, curve })),
-      locations: [], locationsVisible: true
+      locations: [], locationsVisible: true, labelsVisible: true, portalsVisible: true
     };
   }
   let project = createPreset();
+  let currentOwnerPixels = null;
+  let previewZoom = 1, previewPanX = 0, previewPanY = 0, panPointerId = null, panLastX = 0, panLastY = 0, spaceHeld = false, panMode = false;
+  let expandedLocationId = null;
   let selectedId = project.states[0]?.id || null, selectedLocationId = null, tool = 'brush', drawing = false, activeStroke = null, landMask = null, landPixels = null, baseOwnerPixels = null, baseEdgePixels = null, baseEdgeLayer = null, preservedEdgeLayer = null, baseSourcePixels = null, neutralMapLayer = null, baseFillLayer = null, zoneMaskLayer = null, zoneBorderLayer = null;
 
   function id() { return `state-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`; }
@@ -50,31 +55,66 @@
   function normalizeLocations() {
     if (!Array.isArray(project.locations)) project.locations = [];
     if (typeof project.locationsVisible !== 'boolean') project.locationsVisible = true;
+    if (typeof project.labelsVisible !== 'boolean') project.labelsVisible = true;
+    if (typeof project.portalsVisible !== 'boolean') project.portalsVisible = true;
     for (const location of project.locations) {
+      if (typeof location.visible !== 'boolean') location.visible = true;
       location.iconSize = Number.isFinite(location.iconSize) ? Math.max(16, Math.min(120, location.iconSize)) : 44;
       location.labelSize = Number.isFinite(location.labelSize) ? Math.max(10, Math.min(80, location.labelSize)) : 24;
+      if (!['top', 'bottom', 'right', 'left'].includes(location.labelPosition)) location.labelPosition = 'bottom';
+      location.labelOffsetX = Number.isFinite(location.labelOffsetX) ? Math.max(-400, Math.min(400, location.labelOffsetX)) : 0;
+      location.labelOffsetY = Number.isFinite(location.labelOffsetY) ? Math.max(-400, Math.min(400, location.labelOffsetY)) : 0;
     }
+  }
+  function restoreMissingAreaLabels() {
+    if (project.map !== BASE_MAP || project.labels.length || !project.states.some(state => state.id.startsWith('base-'))) return false;
+    const availableStates = new Set(project.states.map(state => state.id));
+    project.labels = window.LETHEREL_MAPMAKER_BASE_LABELS
+      .filter(label => availableStates.has(label.stateId))
+      .map(label => ({ ...label }));
+    return project.labels.length > 0;
   }
   function say(text) { $('#save-status').textContent = text; }
   function save() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(project)); say('Salvato automaticamente'); }
     catch { say('Esporta il progetto per salvarne una copia'); }
   }
+  function applyViewport() {
+    if (!project.width || !project.height) return;
+    const stageWidth = stage.clientWidth, stageHeight = stage.clientHeight;
+    const scale = Math.min(stageWidth / project.width, stageHeight / project.height) * previewZoom;
+    const width = Math.max(1, Math.round(project.width * scale)), height = Math.max(1, Math.round(project.height * scale));
+    const maxPanX = Math.max(0, (width - stageWidth) / 2), maxPanY = Math.max(0, (height - stageHeight) / 2);
+    previewPanX = Math.max(-maxPanX, Math.min(maxPanX, previewPanX));
+    previewPanY = Math.max(-maxPanY, Math.min(maxPanY, previewPanY));
+    const left = (stageWidth - width) / 2 + previewPanX, top = (stageHeight - height) / 2 + previewPanY;
+    for (const layer of [image, canvas, labelsLayer]) {
+      layer.style.width = `${width}px`; layer.style.height = `${height}px`;
+      layer.style.left = `${left}px`; layer.style.top = `${top}px`;
+    }
+    $('#zoom-level').textContent = `${Math.round(previewZoom * 100)}%`;
+  }
+  function zoomPreview(factor, clientX, clientY) {
+    if (!project.map) return;
+    const next = Math.max(1, Math.min(8, previewZoom * factor));
+    if (next === previewZoom) return;
+    const rect = stage.getBoundingClientRect();
+    const focusX = clientX - rect.left - stage.clientWidth / 2;
+    const focusY = clientY - rect.top - stage.clientHeight / 2;
+    const ratio = next / previewZoom;
+    previewPanX = focusX - (focusX - previewPanX) * ratio;
+    previewPanY = focusY - (focusY - previewPanY) * ratio;
+    previewZoom = next;
+    applyViewport();
+  }
   function fitCanvas() {
     if (!project.width || !project.height) return;
-    const rect = stage.getBoundingClientRect();
-    const scale = Math.min(rect.width / project.width, rect.height / project.height);
-    const width = Math.max(1, Math.round(project.width * scale)), height = Math.max(1, Math.round(project.height * scale));
     canvas.width = project.width; canvas.height = project.height;
     paintCanvas.width = project.width; paintCanvas.height = project.height;
     paintHistoryCanvas.width = project.width; paintHistoryCanvas.height = project.height;
     eraseCanvas.width = project.width; eraseCanvas.height = project.height;
     basePaintCanvas.width = project.width; basePaintCanvas.height = project.height;
-    image.style.width = `${width}px`; image.style.height = `${height}px`;
-    canvas.style.width = `${width}px`; canvas.style.height = `${height}px`;
-    canvas.style.left = `calc(50% - ${width / 2}px)`; canvas.style.top = `calc(50% - ${height / 2}px)`;
-    labelsLayer.style.width = `${width}px`; labelsLayer.style.height = `${height}px`;
-    labelsLayer.style.left = `calc(50% - ${width / 2}px)`; labelsLayer.style.top = `calc(50% - ${height / 2}px)`;
+    applyViewport();
     renderStrokes(); renderLabels();
   }
   function buildBaseOwnerLookup() {
@@ -90,7 +130,8 @@
     if (!baseSourcePixels || !baseOwnerPixels || !baseEdgePixels
       || baseSourcePixels.length !== total * 4
       || baseOwnerPixels.length !== total || baseEdgePixels.length !== total) return;
-    const presetNeutralReady = project.map === BASE_MAP && neutralImage.complete && neutralImage.naturalWidth === 2324;
+    const presetNeutralReady = project.map === BASE_MAP && project.width === 2340 && project.height === 1312
+      && neutralImage.complete && neutralImage.naturalWidth === 2324;
     let neutralPixels;
     if (presetNeutralReady) {
       const neutralCanvas = document.createElement('canvas'); neutralCanvas.width = project.width; neutralCanvas.height = project.height;
@@ -235,7 +276,7 @@
     return landPixels[Math.floor(point.y) * project.width + Math.floor(point.x)] === 1;
   }
   function buildZoneBorder() {
-    if (!paintCanvas.width || !paintCanvas.height || !landPixels || !baseOwnerPixels || !baseEdgePixels) { zoneMaskLayer = null; zoneBorderLayer = null; return; }
+    if (!paintCanvas.width || !paintCanvas.height || !landPixels || !baseOwnerPixels || !baseEdgePixels) { zoneMaskLayer = null; zoneBorderLayer = null; currentOwnerPixels = null; return; }
     const width = paintCanvas.width, height = paintCanvas.height, pixels = paintCtx.getImageData(0, 0, width, height).data, erasePixels = eraseCtx.getImageData(0, 0, width, height).data, paintHistoryPixels = paintHistoryCtx.getImageData(0, 0, width, height).data;
     const total = width * height, finalOwner = new Uint8Array(baseOwnerPixels), changed = new Uint8Array(total), painted = new Uint8Array(total), erased = new Uint8Array(total), crossedEdges = new Uint8Array(total), colorCodes = new Map(), stateColors = [], liveCodes = new Set(project.states.map(state => state.code)), edgeAxes = [[1, 0], [0, 1], [1, 1], [1, -1]];
     const hasDeletedPreset = presetStates.some((_, index) => !liveCodes.has(index + 1));
@@ -325,6 +366,7 @@
       if (baseCode !== paintCode || (baseEdgePixels[index] && paintsAcrossEdge)) changed[index] = 1;
     }
 
+    currentOwnerPixels = finalOwner;
     // Outline only the painted footprint that changes ownership. Flooding through
     // the whole preset territory redraws its distant, untouched outer perimeter.
     const activeZone = new Uint8Array(total), visitedPaint = new Uint8Array(total), queue = new Int32Array(total);
@@ -514,32 +556,91 @@
     labelsLayer.setAttribute('height', String(project.height));
     labelsLayer.setAttribute('viewBox', `0 0 ${project.width} ${project.height}`);
     labelsLayer.setAttribute('preserveAspectRatio', 'none');
-    for (const label of project.labels) {
+    renderPortals();
+    for (const label of project.labelsVisible ? project.labels : []) {
       const state = project.states.find(item => item.id === label.stateId);
       if (!state || !state.showLabel) continue;
       const preset = state.id.startsWith('base-') && presetStates.find(([key]) => state.id === `base-${key}`);
       const usePresetStyle = Boolean(preset && label.width == null);
       const width = Math.min(label.width || preset?.[7] || 220, project.width * .4);
       const curve = label.curve ?? preset?.[8] ?? 0;
-      const fontSize = usePresetStyle ? preset[5] : label.size || preset?.[5] || 28;
+      const fontSize = (usePresetStyle ? preset[5] : label.size || preset?.[5] || 28) * STATE_LABEL_SCALE;
+      const name = state.name || 'Stato';
+      const fontFamily = '"Old English Text MT", "UnifrakturMaguntia", "Palatino Linotype", serif';
+      ctx.save();
+      ctx.font = `normal ${fontSize}px ${fontFamily}`;
+      const naturalWidth = ctx.measureText(name).width + Math.max(0, name.length - 1) * .35;
+      ctx.restore();
+      const fittedSize = naturalWidth > width ? fontSize * width / naturalWidth : fontSize;
       const id = `label-path-${label.stateId.replace(/[^a-z0-9_-]/gi, '-')}`;
       const startX = label.x - width / 2, endX = label.x + width / 2, endY = label.y + curve / 2;
       const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       path.id = id; path.setAttribute('d', `M ${startX} ${endY} Q ${label.x} ${label.y - curve} ${endX} ${endY}`); defs.append(path);
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('font-family', '"Old English Text MT", "UnifrakturMaguntia", "Palatino Linotype", serif');
-      text.setAttribute('font-size', String(fontSize)); text.setAttribute('font-weight', '600');
+      text.setAttribute('font-family', fontFamily);
+      text.setAttribute('font-size', String(fittedSize)); text.setAttribute('font-weight', 'normal');
       text.setAttribute('fill', '#26313a'); text.setAttribute('fill-opacity', '.86');
       text.setAttribute('stroke', '#f2f4ed'); text.setAttribute('stroke-opacity', '.56');
-      text.setAttribute('stroke-width', '2.5'); text.setAttribute('stroke-linejoin', 'round'); text.setAttribute('paint-order', 'stroke');
+      text.setAttribute('stroke-width', '1.5'); text.setAttribute('stroke-linejoin', 'round'); text.setAttribute('paint-order', 'stroke');
       text.setAttribute('letter-spacing', '.35'); text.setAttribute('text-anchor', 'middle'); text.setAttribute('dominant-baseline', 'middle');
       const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
       textPath.setAttribute('href', `#${id}`); textPath.setAttribute('startOffset', '50%');
-      textPath.setAttribute('textLength', String(width)); textPath.setAttribute('lengthAdjust', 'spacingAndGlyphs');
-      textPath.textContent = state.name || 'Stato'; text.append(textPath); labelsLayer.append(defs, text);
+      textPath.textContent = name; text.append(textPath); labelsLayer.append(defs, text);
     }
     renderLocationMarkers();
+  }
+  function renderPortals() {
+    if (!project.portalsVisible || !project.width || !project.height) return;
+    const ns = 'http://www.w3.org/2000/svg';
+    const layer = document.createElementNS(ns, 'g');
+    layer.setAttribute('id', 'portals-layer');
+    const scaleX = project.width / portalWidth, scaleY = project.height / portalHeight;
+    const markerScale = Math.min(scaleX, scaleY);
+    for (const [x, y] of portalPoints) {
+      const dot = document.createElementNS(ns, 'circle');
+      dot.setAttribute('cx', String(x * scaleX)); dot.setAttribute('cy', String(y * scaleY));
+      dot.setAttribute('r', String(3.5 * markerScale));
+      dot.setAttribute('fill', '#071bdc'); dot.setAttribute('stroke', '#fff');
+      dot.setAttribute('stroke-width', String(1.7 * markerScale));
+      layer.append(dot);
+    }
+    labelsLayer.append(layer);
+  }
+  function locationLabelLayout(location) {
+    const radius = location.iconSize / 2;
+    switch (location.labelPosition) {
+      case 'top': return { x: 0, y: -radius - 8, anchor: 'middle', baseline: 'auto' };
+      case 'right': return { x: radius + 8, y: 0, anchor: 'start', baseline: 'middle' };
+      case 'left': return { x: -radius - 8, y: 0, anchor: 'end', baseline: 'middle' };
+      default: return { x: 0, y: radius + location.labelSize + 2, anchor: 'middle', baseline: 'auto' };
+    }
+  }
+  function hasBakedPortals() {
+    if (project.map === BASE_MAP || !image.naturalWidth || !image.naturalHeight
+      || Math.abs(image.naturalWidth / image.naturalHeight - portalWidth / portalHeight) > .02) return false;
+    const probe = document.createElement('canvas'); probe.width = 11; probe.height = 11;
+    const probeCtx = probe.getContext('2d', { willReadFrequently: true });
+    let matches = 0;
+    try {
+      for (const index of [0, 20, 45, 70, 95, 120, 145, 170]) {
+        const [x, y] = portalPoints[index];
+        const px = Math.round(x * image.naturalWidth / portalWidth);
+        const py = Math.round(y * image.naturalHeight / portalHeight);
+        const radius = Math.max(3, Math.ceil(2 * image.naturalWidth / portalWidth));
+        probeCtx.clearRect(0, 0, 11, 11);
+        probeCtx.drawImage(image, px - radius, py - radius, radius * 2 + 1, radius * 2 + 1, 0, 0, 11, 11);
+        const pixels = probeCtx.getImageData(0, 0, 11, 11).data;
+        for (let offset = 0; offset < pixels.length; offset += 4) {
+          const red = pixels[offset], green = pixels[offset + 1], blue = pixels[offset + 2];
+          if (red < 85 && green < 90 && blue > 150 && blue > red + 90 && blue > green + 90) {
+            matches++;
+            break;
+          }
+        }
+      }
+    } catch { return false; } // A map from another origin may not allow pixel inspection.
+    return matches >= 5;
   }
   function renderLocationMarkers() {
     if (!project.locationsVisible) return;
@@ -547,7 +648,7 @@
     const layer = document.createElementNS(ns, 'g');
     layer.setAttribute('id', 'locations-layer');
     for (const location of project.locations) {
-      if (!Number.isFinite(location.x) || !Number.isFinite(location.y)) continue;
+      if (!location.visible || !Number.isFinite(location.x) || !Number.isFinite(location.y)) continue;
       const marker = document.createElementNS(ns, 'g');
       marker.setAttribute('transform', `translate(${location.x} ${location.y})`);
       const icon = document.createElementNS(ns, 'g');
@@ -560,18 +661,22 @@
       const shapes = {
         city: 'M -14 12 V -7 H -10 V -11 H -6 V -7 H -2 V -13 H 2 V -7 H 6 V -11 H 10 V -7 H 14 V 12 Z M -4 12 V 3 A 4 4 0 0 1 4 3 V 12',
         mountains: 'M -17 12 L -6 -12 L 2 4 L 8 -8 L 18 12 Z M -10 0 L -6 -7 L -2 0 M 5 1 L 8 -3 L 11 1',
-        forest: 'M -13 10 L -7 -7 L -1 10 Z M -7 10 V 15 M -3 9 L 5 -14 L 13 9 Z M 5 9 V 15 M 9 9 L 14 -4 L 19 9 Z M 14 9 V 15'
+        forest: 'M -10 -8 L -15 0 H -13 L -17 8 H -3 L -7 0 H -5 Z M -10 8 V 14 M 10 -8 L 5 0 H 7 L 3 8 H 17 L 13 0 H 15 Z M 10 8 V 14 M 0 -14 L -6 -2 H -4 L -9 10 H 9 L 4 -2 H 6 Z M 0 10 V 16'
       };
       symbol.setAttribute('d', shapes[location.type] || shapes.city);
+      if (location.type === 'mountains') symbol.setAttribute('transform', 'scale(0.92)');
       symbol.setAttribute('fill', { city: '#c9a977', mountains: '#aeb8b9', forest: '#8aaa87' }[location.type] || '#c9a977');
       symbol.setAttribute('stroke', '#26313a'); symbol.setAttribute('stroke-width', '2');
       symbol.setAttribute('stroke-linecap', 'round'); symbol.setAttribute('stroke-linejoin', 'round');
       icon.append(symbol); marker.append(icon);
       if (location.name) {
         const name = document.createElementNS(ns, 'text');
-        name.setAttribute('y', String(location.iconSize / 2 + location.labelSize + 2)); name.setAttribute('text-anchor', 'middle');
+        const layout = locationLabelLayout(location);
+        name.setAttribute('x', String(layout.x + location.labelOffsetX));
+        name.setAttribute('y', String(layout.y + location.labelOffsetY));
+        name.setAttribute('text-anchor', layout.anchor); name.setAttribute('dominant-baseline', layout.baseline);
         name.setAttribute('font-family', '"Palatino Linotype", Georgia, serif');
-        name.setAttribute('font-size', String(location.labelSize)); name.setAttribute('font-weight', '700');
+        name.setAttribute('font-size', String(location.labelSize)); name.setAttribute('font-weight', 'normal');
         name.setAttribute('fill', '#26313a'); name.setAttribute('stroke', '#f2f4ed');
         name.setAttribute('stroke-width', String(Math.max(2, location.labelSize / 6))); name.setAttribute('stroke-linejoin', 'round');
         name.setAttribute('paint-order', 'stroke'); name.textContent = location.name;
@@ -616,33 +721,95 @@
     label.append(heading, slider);
     return label;
   }
+  function locationOffsetControl(location, key, title) {
+    const label = document.createElement('label'); label.className = 'location-size-control';
+    const heading = document.createElement('span'); heading.className = 'location-size-heading';
+    const value = document.createElement('output'); value.textContent = `${Math.round(location[key])} px`;
+    heading.append(document.createTextNode(title), value);
+    const slider = document.createElement('input'); slider.type = 'range'; slider.min = '-400'; slider.max = '400'; slider.value = String(location[key]);
+    slider.setAttribute('aria-label', `${title} di ${location.name || 'luogo'}`);
+    slider.addEventListener('input', () => {
+      location[key] = Number(slider.value); value.textContent = `${slider.value} px`;
+      renderLabels(); save();
+    });
+    label.append(heading, slider);
+    return label;
+  }
   function renderLocationList() {
     locationList.replaceChildren();
     $('#show-locations').checked = project.locationsVisible;
+    if (!project.locations.some(location => location.id === expandedLocationId)) expandedLocationId = null;
     if (!project.locations.length) {
       const empty = document.createElement('div'); empty.className = 'empty-states';
       empty.textContent = 'Nessun luogo. Premi + per aggiungerne uno.'; locationList.append(empty);
     }
     for (const location of project.locations) {
       const card = document.createElement('div');
-      card.className = `location-card${location.id === selectedLocationId && tool === 'location' ? ' selected' : ''}`;
+      card.className = `location-card${location.id === expandedLocationId ? ' selected' : ''}${location.visible ? '' : ' is-hidden'}`;
+      const summaryRow = document.createElement('div'); summaryRow.className = 'location-summary-row';
+      const summary = document.createElement('button'); summary.type = 'button'; summary.className = 'location-summary';
+      summary.setAttribute('aria-expanded', String(location.id === expandedLocationId));
+      const summaryName = document.createElement('span'); summaryName.className = 'location-summary-name';
+      summaryName.textContent = location.name || 'Luogo senza nome';
+      const summaryType = document.createElement('span'); summaryType.className = 'location-summary-type';
+      summaryType.textContent = { city: 'Città', mountains: 'Monti', forest: 'Foresta' }[location.type] || 'Città';
+      const arrow = document.createElement('span'); arrow.className = 'location-summary-arrow'; arrow.setAttribute('aria-hidden', 'true'); arrow.textContent = '⌄';
+      summary.append(summaryName, summaryType, arrow);
+      const eye = document.createElement('button'); eye.type = 'button'; eye.className = 'location-eye';
+      eye.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/><path class="eye-slash" d="M3 3 21 21"/></svg>';
+      const updateEye = () => {
+        const action = location.visible ? 'Nascondi' : 'Mostra';
+        eye.classList.toggle('is-off', !location.visible);
+        card.classList.toggle('is-hidden', !location.visible);
+        eye.setAttribute('aria-label', `${action} ${location.name || 'luogo'}`);
+        eye.setAttribute('aria-pressed', String(location.visible));
+        eye.title = `${action} ${location.name || 'luogo'}`;
+      };
+      updateEye();
+      eye.addEventListener('click', () => { location.visible = !location.visible; updateEye(); renderLabels(); save(); });
+      summary.addEventListener('click', () => {
+        expandedLocationId = expandedLocationId === location.id ? null : location.id;
+        if (expandedLocationId) selectedLocationId = location.id;
+        renderLocationList();
+      });
+      summaryRow.append(summary, eye); card.append(summaryRow);
+      if (location.id !== expandedLocationId) { locationList.append(card); continue; }
+      const details = document.createElement('div'); details.className = 'location-details';
       const top = document.createElement('div'); top.className = 'location-card-top';
       const name = document.createElement('input'); name.className = 'location-name'; name.type = 'text'; name.maxLength = 50;
       name.placeholder = 'Etichetta (facoltativa)'; name.value = location.name;
       name.setAttribute('aria-label', 'Etichetta del luogo');
-      name.addEventListener('input', () => { location.name = name.value; renderLabels(); save(); });
+      name.addEventListener('input', () => { location.name = name.value; summaryName.textContent = name.value || 'Luogo senza nome'; updateEye(); renderLabels(); save(); });
       const kind = document.createElement('select'); kind.className = 'location-kind'; kind.setAttribute('aria-label', `Simbolo di ${location.name || 'luogo'}`);
       for (const [value, title] of [['city', 'Città'], ['mountains', 'Monti'], ['forest', 'Foresta']]) {
         const option = document.createElement('option'); option.value = value; option.textContent = title; kind.append(option);
       }
       kind.value = location.type;
-      kind.addEventListener('change', () => { location.type = kind.value; renderLabels(); save(); });
+      kind.addEventListener('change', () => { location.type = kind.value; summaryType.textContent = kind.selectedOptions[0].textContent; renderLabels(); save(); });
       top.append(name, kind);
       const sizes = document.createElement('div'); sizes.className = 'location-sizes';
       sizes.append(
         locationSizeControl(location, 'iconSize', 'Dimensione simbolo', 16, 120),
         locationSizeControl(location, 'labelSize', 'Dimensione etichetta', 10, 80)
       );
+      const placement = document.createElement('label'); placement.className = 'location-placement'; placement.textContent = 'Etichetta rispetto al simbolo';
+      const position = document.createElement('select'); position.className = 'location-position';
+      position.setAttribute('aria-label', `Posizione dell'etichetta di ${location.name || 'luogo'}`);
+      for (const [value, title] of [['top', 'Sopra'], ['bottom', 'Sotto'], ['right', 'Destra'], ['left', 'Sinistra']]) {
+        const option = document.createElement('option'); option.value = value; option.textContent = title; position.append(option);
+      }
+      position.value = location.labelPosition;
+      position.addEventListener('change', () => { location.labelPosition = position.value; renderLabels(); save(); });
+      placement.append(position);
+      const offsets = document.createElement('div'); offsets.className = 'location-offsets';
+      offsets.append(locationOffsetControl(location, 'labelOffsetX', 'Spostamento orizzontale'), locationOffsetControl(location, 'labelOffsetY', 'Spostamento verticale'));
+      const labelActions = document.createElement('div'); labelActions.className = 'location-label-actions';
+      const moveLabel = document.createElement('button'); moveLabel.type = 'button'; moveLabel.className = `location-place location-label-move${tool === 'location-label' && selectedLocationId === location.id ? ' active' : ''}`;
+      moveLabel.textContent = 'Sposta etichetta sulla mappa'; moveLabel.disabled = !Number.isFinite(location.x);
+      moveLabel.addEventListener('click', () => { selectedLocationId = location.id; project.locationsVisible = true; setTool('location-label'); renderLocationList(); renderLabels(); save(); });
+      const resetOffset = document.createElement('button'); resetOffset.type = 'button'; resetOffset.className = 'text-button'; resetOffset.textContent = 'Azzera spostamento';
+      resetOffset.addEventListener('click', () => { location.labelOffsetX = 0; location.labelOffsetY = 0; renderLocationList(); renderLabels(); save(); });
+      labelActions.append(moveLabel, resetOffset);
       const bottom = document.createElement('div'); bottom.className = 'location-card-bottom';
       const place = document.createElement('button'); place.type = 'button'; place.className = 'location-place';
       place.textContent = Number.isFinite(location.x) ? 'Sposta' : 'Posiziona';
@@ -653,23 +820,29 @@
       remove.textContent = 'Elimina'; remove.setAttribute('aria-label', `Elimina ${location.name || 'luogo'}`);
       remove.addEventListener('click', () => {
         project.locations = project.locations.filter(item => item.id !== location.id);
-        if (selectedLocationId === location.id) { selectedLocationId = null; if (tool === 'location') setTool('brush'); }
+        if (selectedLocationId === location.id) { selectedLocationId = null; if (tool === 'location' || tool === 'location-label') setTool('brush'); }
+        if (expandedLocationId === location.id) expandedLocationId = null;
         renderLocationList(); renderLabels(); save();
       });
-      bottom.append(place, status, remove); card.append(top, sizes, bottom); locationList.append(card);
+      bottom.append(place, status, remove);
+      details.append(top, sizes, placement, offsets, labelActions, bottom);
+      card.append(details); locationList.append(card);
     }
   }
   function select(stateId) { selectedId = stateId; renderStates(); }
   function renderAll() {
     normalizeLocations();
-    if (tool === 'location' && !project.locations.some(item => item.id === selectedLocationId)) { selectedLocationId = null; setTool('brush'); }
+    if (restoreMissingAreaLabels()) save();
+    $('#show-all-labels').checked = project.labelsVisible;
+    $('#show-portals').checked = project.portalsVisible;
+    if ((tool === 'location' || tool === 'location-label') && !project.locations.some(item => item.id === selectedLocationId)) { selectedLocationId = null; setTool('brush'); }
     if (baseOwnerPixels) buildEditableBaseLayers();
     renderStates(); renderLocationList(); renderStrokes(); renderLabels();
     const hasMap = Boolean(project.map);
     stage.classList.toggle('has-map', hasMap); image.hidden = !hasMap;
     if (hasMap) {
-      if (image.dataset.source !== project.map) { image.dataset.source = project.map; image.src = project.map; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; baseSourcePixels = null; neutralMapLayer = null; baseFillLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); }
-    } else { image.removeAttribute('src'); image.dataset.source = ''; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; baseSourcePixels = null; neutralMapLayer = null; baseFillLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; }
+      if (image.dataset.source !== project.map) { previewZoom = 1; previewPanX = 0; previewPanY = 0; image.dataset.source = project.map; currentOwnerPixels = null; image.src = project.map; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; baseSourcePixels = null; neutralMapLayer = null; baseFillLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); }
+    } else { image.removeAttribute('src'); image.dataset.source = ''; previewZoom = 1; previewPanX = 0; previewPanY = 0; $('#zoom-level').textContent = '100%'; currentOwnerPixels = null; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; baseSourcePixels = null; neutralMapLayer = null; baseFillLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; }
     $('#canvas-label').textContent = project.mapName || 'Nessuna mappa caricata';
     $('#map-dimensions').textContent = hasMap ? `${project.width} × ${project.height} px` : 'In attesa di una mappa';
     if (hasMap) { fitCanvas(); if (image.complete && (!landMask || landMask.width !== project.width || landMask.height !== project.height)) { landMask = null; landPixels = null; say('Calcolo confini…'); buildLandMask(); } }
@@ -680,8 +853,8 @@
     if (!name) { const input = stateList.querySelector(`[data-id="${CSS.escape(state.id)}"] input`); input?.focus(); input?.select(); }
   }
   function addLocation() {
-    const location = { id: id(), type: 'city', name: 'Nuova città', x: null, y: null, iconSize: 44, labelSize: 24 };
-    project.locations.push(location); selectedLocationId = location.id;
+    const location = { id: id(), type: 'city', name: 'Nuova città', x: null, y: null, visible: true, iconSize: 44, labelSize: 24, labelPosition: 'bottom', labelOffsetX: 0, labelOffsetY: 0 };
+    project.locations.push(location); selectedLocationId = location.id; expandedLocationId = location.id;
     project.locationsVisible = true; setTool('location'); renderLocationList(); renderLabels(); save();
     locationList.querySelector('.location-card:last-child .location-name')?.select();
   }
@@ -691,19 +864,79 @@
   }
   function setTool(next) {
     tool = next; document.querySelectorAll('[data-tool]').forEach(button => button.classList.toggle('active', button.dataset.tool === tool));
-    $('#tool-hint').textContent = tool === 'location' ? 'Clicca sulla mappa per posizionare o spostare il luogo selezionato.' : tool === 'label' ? 'Clicca sulla mappa per posizionare l’etichetta dello Stato selezionato.' : tool === 'erase' ? 'Cancella qualsiasi territorio, anche quello del preset: la gomma si ferma fuori dalla terra.' : 'Dipingi lo Stato selezionato: il tratto si ferma al bordo e riprende quando rientri.';
-    canvas.style.cursor = tool === 'label' || tool === 'location' ? 'copy' : tool === 'erase' ? 'cell' : 'crosshair';
+    $('#tool-hint').textContent = tool === 'location' ? 'Clicca sulla mappa per posizionare o spostare il luogo selezionato.' : tool === 'location-label' ? 'Clicca sulla mappa per spostare solo l’etichetta del luogo selezionato.' : tool === 'label' ? 'Clicca sulla mappa per posizionare l’etichetta dello Stato selezionato.' : tool === 'erase' ? 'Cancella qualsiasi territorio, anche quello del preset: la gomma si ferma fuori dalla terra.' : 'Dipingi lo Stato selezionato: il tratto si ferma al bordo e riprende quando rientri.';
+    canvas.style.cursor = tool === 'label' || tool === 'location' || tool === 'location-label' ? 'copy' : tool === 'erase' ? 'cell' : 'crosshair';
   }
   function exportImage() {
     if (!project.map) { alert('Carica prima la mappa di base.'); return; }
-    const out = document.createElement('canvas'); out.width = project.width; out.height = project.height; const outCtx = out.getContext('2d');
-    outCtx.drawImage(image, 0, 0, project.width, project.height); outCtx.drawImage(canvas, 0, 0);
-    const svg = new XMLSerializer().serializeToString(labelsLayer);
+    const exportScale = project.width * project.height <= 8e6 ? 2 : 1;
+    exportRegion({ x: 0, y: 0, width: project.width, height: project.height }, exportScale, 'letherel-mappa.png');
+  }
+  function areaExportBounds(state, marginPercent) {
+    if (!currentOwnerPixels || !state || currentOwnerPixels.length !== project.width * project.height) return null;
+    let minX = project.width, minY = project.height, maxX = -1, maxY = -1;
+    for (let index = 0; index < currentOwnerPixels.length; index++) {
+      if (currentOwnerPixels[index] !== state.code) continue;
+      const x = index % project.width, y = (index / project.width) | 0;
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+    }
+    if (maxX < 0) return null;
+    const padX = Math.max(24, Math.ceil((maxX - minX + 1) * marginPercent / 100));
+    const padY = Math.max(24, Math.ceil((maxY - minY + 1) * marginPercent / 100));
+    const x = Math.max(0, minX - padX), y = Math.max(0, minY - padY);
+    return { x, y, width: Math.min(project.width, maxX + 1 + padX) - x, height: Math.min(project.height, maxY + 1 + padY) - y };
+  }
+  function areaExportChoice() {
+    const state = project.states.find(item => item.id === $('#export-area-select').value);
+    const bounds = areaExportBounds(state, Number($('#export-margin').value));
+    if (!bounds) return null;
+    const requestedScale = Number($('#export-zoom').value);
+    // Limit memory use for very large territories while keeping the chosen zoom when possible.
+    const scale = Math.min(requestedScale, Math.max(1, Math.floor(Math.sqrt(18e6 / (bounds.width * bounds.height)))));
+    return { state, bounds, scale, requestedScale };
+  }
+  function updateAreaExportSummary() {
+    $('#export-margin-value').textContent = `${$('#export-margin').value}%`;
+    const choice = areaExportChoice();
+    $('#confirm-advanced-export').disabled = !choice;
+    $('#advanced-export-summary').textContent = !currentOwnerPixels ? 'Attendi il calcolo dei territori prima di esportare.'
+      : !choice ? 'L’area selezionata non contiene territori visibili.'
+        : `Ritaglio ${choice.bounds.width} × ${choice.bounds.height} px · PNG ${choice.bounds.width * choice.scale} × ${choice.bounds.height * choice.scale} px · zoom ${choice.scale}×${choice.scale < choice.requestedScale ? ' (limitato per le dimensioni del file)' : ''}.`;
+  }
+  function exportRegion(bounds, exportScale, filename) {
+    if (!image.complete || !image.naturalWidth) { alert('Attendi il caricamento della mappa.'); return; }
+    const { x, y, width, height } = bounds;
+    const out = document.createElement('canvas'); out.width = width * exportScale; out.height = height * exportScale;
+    const outCtx = out.getContext('2d');
+    if (!outCtx) { alert('Il ritaglio è troppo grande per il browser.'); return; }
+    // Smooth enlarged raster artwork; text and symbols are still drawn from SVG at export resolution.
+    outCtx.imageSmoothingEnabled = filename !== 'letherel-mappa.png' && exportScale > 2;
+    outCtx.imageSmoothingQuality = 'high';
+    outCtx.drawImage(image, x, y, width, height, 0, 0, out.width, out.height);
+    outCtx.drawImage(canvas, x, y, width, height, 0, 0, out.width, out.height);
+    const labelScale = exportScale >= 3 ? exportScale
+      : Math.max(exportScale, Math.min(3, Math.floor(Math.sqrt(32e6 / (width * height)))));
+    const exportLabels = labelsLayer.cloneNode(true);
+    exportLabels.removeAttribute('style');
+    exportLabels.setAttribute('viewBox', `${x} ${y} ${width} ${height}`);
+    exportLabels.setAttribute('width', String(width * labelScale));
+    exportLabels.setAttribute('height', String(height * labelScale));
+    const svg = new XMLSerializer().serializeToString(exportLabels);
     const svgUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
     const labelImage = new Image();
     labelImage.onload = () => {
-      outCtx.drawImage(labelImage, 0, 0, project.width, project.height); URL.revokeObjectURL(svgUrl);
-      out.toBlob(blob => blob && download(blob, 'letherel-mappa.png'), 'image/png');
+      if (labelScale > exportScale) {
+        const sharpLabels = document.createElement('canvas');
+        sharpLabels.width = width * labelScale; sharpLabels.height = height * labelScale;
+        sharpLabels.getContext('2d').drawImage(labelImage, 0, 0);
+        outCtx.imageSmoothingEnabled = true; outCtx.imageSmoothingQuality = 'high';
+        outCtx.drawImage(sharpLabels, 0, 0, out.width, out.height);
+      } else outCtx.drawImage(labelImage, 0, 0, out.width, out.height);
+      URL.revokeObjectURL(svgUrl);
+      out.toBlob(blob => blob ? download(blob, filename) : alert('Impossibile creare il PNG a questa risoluzione.'), 'image/png');
     };
     labelImage.onerror = () => { URL.revokeObjectURL(svgUrl); alert('Non è stato possibile esportare le etichette.'); };
     labelImage.src = svgUrl;
@@ -712,11 +945,21 @@
   $('#state-form').addEventListener('submit', event => { if (event.submitter?.value === 'cancel') return; event.preventDefault(); const name = $('#state-name').value.trim(); if (!name) return; addState(name, $('#state-color').value); $('#state-dialog').close(); });
   $('#add-location').addEventListener('click', addLocation);
   $('#show-locations').addEventListener('change', event => { project.locationsVisible = event.target.checked; renderLabels(); save(); });
+  $('#show-all-labels').addEventListener('change', event => { project.labelsVisible = event.target.checked; renderLabels(); save(); });
+  $('#show-portals').addEventListener('change', event => { project.portalsVisible = event.target.checked; renderLabels(); save(); });
   document.querySelectorAll('[data-tool]').forEach(button => button.addEventListener('click', () => setTool(button.dataset.tool)));
   $('#brush-size').addEventListener('input', event => { $('#brush-value').textContent = `${event.target.value} px`; });
   $('#roughness').addEventListener('input', event => { $('#roughness-value').textContent = `${event.target.value}%`; });
   canvas.addEventListener('pointerdown', event => {
-    if (!project.map) return;
+    if (!project.map || event.button !== 0 || spaceHeld || panMode) return;
+    if (tool === 'location-label') {
+      const location = project.locations.find(item => item.id === selectedLocationId);
+      if (!location || !Number.isFinite(location.x) || !Number.isFinite(location.y)) { say('Posiziona prima il luogo sulla mappa'); return; }
+      const point = pos(event), layout = locationLabelLayout(location);
+      location.labelOffsetX = Math.max(-400, Math.min(400, Math.round(point.x - location.x - layout.x)));
+      location.labelOffsetY = Math.max(-400, Math.min(400, Math.round(point.y - location.y - layout.y)));
+      renderLocationList(); renderLabels(); save(); return;
+    }
     if (tool === 'location') {
       const location = project.locations.find(item => item.id === selectedLocationId);
       if (!location) { say('Seleziona un luogo da posizionare'); return; }
@@ -750,10 +993,123 @@
   $('#remove-map').addEventListener('click', () => { if (!project.map || !confirm('Rimuovere la mappa di base e azzerare pennellate, etichette e luoghi? Gli Stati resteranno nel progetto.')) return; project.map = ''; project.mapName = ''; project.width = 0; project.height = 0; project.strokes = []; project.labels = []; project.locations = []; selectedLocationId = null; renderAll(); save(); });
   $('#reset-project').addEventListener('click', () => { if (!confirm('Ripristinare il preset originale di Letherel? Le modifiche correnti verranno cancellate.')) return; project = createPreset(); selectedId = project.states[0]?.id || null; renderAll(); save(); });
   $('#save-project').addEventListener('click', () => exportProject(project)); $('#export-image').addEventListener('click', exportImage);
+  $('#advanced-export').addEventListener('click', () => {
+    if (!project.map) { alert('Carica prima la mappa di base.'); return; }
+    const select = $('#export-area-select');
+    select.replaceChildren();
+    for (const state of project.states) {
+      const option = document.createElement('option'); option.value = state.id; option.textContent = state.name;
+      select.append(option);
+    }
+    if (selectedId && project.states.some(state => state.id === selectedId)) select.value = selectedId;
+    updateAreaExportSummary();
+    $('#advanced-export-dialog').showModal();
+  });
+  for (const id of ['export-area-select', 'export-zoom', 'export-margin']) {
+    $(`#${id}`).addEventListener('input', updateAreaExportSummary);
+  }
+  $('#cancel-advanced-export').addEventListener('click', () => $('#advanced-export-dialog').close());
+  $('#confirm-advanced-export').addEventListener('click', () => {
+    const choice = areaExportChoice();
+    if (!choice) { updateAreaExportSummary(); return; }
+    const slug = choice.state.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'area';
+    $('#advanced-export-dialog').close();
+    exportRegion(choice.bounds, choice.scale, `letherel-${slug}-${choice.scale}x.png`);
+  });
+  function zoomFromCenter(factor) {
+    const rect = stage.getBoundingClientRect();
+    zoomPreview(factor, rect.left + rect.width / 2, rect.top + rect.height / 2);
+  }
+  $('#zoom-in').addEventListener('click', () => zoomFromCenter(1.25));
+  $('#zoom-out').addEventListener('click', () => zoomFromCenter(1 / 1.25));
+  $('#zoom-reset').addEventListener('click', () => { previewZoom = 1; previewPanX = 0; previewPanY = 0; applyViewport(); });
+  $('#zoom-pan').addEventListener('click', () => {
+    panMode = !panMode;
+    $('#zoom-pan').classList.toggle('active', panMode);
+    $('#zoom-pan').setAttribute('aria-pressed', String(panMode));
+    stage.classList.toggle('panning-ready', panMode || spaceHeld);
+  });
+  stage.addEventListener('wheel', event => {
+    if (!project.map) return;
+    event.preventDefault();
+    zoomPreview(event.deltaY < 0 ? 1.15 : 1 / 1.15, event.clientX, event.clientY);
+  }, { passive: false });
+  stage.addEventListener('pointerdown', event => {
+    if (!project.map || !(event.button === 1 || ((spaceHeld || panMode) && event.button === 0))) return;
+    event.preventDefault();
+    panPointerId = event.pointerId; panLastX = event.clientX; panLastY = event.clientY;
+    stage.classList.add('panning'); stage.setPointerCapture(event.pointerId);
+  });
+  stage.addEventListener('pointermove', event => {
+    if (panPointerId !== event.pointerId) return;
+    previewPanX += event.clientX - panLastX; previewPanY += event.clientY - panLastY;
+    panLastX = event.clientX; panLastY = event.clientY;
+    applyViewport();
+  });
+  const finishPan = event => {
+    if (panPointerId !== event.pointerId) return;
+    panPointerId = null; stage.classList.remove('panning');
+    if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+  };
+  stage.addEventListener('pointerup', finishPan);
+  stage.addEventListener('pointercancel', finishPan);
+  stage.addEventListener('lostpointercapture', finishPan);
+  window.addEventListener('keydown', event => {
+    if (event.code !== 'Space' || event.target.closest?.('input,select,textarea,button,[contenteditable]')) return;
+    event.preventDefault(); spaceHeld = true; stage.classList.add('panning-ready');
+  });
+  window.addEventListener('keyup', event => {
+    if (event.code !== 'Space') return;
+    spaceHeld = false; stage.classList.toggle('panning-ready', panMode);
+  });
+  window.addEventListener('blur', () => { spaceHeld = false; stage.classList.toggle('panning-ready', panMode); });
   $('#open-project').addEventListener('click', () => $('#project-upload').click());
   $('#project-upload').addEventListener('change', event => { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { project = parseProject(reader.result); normalizeStateColors(); selectedId = project.states[0]?.id || null; renderAll(); save(); } catch { alert('Il file non è un progetto Mapmaker valido.'); } }; reader.readAsText(file); event.target.value = ''; });
   window.addEventListener('resize', fitCanvas);
-  image.addEventListener('load', () => { landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; baseSourcePixels = null; neutralMapLayer = null; baseFillLayer = null; zoneMaskLayer = null; zoneBorderLayer = null; say('Calcolo confini…'); buildLandMask(); fitCanvas(); });
+  image.addEventListener('load', () => {
+    // Older projects can have the blue dots baked into their uploaded image.
+    // Restore the clean image embedded in Base-Map.json; keep their edits and layer settings.
+    if (hasBakedPortals()) {
+      if (project.width > 0 && project.height > 0 && (project.width !== 2340 || project.height !== 1312)) {
+        const scaleX = 2340 / project.width, scaleY = 1312 / project.height;
+        const scale = Math.min(scaleX, scaleY);
+        for (const stroke of project.strokes) {
+          if (Number.isFinite(stroke.size)) stroke.size *= scale;
+          for (const segment of stroke.segments || []) for (const point of segment) {
+            point.x *= scaleX; point.y *= scaleY;
+          }
+        }
+        for (const label of project.labels) {
+          label.x *= scaleX; label.y *= scaleY;
+          if (Number.isFinite(label.size)) label.size *= scale;
+          if (Number.isFinite(label.width)) label.width *= scaleX;
+          if (Number.isFinite(label.curve)) label.curve *= scaleY;
+        }
+        for (const location of project.locations || []) {
+          if (Number.isFinite(location.x)) location.x *= scaleX;
+          if (Number.isFinite(location.y)) location.y *= scaleY;
+          if (Number.isFinite(location.iconSize)) location.iconSize *= scale;
+          if (Number.isFinite(location.labelSize)) location.labelSize *= scale;
+          if (Number.isFinite(location.labelOffsetX)) location.labelOffsetX *= scaleX;
+          if (Number.isFinite(location.labelOffsetY)) location.labelOffsetY *= scaleY;
+        }
+        project.width = 2340; project.height = 1312;
+      }
+      project.map = BASE_MAP;
+      currentOwnerPixels = null;
+      project.mapName = 'Letherel · Stati e confini';
+      restoreMissingAreaLabels();
+      $('#canvas-label').textContent = project.mapName;
+      $('#map-dimensions').textContent = `${project.width} × ${project.height} px`;
+      image.dataset.source = BASE_MAP;
+      image.src = BASE_MAP;
+      save();
+      return;
+    }
+    currentOwnerPixels = null; landMask = null; landPixels = null; baseOwnerPixels = null; baseEdgePixels = null; baseEdgeLayer = null; preservedEdgeLayer = null; baseSourcePixels = null; neutralMapLayer = null; baseFillLayer = null; zoneMaskLayer = null; zoneBorderLayer = null;
+    say('Calcolo confini…'); buildLandMask(); fitCanvas();
+  });
   neutralImage.addEventListener('load', () => { if (baseOwnerPixels && project.map === BASE_MAP) { buildEditableBaseLayers(); renderStrokes(); } });
   window.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); $('#undo').click(); } });
   try {
