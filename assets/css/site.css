@@ -301,5 +301,5 @@ html,body{background-color:var(--bg)}body{background-image:repeating-linear-grad
 
 .simple-card{display:flex;width:60%;min-width:0;flex-direction:column;align-self:start;justify-self:center;gap:10px}
 .simple-card.member-fullwidth{max-width:252px}
-.simple-card-name{margin:0;color:#e5d3aa;text-align:center;font:600 21px/1.2 var(--serif)}
-.simple-card-portrait,.simple-card .image-placeholder{display:block;width:100%;height:auto;min-height:0;aspect-ratio:4/5;object-fit:cover;object-position:center top}
+.simple-card-name{margin:0;padding:17px 12px;color:#e5d3aa;text-align:center;font:600 21px/1.2 var(--serif)}
+.simple-card .simple-card-portrait,.simple-card .image-placeholder{display:block;width:100%;height:auto;min-height:0;aspect-ratio:4/5;margin:0;border:0;object-fit:cover;object-position:center top}

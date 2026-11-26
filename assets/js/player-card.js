@@ -55,7 +55,7 @@
       ? `<img class="member-portrait" src="${escapeHtml(image)}" alt="Ritratto di ${escapeHtml(name)}" loading="lazy">`
       : `<i class="image-placeholder" role="img" aria-label="Ritratto non disponibile per ${escapeHtml(name)}"></i>`;
     if (player.simpleCard === true) {
-      return `<article class="simple-card${layoutClass}" id="${escapeHtml(options.anchor || `personaggio-${slugify(name)}`)}">
+      return `<article class="member simple-card${layoutClass}${statusClass}" id="${escapeHtml(options.anchor || `personaggio-${slugify(name)}`)}">
         <h3 class="simple-card-name">${escapeHtml(name)}</h3>
         ${image ? `<img class="simple-card-portrait" src="${escapeHtml(image)}" alt="Ritratto di ${escapeHtml(name)}" loading="lazy">` : `<i class="image-placeholder" role="img" aria-label="Ritratto non disponibile per ${escapeHtml(name)}"></i>`}
       </article>`;
