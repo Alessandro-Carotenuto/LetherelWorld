@@ -47,7 +47,7 @@
       ? player.descrizione
       : player.descrizione ? [player.descrizione] : [];
     const achievements = Array.isArray(player.imprese) ? player.imprese : [];
-    const image = typeof player.immagine === "string" ? player.immagine.trim() : "";
+    const image = typeof player.immagine === "string" ? player.immagine.trim().replace(/\\/g, "/") : "";
     const statusClass = player.ALive === false ? " member-dead" : "";
     const layoutClass = options.fullWidth || options.coordinator ? " member-fullwidth" : "";
     const coordinatorClass = options.coordinator ? " member-coordinator" : "";
@@ -55,9 +55,9 @@
       ? `<img class="member-portrait" src="${escapeHtml(image)}" alt="Ritratto di ${escapeHtml(name)}" loading="lazy">`
       : `<i class="image-placeholder" role="img" aria-label="Ritratto non disponibile per ${escapeHtml(name)}"></i>`;
     if (player.simpleCard === true) {
-      return `<article class="member member-simple${layoutClass}${statusClass}" id="${escapeHtml(options.anchor || `personaggio-${slugify(name)}`)}">
-        <h3 class="member-simple-name">${escapeHtml(name)}</h3>
-        ${imageMarkup}
+      return `<article class="simple-card${layoutClass}" id="${escapeHtml(options.anchor || `personaggio-${slugify(name)}`)}">
+        <h3 class="simple-card-name">${escapeHtml(name)}</h3>
+        ${image ? `<img class="simple-card-portrait" src="${escapeHtml(image)}" alt="Ritratto di ${escapeHtml(name)}" loading="lazy">` : `<i class="image-placeholder" role="img" aria-label="Ritratto non disponibile per ${escapeHtml(name)}"></i>`}
       </article>`;
     }
     const achievementMarkup = achievements.length
@@ -86,7 +86,7 @@
 
     container.insertAdjacentHTML("beforeend", markup);
     const card = container.lastElementChild;
-    const portrait = card.querySelector(".member-portrait");
+    const portrait = card.querySelector(".member-portrait, .simple-card-portrait");
     if (portrait) {
       portrait.addEventListener("error", () => {
         const placeholder = document.createElement("i");

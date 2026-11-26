@@ -139,20 +139,23 @@
   function buildPlayer(values) {
     const fieldValue = name => String(values.get(name) ?? form.elements.namedItem(name)?.value ?? "").trim();
     const simpleCard = simpleCardToggle.checked;
+    const nome = String(values.get("nome") || "").trim();
+    const immagine = String(values.get("immagine") || "").trim().replace(/\\/g, "/");
+    if (simpleCard) return { nome, simpleCard: true, immagine };
     const songTitle = fieldValue("song-titolo");
     const songFile = fieldValue("song-file");
-    if (!simpleCard && Boolean(songTitle) !== Boolean(songFile)) {
+    if (Boolean(songTitle) !== Boolean(songFile)) {
       throw new Error("Per la Mood Song servono sia il titolo sia il percorso del file.");
     }
     return {
-      nome: String(values.get("nome") || "").trim(),
+      nome,
       ALive: form.elements.namedItem("ALive").checked,
-      simpleCard,
+      simpleCard: false,
       classe: fieldValue("classe"),
       razza: fieldValue("razza"),
       background: fieldValue("background"),
       descrizione: lines(fieldValue("descrizione")),
-      immagine: String(values.get("immagine") || "").trim(),
+      immagine,
       imprese: lines(fieldValue("imprese")),
       song: songTitle && songFile ? { titolo: songTitle, file: songFile } : null
     };

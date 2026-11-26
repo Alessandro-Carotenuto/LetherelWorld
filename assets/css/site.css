@@ -299,7 +299,7 @@ html,body{background-color:var(--bg)}body{background-image:repeating-linear-grad
 @media(max-width:520px){.rovere-actions .button{width:100%}}
 @media(hover:none),(max-width:760px){.nav-flyout{position:static;width:auto;margin:0 0 6px 12px;padding:3px 0 3px 8px;border:0;border-left:1px solid rgba(201,173,120,.45);background:transparent;box-shadow:none}.nav-flyout a{min-height:39px}.sidebar{overflow-y:auto}}
 
-.member-simple{display:flex;flex-direction:column;padding:0;overflow:hidden}
-.member-simple.member-fullwidth{width:100%;max-width:420px;justify-self:center}
-.member-simple .member-simple-name{margin:0;padding:17px 12px;color:#e5d3aa;text-align:center;font:600 21px/1.2 var(--serif)}
-.member-simple .member-portrait,.member-simple .image-placeholder{display:block;width:100%;height:auto;min-height:0;aspect-ratio:4/5;margin:0;border:0;object-fit:cover;object-position:center top}
+.simple-card{display:flex;min-width:0;flex-direction:column;align-self:start;gap:10px}
+.simple-card.member-fullwidth{width:100%;max-width:420px;justify-self:center}
+.simple-card-name{margin:0;color:#e5d3aa;text-align:center;font:600 21px/1.2 var(--serif)}
+.simple-card-portrait,.simple-card .image-placeholder{display:block;width:100%;height:auto;min-height:0;aspect-ratio:4/5;object-fit:cover;object-position:center top}

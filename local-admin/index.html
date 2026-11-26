@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../assets/css/site.css">
   <link rel="stylesheet" href="./css/admin.css?v=20261126-simple-card">
   <script src="./js/repository.js" defer></script>
-  <script src="./js/players.js?v=20261126-simple-card" defer></script>
+  <script src="./js/players.js?v=20261126-simple-card-minimal" defer></script>
   <script src="./js/board.js" defer></script>
   <script src="./js/adventures.js" defer></script>
   <script src="./js/calendar.js" defer></script>
@@ -76,7 +76,7 @@
             <div class="admin-form-grid">
               <label>Nome<input name="nome" required maxlength="100" autocomplete="off" placeholder="Nome Cognome"></label>
               <label>Rango nel Rovere<select name="rango"><option value="0">Rango 0, Affiliati</option><option value="1" selected>Rango 1</option><option value="2">Rango 2</option><option value="3">Coordinatore · Rango 3</option></select></label>
-              <label class="alive-toggle form-span"><input type="checkbox" name="simpleCard"><span><strong>Simple Card</strong><small>Solo nome sopra e foto sotto. Gli altri campi sono nascosti finché è attiva.</small></span></label>
+              <label class="alive-toggle form-span"><input type="checkbox" name="simpleCard"><span><strong>Simple Card</strong><small>Solo nome sopra e foto sotto. Salvando, i campi della scheda completa vengono rimossi dal JSON.</small></span></label>
               <label data-full-card-field>Classe<input name="classe" required placeholder="Es. Guerriero"></label>
               <label data-full-card-field>Razza<input name="razza" required placeholder="Es. Umano"></label>
               <label class="form-span" data-full-card-field>Background<input name="background" placeholder="Background del personaggio"></label>
