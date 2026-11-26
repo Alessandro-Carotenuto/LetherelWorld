@@ -299,7 +299,7 @@ html,body{background-color:var(--bg)}body{background-image:repeating-linear-grad
 @media(max-width:520px){.rovere-actions .button{width:100%}}
 @media(hover:none),(max-width:760px){.nav-flyout{position:static;width:auto;margin:0 0 6px 12px;padding:3px 0 3px 8px;border:0;border-left:1px solid rgba(201,173,120,.45);background:transparent;box-shadow:none}.nav-flyout a{min-height:39px}.sidebar{overflow-y:auto}}
 
-.simple-card{display:flex;min-width:0;flex-direction:column;align-self:start;gap:10px}
-.simple-card.member-fullwidth{width:100%;max-width:420px;justify-self:center}
+.simple-card{display:flex;width:60%;min-width:0;flex-direction:column;align-self:start;justify-self:center;gap:10px}
+.simple-card.member-fullwidth{max-width:252px}
 .simple-card-name{margin:0;color:#e5d3aa;text-align:center;font:600 21px/1.2 var(--serif)}
 .simple-card-portrait,.simple-card .image-placeholder{display:block;width:100%;height:auto;min-height:0;aspect-ratio:4/5;object-fit:cover;object-position:center top}
