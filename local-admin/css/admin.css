@@ -73,6 +73,7 @@
 .alive-toggle span,.alive-toggle strong,.alive-toggle small{display:block}
 .alive-toggle strong{color:#d2ccb8;font-size:10px;font-weight:500}
 .alive-toggle small{margin-top:4px;color:#81887d;font-size:9px;letter-spacing:0;line-height:1.45}
+.admin-form-grid [data-full-card-field][hidden]{display:none!important}
 .admin-form-footer{display:flex;align-items:center;justify-content:space-between;gap:13px;margin-top:19px;padding-top:15px;border-top:1px solid var(--line)}
 .admin-message{margin:0;color:#a6ab9c;font-size:11px;line-height:1.5}
 .admin-message[data-kind="error"]{color:#e89591}

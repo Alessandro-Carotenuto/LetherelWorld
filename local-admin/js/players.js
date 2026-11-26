@@ -9,6 +9,9 @@
   const formKicker = document.getElementById("player-form-kicker");
   const submitButton = document.getElementById("player-submit");
   const cancelButton = document.getElementById("player-cancel");
+  const simpleCardToggle = form.elements.namedItem("simpleCard");
+  const imageInput = form.elements.namedItem("immagine");
+  const fullCardFields = [...form.querySelectorAll("[data-full-card-field]")];
   let manifest = [];
   let roster = {};
   let players = [];
@@ -36,6 +39,19 @@
   function setMessage(text, kind = "") {
     message.textContent = text;
     message.dataset.kind = kind;
+  }
+
+  function syncSimpleCardFields() {
+    const simple = simpleCardToggle.checked;
+    fullCardFields.forEach(field => {
+      field.hidden = simple;
+      field.querySelectorAll("input, select, textarea").forEach(control => { control.disabled = simple; });
+    });
+    imageInput.required = simple;
+  }
+
+  function rankLabel(rank) {
+    return rank === "0" ? "Rango 0, Affiliati" : `Rango ${rank}`;
   }
 
   function rankOf(name) {
@@ -66,15 +82,15 @@
     const sections = Object.entries(roster).sort(([left], [right]) => Number(left) - Number(right)).map(([rank, names]) => {
       const rows = (Array.isArray(names) ? names : []).map((name, index) => {
         const player = playerByName.get(normalize(name));
-        if (!player) return `<article class="record-row record-row-missing"><div class="record-copy"><strong>${escapeHtml(name)}</strong><small>Rango ${escapeHtml(rank)} · JSON non trovato</small></div></article>`;
+        if (!player) return `<article class="record-row record-row-missing"><div class="record-copy"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(rankLabel(rank))} · JSON non trovato</small></div></article>`;
         listedFiles.add(player.file);
         return `<article class="record-row">
-          <div class="record-copy"><strong>${escapeHtml(player.data.nome || player.file)}</strong><small>Rango ${escapeHtml(rank)} · ${escapeHtml(player.file)}</small></div>
+          <div class="record-copy"><strong>${escapeHtml(player.data.nome || player.file)}</strong><small>${escapeHtml(rankLabel(rank))} · ${escapeHtml(player.file)}</small></div>
           <div class="record-actions"><button type="button" class="record-action" data-move-player="${escapeHtml(player.file)}" data-player-rank="${escapeHtml(rank)}" data-delta="-1" aria-label="Sposta ${escapeHtml(name)} su" title="Sposta su" ${index === 0 ? "disabled" : ""}>↑</button><button type="button" class="record-action" data-move-player="${escapeHtml(player.file)}" data-player-rank="${escapeHtml(rank)}" data-delta="1" aria-label="Sposta ${escapeHtml(name)} giù" title="Sposta giù" ${index === names.length - 1 ? "disabled" : ""}>↓</button><button type="button" class="record-action" data-edit-player="${escapeHtml(player.file)}" aria-label="Modifica ${escapeHtml(name)}" title="Modifica">✎</button><button type="button" class="record-action danger" data-remove-player="${escapeHtml(player.file)}" aria-label="Rimuovi ${escapeHtml(name)}" title="Rimuovi">×</button></div>
         </article>`;
       }).join("");
       if (!rows) return "";
-      const heading = rank === "3" ? "Coordinatore · Rango 3" : `Rango ${rank}`;
+      const heading = rank === "3" ? "Coordinatore · Rango 3" : rankLabel(rank);
       return `<section class="record-section"><h4>${escapeHtml(heading)}</h4><div class="record-section-list">${rows}</div></section>`;
     }).join("");
     const unassigned = players.filter(player => !listedFiles.has(player.file)).map(({ file, data }) => `<article class="record-row">
@@ -87,6 +103,7 @@
   function resetEditor() {
     editingFile = null;
     form.reset();
+    syncSimpleCardFields();
     formTitle.textContent = "Aggiungi personaggio";
     formKicker.textContent = "Nuova scheda";
     submitButton.textContent = "Crea scheda";
@@ -109,6 +126,8 @@
     form.elements.namedItem("song-titolo").value = player.song?.titolo || "";
     form.elements.namedItem("song-file").value = player.song?.file || "";
     form.elements.namedItem("ALive").checked = player.ALive !== false;
+    simpleCardToggle.checked = player.simpleCard === true;
+    syncSimpleCardFields();
     formTitle.textContent = `Modifica ${player.nome}`;
     formKicker.textContent = "Scheda esistente";
     submitButton.textContent = "Salva modifiche";
@@ -118,21 +137,24 @@
   }
 
   function buildPlayer(values) {
-    const songTitle = String(values.get("song-titolo") || "").trim();
-    const songFile = String(values.get("song-file") || "").trim();
-    if (Boolean(songTitle) !== Boolean(songFile)) {
+    const fieldValue = name => String(values.get(name) ?? form.elements.namedItem(name)?.value ?? "").trim();
+    const simpleCard = simpleCardToggle.checked;
+    const songTitle = fieldValue("song-titolo");
+    const songFile = fieldValue("song-file");
+    if (!simpleCard && Boolean(songTitle) !== Boolean(songFile)) {
       throw new Error("Per la Mood Song servono sia il titolo sia il percorso del file.");
     }
     return {
       nome: String(values.get("nome") || "").trim(),
-      ALive: values.get("ALive") === "on",
-      classe: String(values.get("classe") || "").trim(),
-      razza: String(values.get("razza") || "").trim(),
-      background: String(values.get("background") || "").trim(),
-      descrizione: lines(values.get("descrizione")),
+      ALive: form.elements.namedItem("ALive").checked,
+      simpleCard,
+      classe: fieldValue("classe"),
+      razza: fieldValue("razza"),
+      background: fieldValue("background"),
+      descrizione: lines(fieldValue("descrizione")),
       immagine: String(values.get("immagine") || "").trim(),
-      imprese: lines(values.get("imprese")),
-      song: songTitle ? { titolo: songTitle, file: songFile } : null
+      imprese: lines(fieldValue("imprese")),
+      song: songTitle && songFile ? { titolo: songTitle, file: songFile } : null
     };
   }
 
@@ -195,7 +217,7 @@
         throw error;
       }
       resetEditor();
-      setMessage(previous ? `${name} aggiornato.` : `${name} aggiunto al Rango ${rank}.`, "success");
+      setMessage(previous ? `${name} aggiornato.` : `${name} aggiunto al ${rankLabel(rank)}.`, "success");
       await load();
     } catch (error) {
       setMessage(`Salvataggio non completato: ${error.message}`, "error");
@@ -245,13 +267,15 @@
       await LocalRepository.writeJson(rosterPath, nextRoster);
       roster = nextRoster;
       render();
-      setMessage(`${player.data.nome} spostato nella sezione Rango ${rank}.`, "success");
+      setMessage(`${player.data.nome} spostato nella sezione ${rankLabel(rank)}.`, "success");
     } catch (error) {
       setMessage(`Riordino non completato: ${error.message}`, "error");
     }
   }
 
   function init() {
+    simpleCardToggle.addEventListener("change", syncSimpleCardFields);
+    syncSimpleCardFields();
     form.addEventListener("submit", save);
     cancelButton.addEventListener("click", resetEditor);
     list.addEventListener("click", event => {

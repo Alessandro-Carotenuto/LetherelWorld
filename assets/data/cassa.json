@@ -44,56 +44,6 @@
       }
     },
     {
-      "id": "cassa-pozione-cura-caust",
-      "presetId": "a024c909-4c37-4305-8ee3-b0d51b0ce67d",
-      "owner": "Caust",
-      "color": "#a92e35",
-      "data": {
-        "type": "equipaggiamento",
-        "textSize": "8",
-        "name": "Pozione di cura",
-        "damage": "",
-        "damageType": "",
-        "range": "",
-        "mastery": "",
-        "cost": "50",
-        "category": "Pozione",
-        "rarity": "Comune",
-        "weight": "0,23 kg",
-        "description": "Come azione bonus, puoi berla o somministrarla a una creatura entro 1,5 m. La creatura recupera 2d4 + 2 PF.",
-        "properties": "",
-        "cardFacts": [
-          { "label": "CURA", "value": "2d4 + 2 PF" },
-          { "label": "USO", "value": "Azione bonus" }
-        ]
-      }
-    },
-    {
-      "id": "cassa-palline-acciaio-buckz",
-      "presetId": "67ab4f8c-0e2d-4fad-9288-6e029e3fbf41",
-      "owner": "BuckZ",
-      "color": "#a0d2ff",
-      "data": {
-        "type": "equipaggiamento",
-        "textSize": "8",
-        "name": "Palline d'acciaio",
-        "damage": "",
-        "damageType": "",
-        "range": "",
-        "mastery": "",
-        "cost": "1",
-        "category": "Equipaggiamento",
-        "rarity": "",
-        "weight": "0,9 kg",
-        "description": "Sacco da 1.000 palline. Con un'azione le spargi su una superficie piana di 3 m per lato. Chi vi si muove sopra deve superare un TS Des CD 10 o cade prono; chi procede a velocità dimezzata evita il tiro.",
-        "properties": "",
-        "cardFacts": [
-          { "label": "AREA", "value": "3 m per lato" },
-          { "label": "PROVA", "value": "TS Des CD 10" }
-        ]
-      }
-    },
-    {
       "id": "cassa-attrezzi-inventore-lena",
       "presetId": "28d64cc2-75bc-497a-b53c-334c3c994b35",
       "owner": "Lena",
@@ -113,8 +63,14 @@
         "description": "Set di strumenti per riparazioni e piccoli lavori d'invenzione.",
         "properties": "Con competenza, si aggiunge il bonus alle prove pertinenti di costruzione e riparazione.",
         "cardFacts": [
-          { "label": "COSTO", "value": "50 mo" },
-          { "label": "USO", "value": "Riparazioni" }
+          {
+            "label": "COSTO",
+            "value": "50 mo"
+          },
+          {
+            "label": "USO",
+            "value": "Riparazioni"
+          }
         ]
       }
     },
@@ -138,8 +94,14 @@
         "description": "Grimaldelli e piccoli attrezzi per serrature e trappole.",
         "properties": "Con competenza, si aggiunge il bonus alle prove per aprire serrature o disinnescare trappole.",
         "cardFacts": [
-          { "label": "COSTO", "value": "25 mo" },
-          { "label": "USO", "value": "Serrature e trappole" }
+          {
+            "label": "COSTO",
+            "value": "25 mo"
+          },
+          {
+            "label": "USO",
+            "value": "Serrature e trappole"
+          }
         ]
       }
     }

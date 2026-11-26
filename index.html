@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#141313">
 <meta name="description" content="Archivio della Confraternita, dei distretti e delle avventure nel Regno di Letherel.">
-<title>La Confraternita · Letherel</title><link rel="stylesheet" href="./assets/css/site.css?v=20261110-regno-full-map-v3"><script src="./assets/content/regno.js?v=20261110-regno-map-replacement-2" defer></script><script src="./assets/content/confraternita.js" defer></script><script src="./assets/content/taverna-content.js?v=20261109-scudi-diagrams" defer></script><script src="./assets/content/casate.js?v=20261025-casate-glow" defer></script><script src="./assets/content/site-images.js?v=20261109-regno-fondazione" defer></script><script src="./assets/js/shared.js" defer></script><script src="./assets/js/player-card.js?v=20261109-rovere-layout-classes" defer></script><script src="./assets/js/pages.js" defer></script><script src="./assets/js/bacheca.js" defer></script><script src="./assets/js/site.js?v=20261110-regno-fullpage-title" defer></script>
+<title>La Confraternita · Letherel</title><link rel="stylesheet" href="./assets/css/site.css?v=20261126-simple-card"><script src="./assets/content/regno.js?v=20261110-regno-map-replacement-2" defer></script><script src="./assets/content/confraternita.js" defer></script><script src="./assets/content/taverna-content.js?v=20261109-scudi-diagrams" defer></script><script src="./assets/content/casate.js?v=20261025-casate-glow" defer></script><script src="./assets/content/site-images.js?v=20261109-regno-fondazione" defer></script><script src="./assets/js/shared.js" defer></script><script src="./assets/js/player-card.js?v=20261126-simple-card" defer></script><script src="./assets/js/pages.js" defer></script><script src="./assets/js/bacheca.js" defer></script><script src="./assets/js/site.js?v=20261126-rango0" defer></script>
 </head>
 <body><div class="site-shell">
 <aside class="sidebar" id="sidebar" aria-label="Navigazione principale">
@@ -13,11 +13,14 @@
 <a href="#confraternita" data-route="confraternita"><span class="nav-icon">⌂</span>La Confraternita</a>
 <a href="#regno" data-route="regno"><span class="nav-icon">◉</span>Regno di Letherel</a>
 <p class="nav-label nav-label-spaced">La Confraternita</p>
-<a href="#bacheca" data-route="bacheca"><span class="nav-icon">▤</span>Bacheca <span class="nav-count" data-bacheca-count>3</span></a>
 <a href="#distretti" data-route="distretti"><span class="nav-icon">⌘</span>Distretti</a>
-<a href="#rovere" data-route="rovere"><span class="nav-icon">♧</span>Distretto Rovere</a>
-<a href="#cassa" data-route="cassa" class="nav-subitem"><span class="nav-icon">▣</span>Cassa Distretto</a>
-<a href="#taverna" data-route="taverna"><span class="nav-icon">♜</span>Giochi da taverna</a>
+<div class="nav-group" id="rovereNavGroup">
+<div class="nav-group-label"><a href="#rovere" data-route="rovere"><span class="nav-icon">♧</span>Distretto Rovere</a><button type="button" class="nav-group-toggle" aria-label="Apri le sezioni del Distretto Rovere" aria-controls="rovereNavMenu" aria-expanded="false"><span aria-hidden="true">▸</span></button></div>
+<div class="nav-flyout" id="rovereNavMenu">
+<a href="#cassa" data-route="cassa"><span class="nav-icon">▣</span>Cassa distretto</a>
+<a href="#bacheca" data-route="bacheca"><span class="nav-icon">▤</span>Bacheca <span class="nav-count" data-bacheca-count>3</span></a>
+<a href="#taverna" data-route="taverna"><span class="nav-icon">♜</span>Giochi da Taverna</a>
+</div></div>
 <p class="nav-label nav-label-spaced">Compendio</p>
 <a href="#avventure" data-route="avventure"><span class="nav-icon">◈</span>Avventure</a>
 <a href="#casate" data-route="casate"><span class="nav-icon">⚜</span>Casate</a>

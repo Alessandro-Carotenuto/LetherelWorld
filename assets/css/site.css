@@ -278,3 +278,28 @@ html,body{background-color:var(--bg)}body{background-image:repeating-linear-grad
 .game-section .game-gallery.single-image img{width:80%;height:auto;max-height:none;justify-self:center;margin-inline:auto;border:0}
 .source-note{margin-inline:auto;text-align:center}
 .member-facts .class-archetype{display:inline-block;white-space:nowrap}
+
+/* District links live beside Rovere on desktop and expand inside the sidebar on touch screens. */
+.main-nav .nav-group{position:relative}
+.main-nav .nav-group-label{position:relative}
+.main-nav .nav-group-label>a{padding-right:37px}
+.main-nav .nav-group:has(.nav-flyout a.active) .nav-group-label>a{background-color:#e1d2ad;color:#342b20}
+.nav-group-toggle{position:absolute;z-index:1;top:50%;right:5px;display:grid;width:29px;height:30px;place-items:center;transform:translateY(-50%);border:0;background:transparent;color:#51452f;cursor:pointer}
+.nav-group-toggle:hover,.nav-group-toggle:focus-visible{color:#7b302e;outline:2px solid #985b3d;outline-offset:-2px}
+.nav-group-toggle:hover{border:0;outline:0;background:transparent;box-shadow:none}
+.nav-group-toggle span{display:block;transition:transform .18s ease}
+.nav-group.is-open .nav-group-toggle span{transform:rotate(90deg)}
+.nav-flyout{position:absolute;z-index:40;top:-7px;left:calc(100% + 8px);display:none;width:205px;padding:7px;border:1px solid rgba(201,173,120,.45);background:#211d19;box-shadow:0 12px 30px rgba(0,0,0,.38)}
+.nav-group.is-open .nav-flyout{display:block}
+.nav-flyout a{min-height:42px;margin:2px 0;font-size:13px}
+.nav-flyout .nav-count{margin-left:auto}
+.rovere-actions{justify-content:center;gap:14px;margin:-14px 0 38px}
+.rovere-actions .button{min-height:56px;min-width:175px;padding:0 24px;border:10px solid transparent;border-image-source:var(--card-frame-image);border-image-slice:32;border-image-width:10px;border-image-outset:0;border-image-repeat:stretch;border-radius:0;background:rgba(201,173,120,.045);color:var(--gold-light);font-size:13px;font-weight:600;letter-spacing:.06em;text-align:center}
+.rovere-actions .button:hover{background:rgba(201,173,120,.14)}
+@media(max-width:520px){.rovere-actions .button{width:100%}}
+@media(hover:none),(max-width:760px){.nav-flyout{position:static;width:auto;margin:0 0 6px 12px;padding:3px 0 3px 8px;border:0;border-left:1px solid rgba(201,173,120,.45);background:transparent;box-shadow:none}.nav-flyout a{min-height:39px}.sidebar{overflow-y:auto}}
+
+.member-simple{display:flex;flex-direction:column;padding:0;overflow:hidden}
+.member-simple.member-fullwidth{width:100%;max-width:420px;justify-self:center}
+.member-simple .member-simple-name{margin:0;padding:17px 12px;color:#e5d3aa;text-align:center;font:600 21px/1.2 var(--serif)}
+.member-simple .member-portrait,.member-simple .image-placeholder{display:block;width:100%;height:auto;min-height:0;aspect-ratio:4/5;margin:0;border:0;object-fit:cover;object-position:center top}

@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#141313">
   <title>Gestione locale · Letherel</title>
   <link rel="stylesheet" href="../assets/css/site.css">
-  <link rel="stylesheet" href="./css/admin.css">
+  <link rel="stylesheet" href="./css/admin.css?v=20261126-simple-card">
   <script src="./js/repository.js" defer></script>
-  <script src="./js/players.js" defer></script>
+  <script src="./js/players.js?v=20261126-simple-card" defer></script>
   <script src="./js/board.js" defer></script>
   <script src="./js/adventures.js" defer></script>
   <script src="./js/calendar.js" defer></script>
@@ -75,15 +75,16 @@
             <div class="admin-panel-heading"><div><span id="player-form-kicker" class="admin-kicker">Nuova scheda</span><h3 id="player-form-title">Aggiungi personaggio</h3></div><span class="panel-mark">01</span></div>
             <div class="admin-form-grid">
               <label>Nome<input name="nome" required maxlength="100" autocomplete="off" placeholder="Nome Cognome"></label>
-              <label>Rango nel Rovere<select name="rango"><option value="1">Rango 1</option><option value="2">Rango 2</option><option value="3">Coordinatore · Rango 3</option></select></label>
-              <label>Classe<input name="classe" required placeholder="Es. Guerriero"></label>
-              <label>Razza<input name="razza" required placeholder="Es. Umano"></label>
-              <label class="form-span">Background<input name="background" placeholder="Background del personaggio"></label>
-              <label class="form-span">Descrizione <small>Una riga per paragrafo</small><textarea name="descrizione" rows="4" placeholder="Descrizione del personaggio"></textarea></label>
+              <label>Rango nel Rovere<select name="rango"><option value="0">Rango 0, Affiliati</option><option value="1" selected>Rango 1</option><option value="2">Rango 2</option><option value="3">Coordinatore · Rango 3</option></select></label>
+              <label class="alive-toggle form-span"><input type="checkbox" name="simpleCard"><span><strong>Simple Card</strong><small>Solo nome sopra e foto sotto. Gli altri campi sono nascosti finché è attiva.</small></span></label>
+              <label data-full-card-field>Classe<input name="classe" required placeholder="Es. Guerriero"></label>
+              <label data-full-card-field>Razza<input name="razza" required placeholder="Es. Umano"></label>
+              <label class="form-span" data-full-card-field>Background<input name="background" placeholder="Background del personaggio"></label>
+              <label class="form-span" data-full-card-field>Descrizione <small>Una riga per paragrafo</small><textarea name="descrizione" rows="4" placeholder="Descrizione del personaggio"></textarea></label>
               <label class="form-span">Immagine <small>Percorso relativo, per esempio ./assets/personaggi/nome.png</small><input name="immagine" placeholder="./assets/personaggi/"></label>
-              <label class="form-span">Imprese <small>Una per riga</small><textarea name="imprese" rows="3" placeholder="Prima impresa&#10;Seconda impresa"></textarea></label>
-              <fieldset class="form-span admin-fieldset"><legend>Mood Song <small>Lascia vuoto se non presente</small></legend><div class="admin-form-grid compact-grid"><label>Titolo<input name="song-titolo" placeholder="Titolo del brano"></label><label>File<input name="song-file" placeholder="./assets/audio/brano.mp3"></label></div></fieldset>
-              <label class="alive-toggle form-span"><input type="checkbox" name="ALive" checked><span><strong>Personaggio vivo</strong><small>Se disattivato, la scheda appare in bianco e nero con alone rosso.</small></span></label>
+              <label class="form-span" data-full-card-field>Imprese <small>Una per riga</small><textarea name="imprese" rows="3" placeholder="Prima impresa&#10;Seconda impresa"></textarea></label>
+              <fieldset class="form-span admin-fieldset" data-full-card-field><legend>Mood Song <small>Lascia vuoto se non presente</small></legend><div class="admin-form-grid compact-grid"><label>Titolo<input name="song-titolo" placeholder="Titolo del brano"></label><label>File<input name="song-file" placeholder="./assets/audio/brano.mp3"></label></div></fieldset>
+              <label class="alive-toggle form-span" data-full-card-field><input type="checkbox" name="ALive" checked><span><strong>Personaggio vivo</strong><small>Se disattivato, la scheda appare in bianco e nero con alone rosso.</small></span></label>
             </div>
             <div class="admin-form-footer"><p id="player-message" class="admin-message" role="status" aria-live="polite"></p><div class="form-actions"><button id="player-cancel" class="admin-button secondary" type="button" hidden>Annulla</button><button id="player-submit" class="admin-button" type="submit">Crea scheda</button></div></div>
           </form>

@@ -54,6 +54,12 @@
     const imageMarkup = image
       ? `<img class="member-portrait" src="${escapeHtml(image)}" alt="Ritratto di ${escapeHtml(name)}" loading="lazy">`
       : `<i class="image-placeholder" role="img" aria-label="Ritratto non disponibile per ${escapeHtml(name)}"></i>`;
+    if (player.simpleCard === true) {
+      return `<article class="member member-simple${layoutClass}${statusClass}" id="${escapeHtml(options.anchor || `personaggio-${slugify(name)}`)}">
+        <h3 class="member-simple-name">${escapeHtml(name)}</h3>
+        ${imageMarkup}
+      </article>`;
+    }
     const achievementMarkup = achievements.length
       ? `<div class="member-achievements"><h4>Imprese</h4><ul>${achievements.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`
       : "";
